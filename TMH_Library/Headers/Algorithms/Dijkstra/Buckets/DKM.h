@@ -63,8 +63,8 @@ typedef struct TMH_DKM {
 /**
  * allowInterrupt - gdy true to algorytm zapyta o parametr 'a'. Jesli nie to zostanie wybrana stala, wybrana doswiadczalnie.
  */
-TMH_DKM* createTMHDKMInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig, bool allowInterrupt );
-void destroyTMHDKMInstance ( TMH_DKM* const instance );
+TMH_DKM* createTMHDKMInstance( TMHGraph* const graphData, TMHConfig* const configuration );
+void destroyTMHDKMInstance ( TMH_DKM* const instance, bool withConfig );
 
 void runDKM( TMH_DKM* const instance );
 

@@ -69,6 +69,7 @@ void destroyTMHNodeDLListInstance( TMHNodeDLListWrapper* instance, bool withData
  * Wrzuca za headerem nowy element + dopina wska�nik w w�le do jego wzbogaconej struktury
  */
 void pushTMHNodeDLList( TMHNodeDLList* const nodeList, TMHNode* newNode );
+void pushLastTMHNodeDLList( TMHNodeDLList* const listTail, TMHNode* newNode );
 TMHNode* popTMHNodeDLList( TMHNodeDLList* const listHead );
 TMHNode* popLastTMHNodeDLList( TMHNodeDLList* const listTail );
 void repinTMHNodeDLList( TMHNodeDLList* const destinyList, TMHNode* const relocatedNode );

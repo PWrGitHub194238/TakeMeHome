@@ -44,51 +44,105 @@ void test( int j ) {
 }
 
 void makeTest() {
-	void* ins = createTMHAlgorithmInstance(BFM,
-			"/home/tomasz/workspace/TMH_Tests/gr/testTMH.gr",
-			"/home/tomasz/workspace/TMH_Tests/ss/test.ss",false,false);
-	runTMHAlgorithm(BFM,ins);
-	destroyTMHBFMInstance(ins);
+	void* ins = NULL;
+	TMHConfig* config = createTMHConfig("/home/tomasz/workspace/TMH_Tests/ss/test.ss");
 
-	ins = createTMHAlgorithmInstance(BFP,
-		"/home/tomasz/workspace/TMH_Tests/gr/testTMH.gr",
-		"/home/tomasz/workspace/TMH_Tests/ss/test.ss",false,false);
-	runTMHAlgorithm(BFP,ins);
-	destroyTMHBFPInstance(ins);
+	setAllowInterrupt(config,false);
+	setCheckConfig(config,false);
+	setGraphOrder(config,NONE);
+	setGraphStruct(config,ADJACENCY_LIST);
 
-	ins = createTMHAlgorithmInstance(DKQ,
-			"/home/tomasz/workspace/TMH_Tests/gr/testTMH.gr",
-			"/home/tomasz/workspace/TMH_Tests/ss/test.ss",false,false);
-	runTMHAlgorithm(DKQ,ins);
-	destroyTMHDKQInstance(ins);
+	setAlgorithm(config,BFM);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
 
-	ins = createTMHAlgorithmInstance(DKA,
-			"/home/tomasz/workspace/TMH_Tests/gr/testTMH.gr",
-			"/home/tomasz/workspace/TMH_Tests/ss/test.ss",false,false);
-	runTMHAlgorithm(DKA,ins);
-	destroyTMHDKAInstance(ins);
+	setAlgorithm(config,BFP);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
 
-	ins = createTMHAlgorithmInstance(DKB,
-			"/home/tomasz/workspace/TMH_Tests/gr/testTMH.gr",
-			"/home/tomasz/workspace/TMH_Tests/ss/test.ss",false,false);
-	runTMHAlgorithm(DKB,ins);
-	destroyTMHDKBInstance(ins);
+	setAlgorithm(config,DKQ);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
 
-	ins = createTMHAlgorithmInstance(DKM,
-			"/home/tomasz/workspace/TMH_Tests/gr/testTMH.gr",
-			"/home/tomasz/workspace/TMH_Tests/ss/test.ss",false,false);
-	runTMHAlgorithm(DKM,ins);
-	destroyTMHDKMInstance(ins);
+	setAlgorithm(config,DKB);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
 
-	ins = createTMHAlgorithmInstance(DKD,
-			"/home/tomasz/workspace/TMH_Tests/gr/testTMH.gr",
-			"/home/tomasz/workspace/TMH_Tests/ss/test.ss",false,false);
-	runTMHAlgorithm(DKD,ins);
-	destroyTMHDKDInstance(ins);
+	setAlgorithm(config,DKM);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
 
-	ins = createTMHAlgorithmInstance(DKF,
-			"/home/tomasz/workspace/TMH_Tests/gr/testTMH.gr",
-			"/home/tomasz/workspace/TMH_Tests/ss/test.ss",false,false);
-	runTMHAlgorithm(DKF,ins);
-	destroyTMHDKFInstance(ins);
+	setAlgorithm(config,DKA);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
+
+	setAlgorithm(config,DKD);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
+
+	/*setAlgorithm(config,DKF);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);*/
+
+	/*setAlgorithm(config,DKH);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
+
+	setAlgorithm(config,DKR);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);*/
+
+	setAlgorithm(config,PAP);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
+
+	setAlgorithm(config,TQQ);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,true);
+
+	/*setAlgorithm(config,THR);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
+
+	setAlgorithm(config,GR1);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
+
+	setAlgorithm(config,GR2);
+	ins = createTMHAlgorithmInstance(config,
+			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+	runTMHAlgorithm(config->algorithm,ins);
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);*/
+
+
+
+	destroyTMHConfigInstance(config);
 }

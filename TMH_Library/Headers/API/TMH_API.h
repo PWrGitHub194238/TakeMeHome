@@ -32,7 +32,7 @@
 #include <stdbool.h>										/* bool */
 
 #include "../../Headers/Helpers/TMHDictionary.h"			/* AlgorithmAbbreviation */
-
+#include "../../Headers/TMHConfig.h"						/* TMHConfig */
 /*
  * Typedefs
  *
@@ -52,7 +52,19 @@
  *
  */
 
-void* createTMHAlgorithmInstance( const AlgorithmAbbreviation algorithm, const char* const graphDataFilePath,  const char* const configDataFilePath, bool checkConfig, bool allowInterrupt );
-void runTMHAlgorithm ( const AlgorithmAbbreviation algorithm, void* instance );
 
+TMHConfig* createTMHConfig( const char* const configDataFilePath );
+
+void setGraphStruct( TMHConfig* config, const GraphStructAbbreviation graphStruct );
+void setGraphOrder( TMHConfig* config, const GraphOrder graphOrder );
+void setAlgorithm( TMHConfig* config, const AlgorithmAbbreviation algorithm );
+void setCheckConfig( TMHConfig* config, const bool checkConfig );
+void setAllowInterrupt( TMHConfig* config, const bool allowInterrupt );
+
+void* createTMHAlgorithmInstance( TMHConfig* const config, const char* const graphDataFilePath );
+void runTMHAlgorithm(const AlgorithmAbbreviation algorithm, void* instance);
+
+void destroyTMHAlgorithmInstancje(const AlgorithmAbbreviation algorithm, void* instance, bool withConfig );
+
+void rebuildGraph( const GraphStructAbbreviation graphStruct, const GraphOrder graphOrder, void* sourceGraph );
 #endif /* TMH_API_H_ */

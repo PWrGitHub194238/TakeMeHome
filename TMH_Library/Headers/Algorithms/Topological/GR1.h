@@ -31,13 +31,18 @@
  *
  */
 
+#include "../../Structures/TMHGraph.h"			/* TMHGraph, TMHNode */
+#include "../../TMHConfig.h"					/* TMHConfig, TMHNodeIdx */
 
 /*
  * Typedefs
  *
  */
 
-
+typedef struct TMH_GR1 {
+	TMHGraph* graphData;
+	TMHConfig* configuration;
+} TMH_GR1;
 
 /*
  * Externs
@@ -51,5 +56,18 @@
  *
  */
 
+TMH_GR1* createTMHGR1Instance( TMHGraph* const graphData, TMHConfig* configuration );
+void destroyTMHGR1Instance ( TMH_GR1* const instance, bool withConfig );
+
+void runGR1( TMH_GR1* const instance );
+
+void runGR1_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize );
+
+void runGR1_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode );
+
+/*
+ * Inline definitions
+ *
+ */
 
 #endif /* GR1_H_ */

@@ -67,20 +67,18 @@ static const char* MODULE_NAME = "DKB";
  *
  */
 
-TMH_DKB* createTMHDKBInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig ) {
+TMH_DKB* createTMHDKBInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
 	TMH_DKB* newInstance = memMalloc(1,sizeof(TMH_DKB));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
-
-	if ( checkConfig ) {
-		checkTMHConfig(configuration);
-	}
 	return newInstance;
 }
 
-void destroyTMHDKBInstance ( TMH_DKB* const instance ) {
+void destroyTMHDKBInstance ( TMH_DKB* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
-	destroyTMHConfigInstance(instance->configuration);
+	if (withConfig) {
+		destroyTMHConfigInstance(instance->configuration);
+	}
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
@@ -88,7 +86,7 @@ void destroyTMHDKBInstance ( TMH_DKB* const instance ) {
 void runDKB( TMH_DKB* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runDKB_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSource);
+		runDKB_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -160,7 +158,7 @@ void runDKB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 
 				while ( adjacencyList != NULL ) {
 					arc = adjacencyList->arc;
-					toNode = graph->nodeArray[arc->successor];
+					toNode = arc->successor;
 					newDistance = currentNode->distanceLabel + arc->distance;
 
 					if (isTraceLogEnabled()) {

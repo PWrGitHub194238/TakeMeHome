@@ -19,7 +19,8 @@
  *
  */
 
-#include "../Headers/TMHConfig.h"				/* TMHNodeIdx, TMHNodeData, TMHGraph, TMHNode, bool */
+#include "../Headers/TMHConfig.h"				/* TMHNodeIdx, TMHNodeData, TMHGraph, TMHNode, bool,
+ 	 	 	 	 	 	 	 	 	 	 	 	 maxNumberOfSource */
 #include "../Headers/Helpers/TMHIOHelper.h"		/* getGraphData() */
 
 #include "../Headers/Helpers/TMHAllocHelper.h"	/* memMalloc(), memFree() */
@@ -47,25 +48,38 @@ static const char* MODULE_NAME = "TMHConfig";
  *
  */
 
+static bool checkTMHConficPreConditions( const TMHConfig* const configuration );
+static bool checkGraphStruct( const TMHConfig* const configuration );
+static bool checkGraphOrder( const TMHConfig* const configuration );
+static bool checkAlgorithm( const TMHConfig* const configuration );
+static bool checkMode( const TMHConfig* const configuration );
+static bool checknumberOfSources( const TMHConfig* const configuration );
+static bool checkSourceNodeIdxArray( const TMHNodeIdx numberOfNodes, TMHNodeIdx numberOfSourcess, const TMHNodeIdx* const sourceNodeIdxArray );
+static bool checkTargetNodeIdxArray( const TMHNodeIdx numberOfNodes, TMHNodeIdx numberOfTargets, const TMHNodeIdx* const targetNodeIdxArray );
+
 /*
  * Definitions
  *
  */
 
-TMHConfig* loadTMHConfigInstance ( const char* const filename ) {
-	return getConfigData(filename);
-}
-
-TMHConfig* createTMHConfigInstance( const TMHNodeIdx numberOfSource, const TMHConfigAlgorithmMode algMode ) {
+TMHConfig* createTMHConfigInstance( const TMHNodeIdx numberOfSources, const TMHConfigAlgorithmMode algMode ) {
 	TMHConfig* newConfig = memMalloc(1,sizeof(TMHConfig));
-	newConfig->numberOfSource = numberOfSource;
-	newConfig->mode = algMode;
+	newConfig->graphStruct = ADJACENCY_LIST;
+	newConfig->graphOrder = NONE;
+	newConfig->algorithm = BFM;
 
-	newConfig->sourceNodeIdxArray = memMalloc(numberOfSource,sizeof(TMHNodeIdx));
+	newConfig->mode = algMode;
+	newConfig->numberOfSources = numberOfSources;
+
+	newConfig->sourceNodeIdxArray = memMalloc(numberOfSources,sizeof(TMHNodeIdx));
 
 	if ( algMode == POINT_TO_POINT ) {
-		newConfig->targetNodeIdxArray = memMalloc(numberOfSource,sizeof(TMHNodeIdx));
+		newConfig->targetNodeIdxArray = memMalloc(numberOfSources,sizeof(TMHNodeIdx));
 	}
+
+	newConfig->checkConfig = true;
+	newConfig->allowInterrupt = false;
+
 	return newConfig;
 }
 
@@ -79,16 +93,75 @@ void destroyTMHConfigInstance ( TMHConfig* const config ) {
 }
 
 bool checkTMHConfig( const TMHConfig* const configuration ) {
+	return (configuration != NULL ) && checkTMHConficPreConditions(configuration);
+}
+
+static bool checkTMHConficPreConditions( const TMHConfig* const configuration ) {
 	bool resoult = true;
-	resoult &= (configuration != NULL);
+	resoult &= checkGraphStruct(configuration);
+	resoult &= checkGraphOrder(configuration);
+	resoult &= checkAlgorithm(configuration);
+	resoult &= checkMode(configuration);
+	resoult &= checknumberOfSources(configuration);
 	return resoult;
 }
 
-void addSourceToRest( TMHConfig* const config, const TMHNodeIdx* const fromNodeID, TMHNodeIdx* const numberOfSource ) {
-	config->sourceNodeIdxArray[--(*(numberOfSource))] = *(fromNodeID);
+bool checkTMHConficPostConditions( const TMHNodeIdx numberOfNodes, const TMHConfig* const configuration ) {
+	bool resoult = true;
+	resoult &= checkSourceNodeIdxArray(numberOfNodes,configuration->numberOfSources,configuration->sourceNodeIdxArray);
+	resoult &= checkTargetNodeIdxArray(numberOfNodes,configuration->numberOfTargets,configuration->targetNodeIdxArray);
+	return resoult;
 }
 
-void addPointToPoint( TMHConfig* const config, const TMHNodeIdx* const fromNodeID, const TMHNodeIdx* const toNodeID, TMHNodeIdx* const numberOfSource ) {
-	config->sourceNodeIdxArray[--(*(numberOfSource))] = *(fromNodeID);
-	config->targetNodeIdxArray[*(numberOfSource)] = *(toNodeID);
+static bool checkGraphStruct( const TMHConfig* const configuration ) {
+	return configuration->graphStruct <= ADJACENCY_LIST;
+}
+
+static bool checkGraphOrder( const TMHConfig* const configuration ) {
+	return configuration->graphOrder <= TOPOLOGIC;
+}
+
+static bool checkAlgorithm( const TMHConfig* const configuration ) {
+	return configuration->algorithm <= GR2;
+}
+
+static bool checkMode( const TMHConfig* const configuration ) {
+	return configuration->mode <= POINT_TO_POINT;
+}
+
+static bool checknumberOfSources( const TMHConfig* const configuration ) {
+	return configuration->numberOfSources <= maxNumberOfSource;
+}
+
+static bool checkSourceNodeIdxArray( const TMHNodeIdx numberOfNodes, TMHNodeIdx numberOfSources, const TMHNodeIdx* const sourceNodeIdxArray ) {
+	for ( numberOfSources--; numberOfSources >0; numberOfSources-- ) {
+		if ( sourceNodeIdxArray[numberOfSources] > numberOfNodes ) {
+			return false;
+		}
+	}
+	if ( sourceNodeIdxArray[numberOfSources] > numberOfNodes ) {
+		return false;
+	}
+	return true;
+}
+
+static bool checkTargetNodeIdxArray( TMHNodeIdx numberOfNodes, TMHNodeIdx numberOfTargets, const TMHNodeIdx* const targetNodeIdxArray ) {
+	for ( numberOfTargets--; numberOfTargets > 0; numberOfTargets-- ) {
+		if ( targetNodeIdxArray[numberOfTargets] > numberOfNodes ) {
+			return false;
+		}
+	}
+	if ( targetNodeIdxArray[numberOfTargets] > numberOfNodes ) {
+		return false;
+	}
+	return true;
+}
+
+void addSourceToRest( TMHConfig* const config, const TMHNodeIdx* const fromNodeID, TMHNodeIdx* const numberOfSources ) {
+	config->sourceNodeIdxArray[--(*(numberOfSources))] = *(fromNodeID);
+}
+
+void addPointToPoint( TMHConfig* const config, const TMHNodeIdx* const fromNodeID, const TMHNodeIdx* const toNodeID, TMHNodeIdx* const numberOfSources ) {
+	config->sourceNodeIdxArray[--(*(numberOfSources))] = *(fromNodeID);
+	config->targetNodeIdxArray[*(numberOfSources)] = *(toNodeID);
 }

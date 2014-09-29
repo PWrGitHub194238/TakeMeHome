@@ -56,8 +56,8 @@ typedef struct TMH_PAP {
  *
  */
 
-TMH_PAP* createTMHPAPInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig );
-void destroyTMHPAPInstance ( TMH_PAP* const instance );
+TMH_PAP* createTMHPAPInstance( TMHGraph* const graphData, TMHConfig* configuration );
+void destroyTMHPAPInstance ( TMH_PAP* const instance, bool withConfig );
 
 void runPAP( TMH_PAP* const instance );
 

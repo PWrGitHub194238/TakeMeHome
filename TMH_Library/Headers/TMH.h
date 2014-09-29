@@ -115,6 +115,8 @@ typedef unsigned int TMHArcCost;
  *
  */
 
+extern const TMHNodeIdx maxNumberOfSource;
+
 /**
  *  @brief Defines a type of nodes' distance max value
  *  which correspond to typedef definition of @ref TMHNodeData.

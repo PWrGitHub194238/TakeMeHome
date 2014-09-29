@@ -23,7 +23,11 @@
 
 #include <stddef.h>											/* NULL */
 
-#include "../../Headers/Helpers/TMHIOHelper.h"				/* getGraphData(), getConfigData() */
+#include "../../Headers/Helpers/TMHIOHelper.h"				/* getGraphDataWrapper(), getConfigData(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 TMHConfig, GraphStructAbbreviation,
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 AlgorithmAbbreviation, GraphOrder
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 */
+#include "../../Headers/Helpers/TMHGraphRebuilder.h"
 
 #include "../../Headers/Algorithms/THR.h"					/* THR */
 #include "../../Headers/Algorithms/Bellman/BFM.h"			/* THR */
@@ -61,42 +65,72 @@
  *
  */
 
-void* createTMHAlgorithmInstance(const AlgorithmAbbreviation algorithm,
-		const char* const graphDataFilePath,
-		const char* const configDataFilePath, bool checkConfig, bool allowInterrupt ) {
-	TMHGraph* newGraph = getGraphData(graphDataFilePath);
-	TMHConfig* config = getConfigData(configDataFilePath);
-	switch (algorithm) {
+TMHConfig* createTMHConfig( const char* const configDataFilePath ) {
+	return getConfigData(configDataFilePath);
+}
+
+void setGraphStruct( TMHConfig* config, const GraphStructAbbreviation graphStruct ) {
+	config->graphStruct = graphStruct;
+}
+
+void setGraphOrder( TMHConfig* config, const GraphOrder graphOrder ) {
+	config->graphOrder = graphOrder;
+}
+
+void setAlgorithm( TMHConfig* config, const AlgorithmAbbreviation algorithm ) {
+	config->algorithm = algorithm;
+}
+
+void setCheckConfig( TMHConfig* config, const bool checkConfig ) {
+	config->checkConfig = checkConfig;
+}
+
+void setAllowInterrupt( TMHConfig* config, const bool allowInterrupt ) {
+	config->allowInterrupt = allowInterrupt;
+}
+
+void* createTMHAlgorithmInstance( TMHConfig* const config, const char* const graphDataFilePath ) {
+	void* newGraph;
+
+	if ( config->checkConfig ) {
+		if ( checkTMHConfig(config) == false ) {
+			return NULL;
+		}
+	}
+
+	newGraph = getGraphDataWrapper(config->graphStruct,graphDataFilePath);
+
+	switch (config->algorithm) {
 	case BFM:
-		return createTMHBFMInstance(newGraph, config, checkConfig);
+		return createTMHBFMInstance(newGraph, config);
 	case BFP:
-		return createTMHBFPInstance(newGraph, config, checkConfig);
+		return createTMHBFPInstance(newGraph, config);
 	case DKQ:
-		return createTMHDKQInstance(newGraph, config, checkConfig);
+		return createTMHDKQInstance(newGraph, config);
 	case DKB:
-		return createTMHDKBInstance(newGraph, config, checkConfig);
+		return createTMHDKBInstance(newGraph, config);
 	case DKM:
-		return createTMHDKMInstance(newGraph, config, checkConfig, allowInterrupt);
+		return createTMHDKMInstance(newGraph, config);
 	case DKA:
-		return createTMHDKAInstance(newGraph, config, checkConfig, allowInterrupt);
+		return createTMHDKAInstance(newGraph, config);
 	case DKD:
-		return createTMHDKDInstance(newGraph, config, checkConfig, allowInterrupt);
+		return createTMHDKDInstance(newGraph, config);
 	case DKF:
-		return createTMHDKFInstance(newGraph, config, checkConfig);
+		return createTMHDKFInstance(newGraph, config);
 	case DKH:
-		return createTMHBFMInstance(newGraph, config, checkConfig);
+		return createTMHDKHInstance(newGraph, config);
 	case DKR:
-		return createTMHBFMInstance(newGraph, config, checkConfig);
+		return createTMHDKRInstance(newGraph, config);
 	case PAP:
-		return createTMHBFMInstance(newGraph, config, checkConfig);
+		return createTMHPAPInstance(newGraph, config);
 	case TQQ:
-		return createTMHBFMInstance(newGraph, config, checkConfig);
+		return createTMHTQQInstance(newGraph, config);
 	case THR:
-		return createTMHBFMInstance(newGraph, config, checkConfig);
+		return createTMHTHRInstance(newGraph, config);
 	case GR1:
-		return createTMHBFMInstance(newGraph, config, checkConfig);
+		return createTMHGR1Instance(newGraph, config);
 	case GR2:
-		return createTMHBFMInstance(newGraph, config, checkConfig);
+		return createTMHGR2Instance(newGraph, config);
 	default:
 		return NULL;
 	}
@@ -129,18 +163,83 @@ void runTMHAlgorithm(const AlgorithmAbbreviation algorithm, void* instance) {
 		runDKF(instance);
 		break;
 	case DKH:
+		runDKH(instance);
 		break;
 	case DKR:
+		runDKR(instance);
 		break;
 	case PAP:
+		runPAP(instance);
 		break;
 	case TQQ:
+		runTQQ(instance);
 		break;
 	case THR:
+		runTHR(instance);
 		break;
 	case GR1:
+		runGR1(instance);
 		break;
 	case GR2:
+		runGR2(instance);
+		break;
+	}
+}
+
+void destroyTMHAlgorithmInstancje(const AlgorithmAbbreviation algorithm, void* instance, bool withConfig ) {
+	switch (algorithm) {
+	case BFM:
+		destroyTMHBFMInstance(instance,withConfig);
+		break;
+	case BFP:
+		destroyTMHBFPInstance(instance,withConfig);
+		break;
+	case DKQ:
+		destroyTMHDKQInstance(instance,withConfig);
+		break;
+	case DKB:
+		destroyTMHDKBInstance(instance,withConfig);
+		break;
+	case DKM:
+		destroyTMHDKMInstance(instance,withConfig);
+		break;
+	case DKA:
+		destroyTMHDKAInstance(instance,withConfig);
+		break;
+	case DKD:
+		destroyTMHDKDInstance(instance,withConfig);
+		break;
+	case DKF:
+		destroyTMHDKFInstance(instance,withConfig);
+		break;
+	case DKH:
+		destroyTMHDKHInstance(instance,withConfig);
+		break;
+	case DKR:
+		destroyTMHDKRInstance(instance,withConfig);
+		break;
+	case PAP:
+		destroyTMHPAPInstance(instance,withConfig);
+		break;
+	case TQQ:
+		destroyTMHTQQInstance(instance,withConfig);
+		break;
+	case THR:
+		destroyTMHTHRInstance(instance,withConfig);
+		break;
+	case GR1:
+		destroyTMHGR1Instance(instance,withConfig);
+		break;
+	case GR2:
+		destroyTMHGR2Instance(instance,withConfig);
+		break;
+	}
+}
+
+void rebuildGraph( const GraphStructAbbreviation graphStruct, const GraphOrder graphOrder, void* sourceGraph ) {
+	switch ( graphStruct ) {
+	case ADJACENCY_LIST:
+		rebuildAdjacencyListGraph(graphOrder,sourceGraph);
 		break;
 	}
 }

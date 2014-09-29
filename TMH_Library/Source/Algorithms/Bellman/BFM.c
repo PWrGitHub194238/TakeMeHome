@@ -65,19 +65,17 @@ static const char* MODULE_NAME = "BFM";
  *
  */
 
-TMH_BFM* createTMHBFMInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig ) {
+TMH_BFM* createTMHBFMInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
 	TMH_BFM* newInstance = memMalloc(1,sizeof(TMH_BFM));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
-
-	if ( checkConfig ) {
-		checkTMHConfig(configuration);
-	}
 	return newInstance;
 }
-void destroyTMHBFMInstance ( TMH_BFM* const instance ) {
+void destroyTMHBFMInstance ( TMH_BFM* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
-	destroyTMHConfigInstance(instance->configuration);
+	if (withConfig) {
+		destroyTMHConfigInstance(instance->configuration);
+	}
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
@@ -85,7 +83,7 @@ void destroyTMHBFMInstance ( TMH_BFM* const instance ) {
 void runBFM( TMH_BFM* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runBFM_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSource);
+		runBFM_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -126,12 +124,12 @@ void runBFM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 		if (isTraceLogEnabled()) {
 			trace(MODULE_NAME,trace_TMHAlgorithmHelper_relaxLoop,numberOfNodes-1);
 		}
-		for ( i = 0; i < j; i++ ) {					/* dla takiej TMHGraph trzeba przeglądnąć wszystkie nody*/
+		for ( i = j; i > 0; i-- ) {					/* dla takiej TMHGraph trzeba przeglądnąć wszystkie nody*/
 			currentNode = graph->nodeArray[i];
 			adjacencyList = currentNode->successors;
 			while ( adjacencyList != NULL ) {
 				arc = adjacencyList->arc;
-				toNode = graph->nodeArray[arc->successor];
+				toNode = arc->successor;
 				if ( currentNode->distanceLabel == distanceLabelInfinity ) {
 					newDistance = distanceLabelInfinity;
 				} else {

@@ -56,8 +56,8 @@ typedef struct TMH_TQQ {
  *
  */
 
-TMH_TQQ* createTMHTQQInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig );
-void destroyTMHTQQInstance ( TMH_TQQ* const instance );
+TMH_TQQ* createTMHTQQInstance( TMHGraph* const graphData, TMHConfig* configuration );
+void destroyTMHTQQInstance ( TMH_TQQ* const instance, bool withConfig );
 
 void runTQQ( TMH_TQQ* const instance );
 

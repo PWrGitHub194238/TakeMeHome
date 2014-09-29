@@ -11,8 +11,7 @@
  *
  * @details Detailed description goes here.
  *
- * Topological Ordering -- Distance
-Updates
+ * Topological Ordering -- Distance Updates
  *
  * @see http://www.stack.nl/~dimitri/doxygen/
  */
@@ -32,13 +31,18 @@ Updates
  *
  */
 
+#include "../../Structures/TMHGraph.h"			/* TMHGraph, TMHNode */
+#include "../../TMHConfig.h"					/* TMHConfig, TMHNodeIdx */
 
 /*
  * Typedefs
  *
  */
 
-
+typedef struct TMH_GR2 {
+	TMHGraph* graphData;
+	TMHConfig* configuration;
+} TMH_GR2;
 
 /*
  * Externs
@@ -52,5 +56,18 @@ Updates
  *
  */
 
+TMH_GR2* createTMHGR2Instance( TMHGraph* const graphData, TMHConfig* configuration );
+void destroyTMHGR2Instance ( TMH_GR2* const instance, bool withConfig );
+
+void runGR2( TMH_GR2* const instance );
+
+void runGR2_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize );
+
+void runGR2_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode );
+
+/*
+ * Inline definitions
+ *
+ */
 
 #endif /* GR2_H_ */

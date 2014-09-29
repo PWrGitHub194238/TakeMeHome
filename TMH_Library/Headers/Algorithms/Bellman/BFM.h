@@ -56,8 +56,8 @@ typedef struct TMH_BFM {
  *
  */
 
-TMH_BFM* createTMHBFMInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig );
-void destroyTMHBFMInstance ( TMH_BFM* const instance );
+TMH_BFM* createTMHBFMInstance( TMHGraph* const graphData, TMHConfig* const configuration );
+void destroyTMHBFMInstance ( TMH_BFM* const instance, bool withConfig );
 
 void runBFM( TMH_BFM* const instance );
 

@@ -65,19 +65,17 @@ static const char* MODULE_NAME = "BFP";
  *
  */
 
-TMH_BFP* createTMHBFPInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig ) {
+TMH_BFP* createTMHBFPInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
 	TMH_BFP* newInstance = memMalloc(1,sizeof(TMH_BFP));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
-
-	if ( checkConfig ) {
-		checkTMHConfig(configuration);
-	}
 	return newInstance;
 }
-void destroyTMHBFPInstance ( TMH_BFP* const instance ) {
+void destroyTMHBFPInstance ( TMH_BFP* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
-	destroyTMHConfigInstance(instance->configuration);
+	if (withConfig) {
+		destroyTMHConfigInstance(instance->configuration);
+	}
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
@@ -85,7 +83,7 @@ void destroyTMHBFPInstance ( TMH_BFP* const instance ) {
 void runBFP( TMH_BFP* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runBFP_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSource);
+		runBFP_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -127,7 +125,7 @@ void runBFP_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 		if (isTraceLogEnabled()) {
 			trace(MODULE_NAME,trace_TMHAlgorithmHelper_relaxLoop,numberOfNodes-1);
 		}
-		for ( i = 0; i < j; i++ ) {					/* dla takiej TMHGraph trzeba przeglądnąć wszystkie nody*/
+		for ( i = j; i > 0; i-- ) {					/* dla takiej TMHGraph trzeba przeglądnąć wszystkie nody*/
 			currentNode = graph->nodeArray[i];
 			if (isTraceLogEnabled() && currentNode->predecessor == NULL) {
 				trace(MODULE_NAME,trace_BFP_skipNode,currentNode->nodeID);
@@ -137,7 +135,7 @@ void runBFP_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 				adjacencyList = currentNode->successors;
 				while ( adjacencyList != NULL ) {
 					arc = adjacencyList->arc;
-					toNode = graph->nodeArray[arc->successor];
+					toNode = arc->successor;
 					newDistance = currentNode->distanceLabel + arc->distance;
 					if (isTraceLogEnabled()) {
 						trace(MODULE_NAME,trace_TMHAlgorithmHelper_checkRelax,currentNode->nodeID,arc->distance,toNode->nodeID,toNode->distanceLabel,newDistance);

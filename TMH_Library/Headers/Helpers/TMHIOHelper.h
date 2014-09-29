@@ -30,7 +30,7 @@
  */
 
 #include "../Structures/TMHGraph.h"			/* TMHGraph */
-#include "../TMHConfig.h"					/* TMHConfig */
+#include "../TMHConfig.h"					/* TMHConfig, GraphStructAbbreviation */
 
 /*
  * Typedefs
@@ -51,7 +51,7 @@
  *
  */
 
-TMHGraph* getGraphData( const char* const filename );
+void* getGraphDataWrapper( const GraphStructAbbreviation graphStruct, const char* const filename );
 TMHConfig* getConfigData( const char* const filename );
 
 #endif /* TMHIOHELPER_H_ */

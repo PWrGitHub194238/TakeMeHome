@@ -94,7 +94,7 @@ void pushTMHNodeStackQueue( TMHNodeStackQueue* const queue, TMHNode* newNode ) {
 		if ( newNode->distanceLabel == distanceLabelInfinity ) {	/* wstawiany pierwszy raz */
 			pushLastTMHNodeDLList(queue->list->tail,newNode);
 		} else {
-			pushTMHNodeStack(queue->head,newNode);
+			pushTMHNodeStack(&(queue->head),newNode);
 		}
 	} else {
 		info(MODULE_NAME,info_TMHNodeStackQueue_alreadyInQueue,newNode->nodeID,newNode->distanceLabel);

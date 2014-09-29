@@ -178,6 +178,7 @@ static void printLogWithoutTime( const char* debug_level, const char* src, const
 	if (LOG.logFile) {
 		fprintf(LOG.logFile,"\n%s | [%s] ",debug_level,src);
 		vfprintf(LOG.logFile,__format,arg);
+		fprintf(LOG.logFile,"\n");
 		fflush(LOG.logFile);
 	} else {
 		printf("\n%s | [%s] ",debug_level,src);
@@ -191,6 +192,7 @@ static void printLogWithTime( const char* debug_level, const char* src, const ch
 	if (LOG.logFile) {
 		fprintf(LOG.logFile,"\n%s | %s | [%s] ",LOG.formatedTime,debug_level,src);
 		vfprintf(LOG.logFile,__format,arg);
+		fprintf(LOG.logFile,"\n");
 		fflush(LOG.logFile);
 	} else {
 		printf("\n%s | %s | [%s] ",LOG.formatedTime,debug_level,src);

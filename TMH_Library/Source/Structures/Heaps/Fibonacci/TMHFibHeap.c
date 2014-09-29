@@ -48,6 +48,8 @@ static const char* MODULE_NAME = "TMHFibHeap";
  *
  */
 
+static void destryAuxiliaryArray( TMHFibNode** const auxiliaryArray, TMHNodeIdx maxDegree );
+static void destroyTMHFibHeap( TMHFibNode* rootListNode );
 static void consolidateTMHFibHeap ( TMHFibHeap* const instance );
 static void cutTMHFibHeap( TMHFibNode* const minNode, TMHFibNode* const node, TMHFibNode* const parentNode );
 static void cascadingCutTMHFibHeap( TMHFibNode* const minNode, TMHFibNode* const node );
@@ -57,17 +59,21 @@ static void cascadingCutTMHFibHeap( TMHFibNode* const minNode, TMHFibNode* const
  *
  */
 
-TMHFibHeap* createSingleTMHFibHeapInstance( TMHFibNode* rootNode ) {
+TMHFibHeap* createSingleTMHFibHeapInstance( TMHFibNode* rootNode, const TMHNodeIdx* const numberOfNodes ) {
 	TMHFibHeap* newHeap = memMalloc(1,sizeof(TMHFibHeap));
 	newHeap->minNode = rootNode;
 	newHeap->numberOfNodes = ((rootNode) ? 1 : 0);
+
+	newHeap->maxDegree = (TMHNodeIdx) (*(numberOfNodes) * M_1_LOG_E_PHI);
+	newHeap->auxiliaryArray = memCalloc(newHeap->maxDegree,sizeof(TMHFibNode*));
+
 	return newHeap;
 }
 
 TMHFibHeap* createTMHFibHeapInstance( TMHFibNode* rootNode ) {
 	TMHFibHeap* newHeap = memMalloc(1,sizeof(TMHFibHeap));
 	TMHFibNode* rootNodeHead;
-	TMHNodeIdx numberOfNodes;
+	TMHNodeIdx numberOfNodes = 0;
 	if ( rootNode != NULL ) {
 		newHeap->minNode = rootNode;
 		rootNodeHead = rootNode->prev;		/*lepsze niż rN->next != rNH */
@@ -85,8 +91,35 @@ TMHFibHeap* createTMHFibHeapInstance( TMHFibNode* rootNode ) {
 }
 
 void destroyTMHFibHeapInstance( TMHFibHeap* const instance ) {
+	destryAuxiliaryArray(instance->auxiliaryArray,instance->maxDegree);
+	if (instance->minNode) {
+		destroyTMHFibHeap(instance->minNode);
+	}
+
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+}
+
+static void destryAuxiliaryArray( TMHFibNode** const auxiliaryArray, TMHNodeIdx maxDegree ) {
+	for ( maxDegree--; maxDegree > 0; maxDegree-- ) {
+		memFree(auxiliaryArray[maxDegree]);
+	}
+	memFree(auxiliaryArray[maxDegree]);
+	memFree(auxiliaryArray);
+}
+
+static void destroyTMHFibHeap( TMHFibNode* rootListNode ) {
+	TMHFibNode* listHead;
+	TMHFibNode* temp;
+	listHead = rootListNode;
+	do {
+		temp = rootListNode->next;
+		if (temp->childList) {
+			destroyTMHFibHeap(temp->childList);
+		}
+		destroyTMHFibNodeInstance(rootListNode,false);
+		rootListNode = temp;
+	} while ( listHead != rootListNode );
 }
 
 void insertSingleTMHFibHeapInstance( TMHFibHeap* const instance, TMHFibNode* nodeList ) {
@@ -126,12 +159,14 @@ TMHFibHeap* unionTMHFibHeap( TMHFibHeap* const heap1, const TMHFibHeap* const he
 
 TMHNode* removeMinimumTMHFibHeap( TMHFibHeap* const instance ) {
 	TMHFibNode* z = instance->minNode;
-	TMHNode* data = z->data;
-	TMHFibNode* childList = z->childList;
+	TMHNode* data;
+	TMHFibNode* childList;
 	if ( z == NULL ) {
 		warn(MODULE_NAME,warn_TMHFibHeap_removeFromEmptyHeap);
 		return NULL;
 	} else {
+		data = z->data;
+		childList = z->childList;
 		if ( childList != NULL ) {
 			instance->minNode = childList;	/* Jeśli na rootLiście 1 węzeł to usunięcie go tworzy z jego dzieci rootListę*/
 			if ( z->next != z ) {
@@ -162,8 +197,10 @@ TMHNode* removeMinimumTMHFibHeap( TMHFibHeap* const instance ) {
 }
 
 static void consolidateTMHFibHeap ( TMHFibHeap* const instance ) {
-	TMHNodeIdx maxDegree = (TMHNodeIdx) (log(instance->numberOfNodes) * M_1_LOG_E_PHI);	/* multiply is faster that division*/
-	TMHFibNode** auxiliaryArray = memCalloc(maxDegree,sizeof(TMHFibNode*));
+	/*TMHNodeIdx maxDegree = (TMHNodeIdx) (log(instance->numberOfNodes) * M_1_LOG_E_PHI);	 multiply is faster that division
+	TMHFibNode** auxiliaryArray = memCalloc(maxDegree,sizeof(TMHFibNode*));*/
+	TMHNodeIdx maxDegree = instance->maxDegree;
+	TMHFibNode** auxiliaryArray = instance->auxiliaryArray;
 	TMHFibNode* minNode = instance->minNode;
 	TMHFibNode* tempNode = NULL;
 	TMHFibNode* swapTmpAndChildNode = NULL;
@@ -171,6 +208,12 @@ static void consolidateTMHFibHeap ( TMHFibHeap* const instance ) {
 	/* Ostatnim nodem, który będziemy badać jest poprzednik "1" elementu na liście*/
 	TMHFibNode* minNodeHead = minNode->prev;
 	TMHNodeIdx degreeAndMin;
+
+	for ( maxDegree-- ; maxDegree > 0; maxDegree-- ) {
+		auxiliaryArray[maxDegree] = NULL;
+	}
+	auxiliaryArray[maxDegree] = NULL;
+
 	while ( minNode != minNodeHead ) {
 		degreeAndMin = minNode->degree;
 		tempNode = auxiliaryArray[degreeAndMin];

@@ -68,20 +68,18 @@ static const char* MODULE_NAME = "PAP";
  *
  */
 
-TMH_PAP* createTMHPAPInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig ) {
+TMH_PAP* createTMHPAPInstance( TMHGraph* const graphData, TMHConfig* configuration ) {
 	TMH_PAP* newInstance = memMalloc(1,sizeof(TMH_PAP));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
-
-	if ( checkConfig ) {
-		checkTMHConfig(configuration);
-	}
 	return newInstance;
 }
 
-void destroyTMHPAPInstance ( TMH_PAP* const instance ) {
+void destroyTMHPAPInstance ( TMH_PAP* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
-	destroyTMHConfigInstance(instance->configuration);
+	if (withConfig) {
+		destroyTMHConfigInstance(instance->configuration);
+	}
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
@@ -89,7 +87,7 @@ void destroyTMHPAPInstance ( TMH_PAP* const instance ) {
 void runPAP( TMH_PAP* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runPAP_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSource);
+		runPAP_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -146,7 +144,7 @@ void runPAP_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 
 		while ( adjacencyList != NULL ) {
 			arc = adjacencyList->arc;
-			toNode = graph->nodeArray[arc->successor];
+			toNode = arc->successor;
 			newDistance = currentNode->distanceLabel + arc->distance;
 
 			if (isTraceLogEnabled()) {
@@ -161,7 +159,7 @@ void runPAP_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 					}
 				}
 
-				pushTMHNodeStackQueue(queue,toNode);	/* nie priorytetowa, a potrzeba starej odleg³oœci*/
+				pushTMHNodeStackQueue(queue,toNode);	/* nie priorytetowa, a potrzeba starej odlegï¿½oï¿½ci*/
 
 				toNode->distanceLabel = newDistance;
 				toNode->predecessor = currentNode;

@@ -64,21 +64,18 @@ typedef struct TMHGraph {
  *
  */
 
-TMHGraph* loadTMHGraphInstance ( const char* const filename );
-
-
 /** Tworzy graf, tworzy numOfNodes nodów w tablicy.
  *
  * @param numOfNodes
  * @return
  */
-TMHGraph* createTMHGraphInstance ( const TMHNodeIdx* const numOfNodes, const TMHNodeIdx* const numOfArcs );
+TMHGraph* createTMHGraphInstance( const TMHNodeIdx* const numOfNodes, const TMHNodeIdx* const numOfArcs );
 
 /** Niszczy wszystkie węzły i graf na końcu
  *
  * @param graph
  */
-void destroyTMHGraphInstance ( TMHGraph* const graph );
+void destroyTMHGraphInstance( TMHGraph* const graph );
 
 /** dokleja na początek listy węzła łuk
  *
@@ -87,6 +84,6 @@ void destroyTMHGraphInstance ( TMHGraph* const graph );
  * @param toNodeID
  * @param distanceLabel
  */
-void addArc ( TMHGraph* const graph, const TMHNodeIdx* const fromNodeID, const TMHNodeIdx* const toNodeID, const TMHArcCost* const distanceLabel );
+void addArc( TMHNode* const fromNode, TMHNode* const toNode, const TMHArcCost* const distanceLabel );
 
 #endif /* TMHGRAPH_H_ */

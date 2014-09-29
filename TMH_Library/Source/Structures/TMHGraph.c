@@ -54,37 +54,30 @@ static const char* MODULE_NAME = "TMHGraph";
  *
  */
 
-TMHGraph* loadTMHGraphInstance ( const char* const filename ) {
-	return getGraphData(filename);
-}
-
 TMHGraph* createTMHGraphInstance ( const TMHNodeIdx* const numOfNodes, const TMHNodeIdx* const numOfArcs ) {
 	TMHNodeIdx i = *(numOfNodes);
 	TMHGraph* newGraph = memMalloc(1,sizeof(TMHGraph));
 	newGraph->numberOfNodes = i;
 	newGraph->numberOfArcs = *(numOfArcs);
-	newGraph->nodeArray = memMalloc(i,sizeof(TMHNode*));
-	for ( i-- ; i > 0; i-- ) {
+	newGraph->nodeArray = memMalloc(i+1,sizeof(TMHNode*));
+	for ( ; i > 0; i-- ) {
 		newGraph->nodeArray[i] = createTMHNodeInstance(i);
 	}
-	newGraph->nodeArray[i] = createTMHNodeInstance(i);
+	newGraph->nodeArray[i] = NULL;
 	return newGraph;
 }
 
 void destroyTMHGraphInstance ( TMHGraph* const graph ) {
 	TMHNodeIdx numberOfNodes = graph->numberOfNodes;
-	for ( numberOfNodes--; numberOfNodes > 0; numberOfNodes-- ) {
+	for ( ; numberOfNodes > 0; numberOfNodes-- ) {
 		destroyTMHNodeInstance(graph->nodeArray[numberOfNodes]);
 	}
-	destroyTMHNodeInstance(graph->nodeArray[numberOfNodes]);
 	memFree(graph->nodeArray);
 	memFree(graph);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
 
-void addArc ( TMHGraph* const graph, const TMHNodeIdx* const fromNodeID,
-		const TMHNodeIdx* const toNodeID, const TMHArcCost* const distanceLabel ) {
-	TMHNode* tempNode = graph->nodeArray[*(fromNodeID)];
-	tempNode->successors = pushTMHArcList(tempNode->successors,
-			createTMHArcInstance(toNodeID,distanceLabel));
+void addArc ( TMHNode* const fromNode, TMHNode* const toNode, const TMHArcCost* const distanceLabel ) {
+	fromNode->successors = pushTMHArcList(fromNode->successors,
+			createTMHArcInstance(toNode,distanceLabel));
 }

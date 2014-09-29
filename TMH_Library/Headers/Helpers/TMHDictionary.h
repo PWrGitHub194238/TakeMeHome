@@ -35,24 +35,6 @@
  *
  */
 
-typedef enum AlgorithmAbbreviation {
-	BFM,
-	BFP,
-	DKQ,
-	DKB,
-	DKM,
-	DKA,
-	DKD,
-	DKF,
-	DKH,
-	DKR,
-	PAP,
-	TQQ,
-	THR,
-	GR1,
-	GR2
-} AlgorithmAbbreviation;
-
 /*
  * Externs
  *

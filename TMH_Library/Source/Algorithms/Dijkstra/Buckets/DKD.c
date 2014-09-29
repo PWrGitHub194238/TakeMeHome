@@ -73,15 +73,12 @@ static TMHNodeData getParameterOrDefaultDKD( const TMHNodeData constant );
  *
  */
 
-TMH_DKD* createTMHDKDInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig, bool allowInterrupt ) {
+TMH_DKD* createTMHDKDInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
 	TMH_DKD* newInstance = memMalloc(1,sizeof(TMH_DKD));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
 
-	if ( checkConfig ) {
-		checkTMHConfig(configuration);
-	}
-	if ( allowInterrupt ) {
+	if ( configuration->allowInterrupt ) {
 		printf("%s\n",ASK_FOR_NUMBER_OF_MAIN_BUCKET);
 		newInstance->bucketsRangeMod = getParameterOrDefaultDKD((TMHNodeData) pow(graphData->maxArcCost,0.5));
 	} else {
@@ -93,9 +90,11 @@ TMH_DKD* createTMHDKDInstance( TMHGraph* const graphData, TMHConfig* configurati
 	return newInstance;
 }
 
-void destroyTMHDKDInstance ( TMH_DKD* const instance ) {
+void destroyTMHDKDInstance ( TMH_DKD* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
-	destroyTMHConfigInstance(instance->configuration);
+	if (withConfig) {
+		destroyTMHConfigInstance(instance->configuration);
+	}
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
@@ -103,7 +102,7 @@ void destroyTMHDKDInstance ( TMH_DKD* const instance ) {
 void runDKD( TMH_DKD* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runDKD_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSource,&(instance->bucketsRangeMod));
+		runDKD_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources,&(instance->bucketsRangeMod));
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -138,6 +137,7 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHArc* arc;
 	TMHNode* toNode;
 	TMHNodeData newDistance;
+	TMHNodeData oldLowLevelDistance;
 	TMHNodeData newLowLevelDistance;
 
 
@@ -179,7 +179,7 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 			} while ( currentHighLevelBucket->next != NULL );
 
 			for ( j = 0; j < bucketsRangeMod; j++ ) {
-				trace(MODULE_NAME,trace_DKD_lowLevelLoop,j,j+1,bucketsRangeMod,j);
+				trace(MODULE_NAME,trace_DKD_lowLevelLoop,j,j+1,bucketsRangeMod,i);
 				currentLowLevelBucket = lowLevelBucketsArray[j]->head;
 				if ( currentLowLevelBucket->next->next == NULL ) {	// is empty
 					if (isTraceLogEnabled()) {
@@ -206,7 +206,7 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 
 						while ( adjacencyList != NULL ) {
 							arc = adjacencyList->arc;
-							toNode = graph->nodeArray[arc->successor];
+							toNode = arc->successor;
 							newDistance = currentNode->distanceLabel + arc->distance;
 
 							if (isTraceLogEnabled()) {
@@ -221,30 +221,40 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 										trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 									}
 								}
+
+								oldLowLevelDistance = toNode->distanceLabel - mapToLowLevelIdx;
 								newLowLevelDistance = newDistance - mapToLowLevelIdx;
-								if ( newLowLevelDistance < bucketsRangeMod ) {
-									if ( toNode->toUpperStruct == NULL ) {
+
+								if ( toNode->toUpperStruct == NULL ) {
+									if ( newLowLevelDistance < bucketsRangeMod ) {	/* -> low */
 										if (isTraceLogEnabled()) {
 											trace(MODULE_NAME,trace_DKD_pushIntoLowLevelBucket,toNode->nodeID,newDistance,newLowLevelDistance);
 										}
 										pushTMHNodeDLList(lowLevelBucketsArray[newLowLevelDistance]->head,toNode);
-									} else {
-										if (isTraceLogEnabled()) {
-											trace(MODULE_NAME,trace_DKD_repinBetweenLowLevelBuckets,toNode->nodeID,newDistance,toNode->distanceLabel-mapToLowLevelIdx,newLowLevelDistance,((lowLevelBucketsArray[toNode->distanceLabel-mapToLowLevelIdx]->head->next->next)) ? "" : " Source low-level bucket is now empty.");
-										}
-										repinTMHNodeDLList(lowLevelBucketsArray[newLowLevelDistance]->head,toNode);
-									}
-								} else {
-									if ( toNode->toUpperStruct == NULL ) {
+									} else {	/* -> high */
 										if (isTraceLogEnabled()) {
 											trace(MODULE_NAME,trace_DKD_pushIntoHighLevelBucket,toNode->nodeID,newDistance,newDistance/bucketsRangeMod);
 										}
 										pushTMHNodeDLList(highLevelBucketsArray[newDistance/bucketsRangeMod]->head,toNode);
-									} else {
+									}
+								} else {
+									if ( oldLowLevelDistance < bucketsRangeMod ) {	/* new < old < bRM => low -> low*/
 										if (isTraceLogEnabled()) {
-											trace(MODULE_NAME,trace_DKD_repinIntoHighLevelBucket,toNode->nodeID,newDistance,toNode->distanceLabel-mapToLowLevelIdx,newDistance/bucketsRangeMod,((lowLevelBucketsArray[toNode->distanceLabel-mapToLowLevelIdx]->head->next->next)) ? "" : " Source low-level bucket is now empty.");
+											trace(MODULE_NAME,trace_DKD_repinBetweenLowLevelBuckets,toNode->nodeID,newDistance,oldLowLevelDistance,newLowLevelDistance,((lowLevelBucketsArray[oldLowLevelDistance]->head->next->next)) ? "" : " Source low-level bucket is now empty.");
 										}
-										repinTMHNodeDLList(highLevelBucketsArray[newDistance/bucketsRangeMod]->head,toNode);
+										repinTMHNodeDLList(lowLevelBucketsArray[newLowLevelDistance]->head,toNode);
+									} else {
+										if ( newLowLevelDistance < bucketsRangeMod ) {	/* high -> low */
+											if (isTraceLogEnabled()) {
+												trace(MODULE_NAME,trace_DKD_repinToLowLevelBuckets,toNode->nodeID,newDistance,toNode->distanceLabel/bucketsRangeMod,newLowLevelDistance,((highLevelBucketsArray[toNode->distanceLabel/bucketsRangeMod]->head->next->next)) ? "" : " Source high-level bucket is now empty.");
+											}
+											repinTMHNodeDLList(lowLevelBucketsArray[newLowLevelDistance]->head,toNode);
+										} else {	/* high -> high */
+											if (isTraceLogEnabled()) {
+												trace(MODULE_NAME,trace_DKD_repinBetweenHighLevelBucket,toNode->nodeID,newDistance,toNode->distanceLabel/bucketsRangeMod,newDistance/bucketsRangeMod,((highLevelBucketsArray[toNode->distanceLabel/bucketsRangeMod]->head->next->next)) ? "" : " Source high-level bucket is now empty.");
+											}
+											repinTMHNodeDLList(highLevelBucketsArray[newDistance/bucketsRangeMod]->head,toNode);
+										}
 									}
 								}
 

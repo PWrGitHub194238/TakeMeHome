@@ -57,8 +57,8 @@ typedef struct TMH_DKF {
  *
  */
 
-TMH_DKF* createTMHDKFInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig );
-void destroyTMHDKFInstance ( TMH_DKF* const instance );
+TMH_DKF* createTMHDKFInstance( TMHGraph* const graphData, TMHConfig* const configuration );
+void destroyTMHDKFInstance ( TMH_DKF* const instance, bool withConfig );
 
 void runDKF( TMH_DKF* const instance );
 

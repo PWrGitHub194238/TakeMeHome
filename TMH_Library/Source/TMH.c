@@ -29,6 +29,7 @@
  *
  */
 
+const TMHNodeIdx maxNumberOfSource = UINT_MAX;
 const TMHNodeData distanceLabelInfinity = UINT_MAX;
 
 

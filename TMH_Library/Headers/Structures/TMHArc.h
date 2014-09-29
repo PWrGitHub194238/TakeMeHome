@@ -29,7 +29,8 @@
  *
  */
 
-#include "../TMH.h"	/* TMHNodeData, TMHNodeIdx, TMHArcCost */
+#include "TMHNode.h"/* TMHNode */
+#include "../TMH.h"	/* TMHNodeData, TMHArcCost */
 
 /*
  * Typedefs
@@ -47,7 +48,7 @@
  */
 typedef struct TMHArc {
 	TMHArcCost distance; 	/*!< */
-	TMHNodeIdx successor; 	/*!< */
+	struct TMHNode* successor; 	/*!< */
 } TMHArc;
 
 
@@ -64,7 +65,7 @@ typedef struct TMHArc {
  */
 
 
-TMHArc* createTMHArcInstance( const TMHNodeIdx* const successor, const TMHArcCost* const distance );
+TMHArc* createTMHArcInstance( struct TMHNode* const successor, const TMHArcCost* const distance );
 void destroyTMHArcInstance ( TMHArc* const arc );
 
 #endif /* TMHARC_H_ */

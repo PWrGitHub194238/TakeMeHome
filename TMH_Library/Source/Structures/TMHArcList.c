@@ -53,7 +53,7 @@ static const char* MODULE_NAME = "TMHArcList";
  *
  */
 
-TMHArcList* createTMHArcListInstance( TMHArc* const newArc ) {
+TMHArcList* createTMHArcListInstance( struct TMHArc* const newArc ) {
 	return pushTMHArcList(NULL,newArc);
 }
 
@@ -68,7 +68,7 @@ void destroyTMHArcListInstance ( TMHArcList* instance ) {
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
 
-TMHArcList* pushTMHArcList ( TMHArcList* const arcListBegin, TMHArc* const newArc ) {
+TMHArcList* pushTMHArcList ( TMHArcList* const arcListBegin, struct TMHArc* const newArc ) {
 	TMHArcList* newArcElement = memMalloc(1,sizeof(TMHArcList));
 	newArcElement->arc = newArc;
 	newArcElement->nextElement = arcListBegin;

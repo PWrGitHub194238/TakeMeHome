@@ -64,20 +64,18 @@ static const char* MODULE_NAME = "DKQ";
  *
  */
 
-TMH_DKQ* createTMHDKQInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig ) {
+TMH_DKQ* createTMHDKQInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
 	TMH_DKQ* newInstance = memMalloc(1,sizeof(TMH_DKQ));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
-
-	if ( checkConfig ) {
-		checkTMHConfig(configuration);
-	}
 	return newInstance;
 }
 
-void destroyTMHDKQInstance ( TMH_DKQ* const instance ) {
+void destroyTMHDKQInstance ( TMH_DKQ* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
-	destroyTMHConfigInstance(instance->configuration);
+	if (withConfig) {
+		destroyTMHConfigInstance(instance->configuration);
+	}
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
@@ -85,7 +83,7 @@ void destroyTMHDKQInstance ( TMH_DKQ* const instance ) {
 void runDKQ( TMH_DKQ* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runDKQ_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSource);
+		runDKQ_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -118,14 +116,14 @@ void runDKQ_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 	TMHNodeStack* stack = createTMHNodeStackInstance();
 
 	reinitializeTMHGraph(graph,sourceNode);
-	pushTMHNodeStack(stack,sourceNode);
+	pushTMHNodeStack(&stack,sourceNode);
 
 	if (isTraceLogEnabled()) {
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_reinitGraph,numberOfNodes,sourceNode->nodeID);
 		trace(MODULE_NAME,trace_DKQ_initQStackWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
 	}
 
-	while ( (currentNode = popTMHNodeStack(stack)) != NULL ) {
+	while ( (currentNode = popTMHNodeStack(&stack)) != NULL ) {
 		if (isTraceLogEnabled()) {
 			trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
 			if ( currentNode->distanceLabel == distanceLabelInfinity ) {
@@ -145,7 +143,7 @@ void runDKQ_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 
 		while ( adjacencyList != NULL ) {
 			arc = adjacencyList->arc;
-			toNode = graph->nodeArray[arc->successor];
+			toNode = arc->successor;
 			newDistance = currentNode->distanceLabel + arc->distance;
 
 			if (isTraceLogEnabled()) {
@@ -162,10 +160,13 @@ void runDKQ_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 				toNode->distanceLabel = newDistance;
 				toNode->predecessor = currentNode;
 
-				pushTMHNodeStack(stack,toNode);
+				pushTMHNodeStack(&stack,toNode);
 			}
 			adjacencyList = adjacencyList->nextElement;
 		}
 	}
+
+	info(MODULE_NAME,info_TMHAlgorithmHelper_destroyStack);
+	destroyTMHNodeStackInstance(stack,false);
 }
 

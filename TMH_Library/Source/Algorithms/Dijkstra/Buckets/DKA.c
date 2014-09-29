@@ -76,15 +76,12 @@ static long long int worstCaseTimeKDA( const TMHNodeIdx* const numberOfArcs, con
  *
  */
 
-TMH_DKA* createTMHDKAInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig, bool allowInterrupt ) {
+TMH_DKA* createTMHDKAInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
 	TMH_DKA* newInstance = memMalloc(1,sizeof(TMH_DKA));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
 
-	if ( checkConfig ) {
-		checkTMHConfig(configuration);
-	}
-	if ( allowInterrupt ) {
+	if ( configuration->allowInterrupt ) {
 		printf("%s\n",ASK_FOR_NUMBER_OF_MAIN_BUCKET);
 		newInstance->bucketsRangeMod = getParameterOrDefaultDKA(&(graphData->numberOfArcs),&(graphData->numberOfNodes),&(graphData->maxArcCost));
 	} else {
@@ -96,9 +93,11 @@ TMH_DKA* createTMHDKAInstance( TMHGraph* const graphData, TMHConfig* configurati
 	return newInstance;
 }
 
-void destroyTMHDKAInstance ( TMH_DKA* const instance ) {
+void destroyTMHDKAInstance ( TMH_DKA* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
-	destroyTMHConfigInstance(instance->configuration);
+	if (withConfig) {
+		destroyTMHConfigInstance(instance->configuration);
+	}
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
@@ -106,7 +105,7 @@ void destroyTMHDKAInstance ( TMH_DKA* const instance ) {
 void runDKA( TMH_DKA* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runDKA_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSource,&(instance->bucketsRangeMod));
+		runDKA_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources,&(instance->bucketsRangeMod));
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -135,7 +134,8 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHNodeIdx numberOfNodes = graph->numberOfNodes;
 	TMHNodeDLListWrapper** bucketsArray;
 	TMHNodeDLListWrapper* currentBucket;
-	TMHArcCost numberOfBuckets = graph->maxArcCost/bucketsRangeMod + 1;
+	TMHArcCost maxCost = graph->maxArcCost;
+	TMHArcCost numberOfBuckets = maxCost/bucketsRangeMod + 1;
 
 	TMHNode* currentNode;
 	TMHArcList* adjacencyList;
@@ -186,7 +186,7 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 
 					while ( adjacencyList != NULL ) {
 						arc = adjacencyList->arc;
-						toNode = graph->nodeArray[arc->successor];
+						toNode = arc->successor;
 						newDistance = currentNode->distanceLabel + arc->distance;
 
 						if (isTraceLogEnabled()) {
@@ -205,6 +205,13 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 							toNode->predecessor = currentNode;
 
 							newIdx = toNode->distanceLabel/bucketsRangeMod;
+							if ( newIdx > numberOfBuckets ) {
+								newIdx = newIdx % numberOfBuckets;
+								continueScanning = true;
+							} else if ( newIdx == numberOfBuckets ) {
+								newIdx = 0;
+								continueScanning = true;
+							}
 							if ( toNode->toUpperStruct == NULL ) {
 								if (isTraceLogEnabled()) {
 									trace(MODULE_NAME,trace_TMHAlgorithmHelper_pushIntoBucket,toNode->nodeID,toNode->distanceLabel,newIdx);
@@ -216,14 +223,12 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 								}
 								repinTMHNodeDLList(bucketsArray[newIdx]->head,toNode);
 							}
-
-							if ( newIdx < i ) {
-								if (isTraceLogEnabled()) {
-									trace(MODULE_NAME,trace_DKA_setRescan,toNode->nodeID,newDistance,newIdx);
-								}
-								continueScanning = true;
-							}
 						}
+
+						if (isTraceLogEnabled() && continueScanning ) {
+							trace(MODULE_NAME,trace_DKA_setRescan,toNode->nodeID,newDistance,newIdx);
+						}
+
 						adjacencyList = adjacencyList->nextElement;
 					}
 				} while ( currentBucket->head->next != currentBucket->tail );

@@ -59,9 +59,9 @@ typedef struct TMH_DKD {
  *
  */
 
-TMH_DKD* createTMHDKDInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig, bool allowInterrupt );
+TMH_DKD* createTMHDKDInstance( TMHGraph* const graphData, TMHConfig* const configuration );
 
-void destroyTMHDKDInstance ( TMH_DKD* const instance );
+void destroyTMHDKDInstance ( TMH_DKD* const instance, bool withConfig );
 
 void runDKD( TMH_DKD* const instance );
 

@@ -76,25 +76,25 @@ void destroyTMHNodeStackInstance( TMHNodeStack* instance, bool withData ) {
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
 
-void pushTMHNodeStack( TMHNodeStack* stack, TMHNode* newNode ) {
+void pushTMHNodeStack( TMHNodeStack** const stack, TMHNode* newNode ) {
 	TMHNodeStack* newNodeElement = memMalloc(1,sizeof(TMHNodeStack));
-	newNodeElement->next = stack;
-	stack = newNodeElement;
+	newNodeElement->next = *stack;
+	*stack = newNodeElement;
 	newNodeElement->data = newNode;
 	newNode->toUpperStruct = newNodeElement;
 }
 
-TMHNode* popTMHNodeStack( TMHNodeStack* stack ) {
+TMHNode* popTMHNodeStack( TMHNodeStack** const stack ) {
 	TMHNodeStack* nextElement;
 	TMHNode* returnedData;
-	if ( stack->next == NULL ) {
+	if ( (*stack)->next == NULL ) {
 		warn(MODULE_NAME,warn_TMHNodeStack_removeFromEmptyStack);
 		return NULL;
 	}
-	nextElement = stack->next;
-	returnedData = stack->data;
-	memFree(stack);
-	stack = nextElement;
+	nextElement = (*stack)->next;
+	returnedData = (*stack)->data;
+	memFree((*stack));
+	*stack = nextElement;
 	return returnedData;
 }
 

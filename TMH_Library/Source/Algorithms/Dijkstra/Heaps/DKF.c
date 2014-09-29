@@ -68,20 +68,18 @@ static const char* MODULE_NAME = "DKF";
  *
  */
 
-TMH_DKF* createTMHDKFInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig ) {
+TMH_DKF* createTMHDKFInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
 	TMH_DKF* newInstance = memMalloc(1,sizeof(TMH_DKF));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
-
-	if ( checkConfig ) {
-		checkTMHConfig(configuration);
-	}
 	return newInstance;
 }
 
-void destroyTMHDKFInstance ( TMH_DKF* const instance ) {
+void destroyTMHDKFInstance ( TMH_DKF* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
-	destroyTMHConfigInstance(instance->configuration);
+	if (withConfig) {
+		destroyTMHConfigInstance(instance->configuration);
+	}
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
@@ -89,7 +87,7 @@ void destroyTMHDKFInstance ( TMH_DKF* const instance ) {
 void runDKF( TMH_DKF* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runDKF_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSource);
+		runDKF_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -123,7 +121,8 @@ void runDKF_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 
 	reinitializeTMHGraph(graph,sourceNode);
 	heap = createSingleTMHFibHeapInstance(
-			createTMHFibNodeInstance(sourceNode));
+			createTMHFibNodeInstance(sourceNode),
+			&numberOfNodes);
 
 	if (isTraceLogEnabled()) {
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_reinitGraph,numberOfNodes,sourceNode->nodeID);
@@ -153,7 +152,7 @@ void runDKF_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 
 		while ( adjacencyList != NULL ) {
 			arc = adjacencyList->arc;
-			toNode = graph->nodeArray[arc->successor];
+			toNode = arc->successor;
 			newDistance = currentNode->distanceLabel + arc->distance;
 
 			if (isTraceLogEnabled()) {
@@ -186,5 +185,7 @@ void runDKF_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 			adjacencyList = adjacencyList->nextElement;
 		}
 	}
-}
 
+	info(MODULE_NAME,info_TMHAlgorithmHelper_destroyFibonacci);
+	destroyTMHFibHeapInstance(heap);
+}

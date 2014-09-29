@@ -29,8 +29,6 @@
  *
  */
 
-#include "../Structures/TMHNode.h"
-
 #include "../TMH.h"						/* TMHNodeData */
 #include "../Structures/TMHArcList.h"	/* TMHArcList */
 
@@ -56,7 +54,7 @@ typedef struct TMHNode {
 									@see distanceLabelInfinity. */
 	struct TMHNode* predecessor; 	/*!< predecessor (<b><tt>p(i)</tt></b>) stores the pointer to node
 									that immediately precedes node <tt>i</tt> in a graph structure.*/
-	TMHArcList* successors;			/*!< List of nodes to which current node
+	struct TMHArcList* successors;	/*!< List of nodes to which current node
 									directly leads to (node's neighbors).
 									In fact it is only a list of arcs that leads to them.*/
 	void* toUpperStruct;			/*!< To work properly, almost every SP algorithm

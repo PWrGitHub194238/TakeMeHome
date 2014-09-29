@@ -71,15 +71,12 @@ static TMHNodeData getParameterOrDefaultDKM( const TMHNodeData* const constant )
  *
  */
 
-TMH_DKM* createTMHDKMInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig, bool allowInterrupt ) {
+TMH_DKM* createTMHDKMInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
 	TMH_DKM* newInstance = memMalloc(1,sizeof(TMH_DKM));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
 
-	if ( checkConfig ) {
-		checkTMHConfig(configuration);
-	}
-	if ( allowInterrupt ) {
+	if ( configuration->allowInterrupt ) {
 		printf("%s\n",ASK_FOR_NUMBER_OF_MAIN_BUCKET);
 		newInstance->numberOfMainBuckets = getParameterOrDefaultDKM(&(graphData->maxArcCost));
 	} else {
@@ -91,9 +88,11 @@ TMH_DKM* createTMHDKMInstance( TMHGraph* const graphData, TMHConfig* configurati
 	return newInstance;
 }
 
-void destroyTMHDKMInstance ( TMH_DKM* const instance ) {
+void destroyTMHDKMInstance ( TMH_DKM* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
-	destroyTMHConfigInstance(instance->configuration);
+	if (withConfig) {
+		destroyTMHConfigInstance(instance->configuration);
+	}
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
@@ -101,7 +100,7 @@ void destroyTMHDKMInstance ( TMH_DKM* const instance ) {
 void runDKM( TMH_DKM* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runDKM_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSource,&(instance->numberOfMainBuckets));
+		runDKM_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources,&(instance->numberOfMainBuckets));
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -177,7 +176,7 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 
 					while ( adjacencyList != NULL ) {
 						arc = adjacencyList->arc;
-						toNode = graph->nodeArray[arc->successor];
+						toNode = arc->successor;
 						newDistance = currentNode->distanceLabel + arc->distance;
 
 						if (isTraceLogEnabled()) {

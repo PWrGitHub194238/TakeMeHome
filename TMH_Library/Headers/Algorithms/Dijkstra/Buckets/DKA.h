@@ -62,8 +62,8 @@ typedef struct TMH_DKA {
 /**
  * allowInterrupt - gdy true to algorytm zapyta o parametr 'a'. Jesli nie to zostanie wybrana stala, wybrana doswiadczalnie.
  */
-TMH_DKA* createTMHDKAInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig, bool allowInterrupt );
-void destroyTMHDKAInstance ( TMH_DKA* const instance );
+TMH_DKA* createTMHDKAInstance( TMHGraph* const graphData, TMHConfig* const configuration );
+void destroyTMHDKAInstance ( TMH_DKA* const instance, bool withConfig );
 
 void runDKA( TMH_DKA* const instance );
 

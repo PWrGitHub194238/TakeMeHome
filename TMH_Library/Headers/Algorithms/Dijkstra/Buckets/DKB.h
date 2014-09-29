@@ -59,9 +59,9 @@ typedef struct TMH_DKB {
  *
  */
 
-TMH_DKB* createTMHDKBInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig );
+TMH_DKB* createTMHDKBInstance( TMHGraph* const graphData, TMHConfig* const configuration );
 
-void destroyTMHDKBInstance ( TMH_DKB* const instance );
+void destroyTMHDKBInstance ( TMH_DKB* const instance, bool withConfig );
 
 void runDKB( TMH_DKB* const instance );
 

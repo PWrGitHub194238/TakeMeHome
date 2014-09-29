@@ -67,12 +67,10 @@ inline void cleanUpBuckets ( TMHNodeDLListWrapper** const bucketsArray, const TM
 
 inline void reinitializeTMHGraph( TMHGraph* const graph, TMHNode* const sourceNode ) {
 	TMHNodeIdx n = graph->numberOfNodes;
-	for ( n--; n > 0; n-- ) {
+	for ( ; n > 0; n-- ) {
 		graph->nodeArray[n]->distanceLabel = distanceLabelInfinity;
 		graph->nodeArray[n]->predecessor = NULL;
 	}
-	graph->nodeArray[n]->distanceLabel = distanceLabelInfinity;
-	graph->nodeArray[n]->predecessor = NULL;
 	sourceNode->distanceLabel = 0;
 }
 
@@ -86,7 +84,7 @@ inline bool checkForNegativeCirclesAfterRalax( TMHGraph* graph ) {
 		adjacencyList = node->successors;
 		while ( adjacencyList != NULL ) {
 			arc = adjacencyList->arc;
-			if ( graph->nodeArray[arc->successor]->distanceLabel > node->distanceLabel + arc->distance ) {
+			if ( arc->successor->distanceLabel > node->distanceLabel + arc->distance ) {
 				return false;
 			}
 			adjacencyList = adjacencyList->nextElement;

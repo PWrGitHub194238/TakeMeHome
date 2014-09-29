@@ -128,6 +128,8 @@ const char* trace_TMHAlgorithmHelper_repinBetweenBuckets = "New distance label w
 /*	INFO	*/
 const char* info_TMHAlgorithmHelper_SSSummaryBeforeExecution = "PreExecution summary:\n\tRunning algorithm\t:\t%s\n\tSelected mode\t\t:\t%s\n\tSource node's ID\t:\t%u";
 const char* info_TMHAlgorithmHelper_destroyBucket = "Destroying temporary bucket structure (buckets to be destroyed: %u).";
+const char* info_TMHAlgorithmHelper_destroyStack = "Destroying temporary stack structure";
+const char* info_TMHAlgorithmHelper_destroyFibonacci = "Destroying temporary Fibonacci heap structure";
 
 /*	WARN	*/
 const char* warn_TMHAlgorithmHelper_negativeCycleInGraph = "Negative cycle in graph has been found - returned results are useless!";
@@ -199,9 +201,10 @@ const char* trace_DKD_lowLevelLoop = "Scanning low-level bucket with ID: %u (%u 
 const char* trace_DKD_lowLevelBucketEmpty = "Low-level bucket with ID: %u is empty. Bucket skipped.";
 const char* trace_DKD_scanningLowLevelBucket = "Scanning non-empty low-level bucket with ID: %u.";
 const char* trace_DKD_pushIntoLowLevelBucket = "Push node with ID: %u (distance: %u) into low-level bucket with ID: %u.";
-const char* trace_DKD_repinBetweenLowLevelBuckets = "New distance label was set to node with ID: %u (new distance: %u). Node has been moved from source low-level bucket with ID: %u to one with ID: %u.%s";
 const char* trace_DKD_pushIntoHighLevelBucket = "Push node with ID: %u (distance: %u) into high-level bucket with ID: %u.";
-const char* trace_DKD_repinIntoHighLevelBucket = "New distance label was set to node with ID: %u (new distance: %u). Node has been moved from source low-level bucket with ID: %u to high-level bucket with ID: %u.%s";
+const char* trace_DKD_repinBetweenLowLevelBuckets = "New distance label was set to node with ID: %u (new distance: %u). Node has been moved from source low-level bucket with ID: %u to one with ID: %u.%s";
+const char* trace_DKD_repinToLowLevelBuckets = "New distance label was set to node with ID: %u (new distance: %u). Node has been moved from source high-level bucket with ID: %u to low-level bucket with ID: %u.%s";
+const char* trace_DKD_repinBetweenHighLevelBucket = "New distance label was set to node with ID: %u (new distance: %u). Node has been moved from source high-level bucket with ID: %u to one with ID: %u.%s";
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -289,6 +292,20 @@ const char* trace_TQQ_initQueueWithSource = "Initialize duoble queue with source
 /*	DEBUG	*/
 /*	INFO	*/
 /*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
+ * TMHNodeDoubleQueue
+ *
+ */
+
+/*	TRACE	*/
+/*	DEBUG	*/
+/*	INFO	*/
+/*	WARN	*/
+const char* warn_TMHFibHeap_removeFromEmptyHeap = "Attempt to remove element from already empty Fobonacci heap.";
+
 /*	ERROR	*/
 /*	FATAL	*/
 

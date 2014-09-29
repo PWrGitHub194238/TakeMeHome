@@ -32,7 +32,7 @@
 #include <stdbool.h>			/* bool */
 
 #include "TMHNodeStack.h"		/* TMHNodeStack */
-#include "TMHNodeDLList.h"		/* TMHNodeDLList, TMHNode */
+#include "TMHNodeDLList.h"		/* TMHNodeDLListWrapper, TMHNode */
 
 /*
  * Typedefs

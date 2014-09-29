@@ -26,6 +26,10 @@
  *
  */
 
+const char* dictionary_TMHGraphStructAbbreviation[] = {"Adjacency list structure"};
+
+const char* dictionary_TMHGraphOrder[] = {"No order","Topological order"};
+
 const char* dictionary_TMHAlgorithmAbbreviation[] = {"BFM","BFP","DKQ","DKB","DKM","DKA","DKD","DKF",
 		"DKH","DKR","PAP","TQQ","THR","GR1","GR2"};
 const char* dictionary_TMHAlgorithmFullName[] = {

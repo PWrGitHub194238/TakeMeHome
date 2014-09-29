@@ -37,7 +37,7 @@
  */
 
 typedef struct TMHArcList {
-	TMHArc*	arc;
+	struct TMHArc*	arc;
 	struct TMHArcList* nextElement;
 } TMHArcList;
 
@@ -54,8 +54,8 @@ typedef struct TMHArcList {
  *
  */
 
-TMHArcList* createTMHArcListInstance( TMHArc* const newArc );
+TMHArcList* createTMHArcListInstance( struct TMHArc* const newArc );
 void destroyTMHArcListInstance ( TMHArcList* const instance );
-TMHArcList* pushTMHArcList ( TMHArcList* const arcListBegin, TMHArc* const newArc );
+TMHArcList* pushTMHArcList ( TMHArcList* const arcListBegin, struct TMHArc* const newArc );
 
 #endif /* TMHARCLIST_H_ */

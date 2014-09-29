@@ -121,11 +121,12 @@ TMHNode* popTMHNodeDLList( TMHNodeDLList* const listHead ) {
 
 TMHNode* popLastTMHNodeDLList( TMHNodeDLList* const listTail ) {
 	TMHNodeDLList* returnedElement = listTail->prev;
-		TMHNode* returnedData = returnedElement->data;
-		if ( returnedElement->next == NULL ) {
+		TMHNode* returnedData;
+		if ( returnedElement->prev == NULL ) {
 			warn(MODULE_NAME,warn_TMHNodeDLList_removeFromEmptyList);
 			return NULL;
 		}
+		returnedData = returnedElement->data;
 		listTail->prev = returnedElement->prev;
 		returnedElement->prev->next = listTail;
 		memFree(returnedElement);

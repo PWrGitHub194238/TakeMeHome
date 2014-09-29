@@ -58,7 +58,7 @@ typedef struct TMHNodeStack {
 TMHNodeStack* createTMHNodeStackInstance();
 void destroyTMHNodeStackInstance( TMHNodeStack* instance, bool withData );
 
-void pushTMHNodeStack( TMHNodeStack* const stack, TMHNode* newNode );
-TMHNode* popTMHNodeStack( TMHNodeStack* const stack );
+void pushTMHNodeStack( TMHNodeStack** const stack, TMHNode* newNode );
+TMHNode* popTMHNodeStack( TMHNodeStack** const stack );
 
 #endif /* TMHNODESTACK_H_ */

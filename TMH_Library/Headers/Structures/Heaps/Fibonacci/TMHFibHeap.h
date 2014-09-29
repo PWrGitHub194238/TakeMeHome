@@ -47,6 +47,8 @@
 typedef struct TMHFibHeap {
 	TMHFibNode* minNode;
 	TMHNodeIdx numberOfNodes;
+	TMHNodeIdx maxDegree;	/* mD i aA można albo tutaj globalnie, albo za każdym consolidate() alocować od nowa*/
+	TMHFibNode** auxiliaryArray;
 } TMHFibHeap;
 
 /*
@@ -61,7 +63,7 @@ typedef struct TMHFibHeap {
  *
  */
 
-TMHFibHeap* createSingleTMHFibHeapInstance( TMHFibNode* rootNode );
+TMHFibHeap* createSingleTMHFibHeapInstance( TMHFibNode* rootNode, const TMHNodeIdx* const numberOfNodes );
 
 /**
  * Tworzy nowy kopiec, ustawiajac minNode rootNode i ustawia liczbe wezlow w kopcu.

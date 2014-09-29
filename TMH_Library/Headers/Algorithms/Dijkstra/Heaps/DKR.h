@@ -11,6 +11,8 @@
  *
  * @details Detailed description goes here.
  *
+ * Dijkstra's Heap -- R--Heap
+ *
  * @see http://www.stack.nl/~dimitri/doxygen/
  */
 
@@ -29,13 +31,18 @@
  *
  */
 
+#include "../../../Structures/TMHGraph.h"		/* TMHGraph, TMHNode */
+#include "../../../TMHConfig.h"					/* TMHConfig, TMHNodeIdx */
 
 /*
  * Typedefs
  *
  */
 
-
+typedef struct TMH_DKR {
+	TMHGraph* graphData;
+	TMHConfig* configuration;
+} TMH_DKR;
 
 /*
  * Externs
@@ -49,5 +56,18 @@
  *
  */
 
+TMH_DKR* createTMHDKRInstance( TMHGraph* const graphData, TMHConfig* configuration );
+void destroyTMHDKRInstance ( TMH_DKR* const instance, bool withConfig );
+
+void runDKR( TMH_DKR* const instance );
+
+void runDKR_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize );
+
+void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode );
+
+/*
+ * Inline definitions
+ *
+ */
 
 #endif /* DKR_H_ */

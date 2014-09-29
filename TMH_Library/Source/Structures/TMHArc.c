@@ -53,10 +53,10 @@ static const char* MODULE_NAME = "TMHArc";
  *
  */
 
-TMHArc* createTMHArcInstance(const TMHNodeIdx* const successor, const TMHArcCost* const distance ) {
+TMHArc* createTMHArcInstance( struct TMHNode* const successor, const TMHArcCost* const distance ) {
 	TMHArc* newArc = memMalloc(1,sizeof(TMHArc));
 	newArc->distance = *(distance);
-	newArc->successor = *(successor);
+	newArc->successor = successor;
 	return newArc;
 }
 

@@ -57,8 +57,8 @@ typedef struct TMH_DKQ {
  *
  */
 
-TMH_DKQ* createTMHDKQInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig );
-void destroyTMHDKQInstance ( TMH_DKQ* const instance );
+TMH_DKQ* createTMHDKQInstance( TMHGraph* const graphData, TMHConfig* const configuration );
+void destroyTMHDKQInstance ( TMH_DKQ* const instance, bool withConfig );
 
 void runDKQ( TMH_DKQ* const instance );
 

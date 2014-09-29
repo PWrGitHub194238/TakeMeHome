@@ -142,6 +142,8 @@ extern const char* trace_TMHAlgorithmHelper_repinBetweenBuckets;
 /*	INFO	*/
 extern const char* info_TMHAlgorithmHelper_SSSummaryBeforeExecution;
 extern const char* info_TMHAlgorithmHelper_destroyBucket;
+extern const char* info_TMHAlgorithmHelper_destroyStack;
+extern const char* info_TMHAlgorithmHelper_destroyFibonacci;
 
 /*	WARN	*/
 extern const char* warn_TMHAlgorithmHelper_negativeCycleInGraph;
@@ -213,9 +215,10 @@ extern const char* trace_DKD_lowLevelLoop;
 extern const char* trace_DKD_lowLevelBucketEmpty;
 extern const char* trace_DKD_scanningLowLevelBucket;
 extern const char* trace_DKD_pushIntoLowLevelBucket;
-extern const char* trace_DKD_repinBetweenLowLevelBuckets;
 extern const char* trace_DKD_pushIntoHighLevelBucket;
-extern const char* trace_DKD_repinIntoHighLevelBucket;
+extern const char* trace_DKD_repinBetweenLowLevelBuckets;
+extern const char* trace_DKD_repinToLowLevelBuckets;
+extern const char* trace_DKD_repinBetweenHighLevelBucket;
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -284,7 +287,7 @@ extern const char* trace_DKQ_initQStackWithSource;
  */
 
 /*	TRACE	*/
-const char* trace_PAP_initQueueWithSource;
+extern const char* trace_PAP_initQueueWithSource;
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -298,11 +301,25 @@ const char* trace_PAP_initQueueWithSource;
  */
 
 /*	TRACE	*/
-const char* trace_TQQ_initQueueWithSource;
+extern const char* trace_TQQ_initQueueWithSource;
 
 /*	DEBUG	*/
 /*	INFO	*/
 /*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
+ * TMHNodeDoubleQueue
+ *
+ */
+
+/*	TRACE	*/
+/*	DEBUG	*/
+/*	INFO	*/
+/*	WARN	*/
+extern const char* warn_TMHFibHeap_removeFromEmptyHeap;
+
 /*	ERROR	*/
 /*	FATAL	*/
 
