@@ -137,6 +137,7 @@ extern const char* trace_TMHAlgorithmHelper_scanningBucket;
 extern const char* trace_TMHAlgorithmHelper_bucketEmpty;
 extern const char* trace_TMHAlgorithmHelper_pushIntoBucket;
 extern const char* trace_TMHAlgorithmHelper_repinBetweenBuckets;
+extern const char* trace_TMHAlgorithmHelper_initTopologicalOrder;
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -144,9 +145,12 @@ extern const char* info_TMHAlgorithmHelper_SSSummaryBeforeExecution;
 extern const char* info_TMHAlgorithmHelper_destroyBucket;
 extern const char* info_TMHAlgorithmHelper_destroyStack;
 extern const char* info_TMHAlgorithmHelper_destroyFibonacci;
+extern const char* info_TMHAlgorithmHelper_destroyTopologicalOrderedArray;
+extern const char* info_TMHAlgorithmHelper_destroyDHeap;
 
 /*	WARN	*/
 extern const char* warn_TMHAlgorithmHelper_negativeCycleInGraph;
+extern const char* warn_TMHAlgorithmHelper_negativeCycleInGraphTopologicalOrder;
 
 /*	ERROR	*/
 /*	FATAL	*/
@@ -267,6 +271,37 @@ extern const char* trace_DKF_decreaseKey;
 /*	ERROR	*/
 /*	FATAL	*/
 
+
+/* *****************************************************************************************************
+ * DKH
+ *
+ */
+
+/*	TRACE	*/
+/*	DEBUG	*/
+/*	INFO	*/
+/*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
+ * DKR
+ *
+ */
+
+/*	TRACE	*/
+extern const char* trace_DKR_initHeapWithSource;
+extern const char* trace_DKR_addMode;
+extern const char* trace_DKR_decreaseKey;
+
+/*	DEBUG	*/
+/*	INFO	*/
+extern const char* info_DKR_parametrReaded;
+
+/*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
 /* *****************************************************************************************************
  * DKQ
  *
@@ -310,7 +345,40 @@ extern const char* trace_TQQ_initQueueWithSource;
 /*	FATAL	*/
 
 /* *****************************************************************************************************
- * TMHNodeDoubleQueue
+ * THR
+ *
+ */
+
+/*	TRACE	*/
+extern const char* trace_THR_initQueueWithSource;
+extern const char* trace_THR_belowThresholdLevel;
+extern const char* trace_THR_outOfThresholdLevel;
+extern const char* trace_THR_updateThreshold;
+
+/*	DEBUG	*/
+/*	INFO	*/
+extern const char* info_THR_parametrReaded;
+
+/*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
+ * TMHDHeap
+ *
+ */
+
+/*	TRACE	*/
+/*	DEBUG	*/
+/*	INFO	*/
+/*	WARN	*/
+extern const char* warn_TMHDHeap_removeFromEmptyHeap;
+
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
+ * TMHFibHeap
  *
  */
 

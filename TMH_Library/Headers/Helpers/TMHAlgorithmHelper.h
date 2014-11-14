@@ -56,6 +56,14 @@
  *
  */
 
+/** Zwraca tablice z nodeID, w której należy pzeglądać (w kolejności topologicznej)
+ *
+ * @param nodeArray
+ * @param nodeArraySize
+ * @return
+ */
+TMHNodeIdx* getTopologicalOrder( TMHNode** nodeArray, const TMHNodeIdx nodeArraySize );
+
 inline void reinitializeTMHGraph( TMHGraph* const graph, TMHNode* const sourceNode ) __attribute__((always_inline));
 inline bool checkForNegativeCirclesAfterRalax( TMHGraph* graph ) __attribute__((always_inline));
 inline void cleanUpBuckets ( TMHNodeDLListWrapper** const bucketsArray, const TMHNodeData bucketsArraySize) __attribute__((always_inline));

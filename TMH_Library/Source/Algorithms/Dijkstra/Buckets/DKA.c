@@ -253,6 +253,13 @@ static TMHNodeData getParameterOrDefaultDKA( const TMHNodeIdx* const numberOfArc
 	}
 }
 
+/**
+ * takes O(nI+mD+nE) time where I, D, E is the time for insert, decrease-key, extract-min
+ * @param numberOfArcs
+ * @param numberOfNodes
+ * @param maxArcCost
+ * @return
+ */
 static TMHNodeData findBestParameter( const TMHNodeIdx* const numberOfArcs, const TMHNodeIdx* const numberOfNodes, const TMHArcCost* const maxArcCost ) {
 	long long int i = worstCaseTimeKDA(numberOfArcs,numberOfNodes,maxArcCost,1);
 	TMHNodeData j = 2;

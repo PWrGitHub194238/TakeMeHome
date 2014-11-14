@@ -106,6 +106,66 @@ void runGR1_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 }
 
 void runGR1_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
+	TMHNodeIdx i;
+	TMHNodeIdx numberOfNodes = graph->numberOfNodes;
+	TMHNode** nodeArray = graph->nodeArray;
+	TMHNode* currentNode;
+	TMHArcList* adjacencyList;
+	TMHArc* arc;
+	TMHNode* toNode;
+	TMHNodeData newDistance;
 
+	TMHNodeIdx* topologicalOrderID = getTopologicalOrder(graph->nodeArray,graph->numberOfNodes);
+
+	reinitializeTMHGraph(graph,sourceNode);
+
+	if (isTraceLogEnabled()) {
+		trace(MODULE_NAME,trace_TMHAlgorithmHelper_reinitGraph,numberOfNodes,sourceNode->nodeID);
+		trace(MODULE_NAME,trace_TMHAlgorithmHelper_initTopologicalOrder,numberOfNodes);
+	}
+
+	for ( i = 1; i <= numberOfNodes; i++ ) {
+		currentNode = nodeArray[topologicalOrderID[i]];
+		if (isTraceLogEnabled()) {
+			trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextForLoop,numberOfNodes-i);
+			if ( currentNode->distanceLabel == distanceLabelInfinity ) {
+				trace(MODULE_NAME,trace_TMHAlgorithmHelper_getInfinityFromQueue,currentNode->nodeID);
+			} else {
+				if ( currentNode->predecessor == NULL ) {
+					trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
+				} else {
+					trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElement,currentNode->nodeID,currentNode->distanceLabel,currentNode->predecessor->nodeID);
+				}
+			}
+		}
+		if ( currentNode->distanceLabel == distanceLabelInfinity ) {
+			break;
+		}
+		adjacencyList = currentNode->successors;
+
+		while ( adjacencyList != NULL ) {
+			arc = adjacencyList->arc;
+			toNode = arc->successor;
+			newDistance = currentNode->distanceLabel + arc->distance;
+
+			if (isTraceLogEnabled()) {
+				trace(MODULE_NAME,trace_TMHAlgorithmHelper_checkRelax,currentNode->nodeID,arc->distance,toNode->nodeID,toNode->distanceLabel,newDistance);
+			}
+			if ( toNode->distanceLabel > newDistance ) {
+				if (isTraceLogEnabled()) {
+					if ( toNode->predecessor == NULL ) {
+						trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelaxPredNULL,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+					} else {
+						trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+					}
+				}
+				toNode->distanceLabel = newDistance;
+				toNode->predecessor = currentNode;
+			}
+			adjacencyList = adjacencyList->nextElement;
+		}
+	}
+
+	info(MODULE_NAME,info_TMHAlgorithmHelper_destroyTopologicalOrderedArray);
+	memFree(topologicalOrderID);
 }
-

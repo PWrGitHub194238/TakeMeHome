@@ -42,6 +42,7 @@
 typedef struct TMH_DKR {
 	TMHGraph* graphData;
 	TMHConfig* configuration;
+	TMHNodeIdx dHeapParameter;
 } TMH_DKR;
 
 /*
@@ -61,9 +62,9 @@ void destroyTMHDKRInstance ( TMH_DKR* const instance, bool withConfig );
 
 void runDKR( TMH_DKR* const instance );
 
-void runDKR_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize );
+void runDKR_SingleSourceWrapper( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize, const TMHNodeIdx dHeapParameter );
 
-void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode );
+void runDKR_SingleSource( TMHGraph* const graph, TMHNode* const sourceNode, const TMHNodeIdx dHeapParameter );
 
 /*
  * Inline definitions

@@ -8,13 +8,15 @@
  ============================================================================
  */
 
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
-#include <stdbool.h>
-
-#include <TMHLogger.h>
+#include <time.h>
 #include <TMH_API.h>
+#include <TMHConfig.h>
+#include <TMHLogger.h>
+
+#include <TMHGraph.h>
 
 void loopTest( int i, int j );
 void test( int j );
@@ -29,10 +31,29 @@ int main(void) {
 
 void loopTest( int i, int j ) {
 	double s,e;
+	void* ins;
+	TMHConfig* config;
+
 	for ( ; i > 0 ; i -= 1 ) {
+
+		config = createTMHConfig("/home/tomasz/workspace/TMH_Tests/ss/test.ss");
+
+		setAllowInterrupt(config,false);
+		setCheckConfig(config,false);
+		setGraphOrder(config,NONE);
+		setGraphStruct(config,ADJACENCY_LIST);
+
+		setAlgorithm(config,BFM);
+		ins = createTMHAlgorithmInstance(config,
+				"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
+
+		printf("Size of: TMHGraph: " + sizeof(TMHGraph));
 		s = clock();
-		test(j);
+		onlyAlgorithm(config->algorithm,ins);
 		e = clock();
+
+		destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
+
 		printf("%f\n",e-s);
 	}
 }
@@ -41,6 +62,10 @@ void test( int j ) {
 	for ( ; j > 0 ; j -= 1 ) {
 		makeTest();
 	}
+}
+
+void onlyAlgorithm( AlgorithmAbbreviation algorithm, void* instance ) {
+	runTMHAlgorithm(algorithm,instance);
 }
 
 void makeTest() {
@@ -94,13 +119,13 @@ void makeTest() {
 	runTMHAlgorithm(config->algorithm,ins);
 	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
 
-	/*setAlgorithm(config,DKF);
+	setAlgorithm(config,DKF);
 	ins = createTMHAlgorithmInstance(config,
 			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
 	runTMHAlgorithm(config->algorithm,ins);
-	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);*/
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
 
-	/*setAlgorithm(config,DKH);
+	setAlgorithm(config,DKH);
 	ins = createTMHAlgorithmInstance(config,
 			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
 	runTMHAlgorithm(config->algorithm,ins);
@@ -110,7 +135,7 @@ void makeTest() {
 	ins = createTMHAlgorithmInstance(config,
 			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
 	runTMHAlgorithm(config->algorithm,ins);
-	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);*/
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
 
 	setAlgorithm(config,PAP);
 	ins = createTMHAlgorithmInstance(config,
@@ -124,7 +149,7 @@ void makeTest() {
 	runTMHAlgorithm(config->algorithm,ins);
 	destroyTMHAlgorithmInstancje(config->algorithm,ins,true);
 
-	/*setAlgorithm(config,THR);
+	setAlgorithm(config,THR);
 	ins = createTMHAlgorithmInstance(config,
 			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
 	runTMHAlgorithm(config->algorithm,ins);
@@ -140,9 +165,7 @@ void makeTest() {
 	ins = createTMHAlgorithmInstance(config,
 			"/home/tomasz/workspace/TMH_Tests/gr/test.gr");
 	runTMHAlgorithm(config->algorithm,ins);
-	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);*/
-
-
+	destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
 
 	destroyTMHConfigInstance(config);
 }

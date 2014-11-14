@@ -118,7 +118,7 @@ void* createTMHAlgorithmInstance( TMHConfig* const config, const char* const gra
 	case DKF:
 		return createTMHDKFInstance(newGraph, config);
 	case DKH:
-		return createTMHDKHInstance(newGraph, config);
+	/*	return createTMHDKHInstance(newGraph, config);*/
 	case DKR:
 		return createTMHDKRInstance(newGraph, config);
 	case PAP:
@@ -163,7 +163,7 @@ void runTMHAlgorithm(const AlgorithmAbbreviation algorithm, void* instance) {
 		runDKF(instance);
 		break;
 	case DKH:
-		runDKH(instance);
+		/*runDKH(instance);*/
 		break;
 	case DKR:
 		runDKR(instance);
@@ -213,7 +213,7 @@ void destroyTMHAlgorithmInstancje(const AlgorithmAbbreviation algorithm, void* i
 		destroyTMHDKFInstance(instance,withConfig);
 		break;
 	case DKH:
-		destroyTMHDKHInstance(instance,withConfig);
+	/*	destroyTMHDKHInstance(instance,withConfig);*/
 		break;
 	case DKR:
 		destroyTMHDKRInstance(instance,withConfig);

@@ -74,16 +74,12 @@ static TMHNodeDLListWrapper* relocateAndUpdateTHR( TMHNodeDLListWrapper* const m
  *
  */
 
-TMH_THR* createTMHTHRInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig, bool allowInterrupt ) {
+TMH_THR* createTMHTHRInstance( TMHGraph* const graphData, TMHConfig* configuration ) {
 	TMH_THR* newInstance = memMalloc(1,sizeof(TMH_THR));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
 
-	if ( checkConfig ) {
-		checkTMHConfig(configuration);
-	}
-
-	if ( allowInterrupt ) {
+	if ( configuration->allowInterrupt ) {
 		printf("%s\n",ASK_FOR_PARAM);
 		newInstance->thresholdParam = getParameterOrDefaultTHR(DEFAULT_PARAM);
 		newInstance->threshold = computeThreshold(graphData,&(newInstance->thresholdParam));
@@ -96,9 +92,11 @@ TMH_THR* createTMHTHRInstance( TMHGraph* const graphData, TMHConfig* configurati
 	return newInstance;
 }
 
-void destroyTMHTHRInstance ( TMH_THR* const instance ) {
+void destroyTMHTHRInstance( TMH_THR* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
-	destroyTMHConfigInstance(instance->configuration);
+	if (withConfig) {
+		destroyTMHConfigInstance(instance->configuration);
+	}
 	memFree(instance);
 	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 }
@@ -106,7 +104,7 @@ void destroyTMHTHRInstance ( TMH_THR* const instance ) {
 void runTHR( TMH_THR* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runTHR_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSource,&(instance->threshold));
+		runTHR_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources,&(instance->threshold));
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -165,7 +163,7 @@ void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMH
 
 			while ( adjacencyList != NULL ) {
 				arc = adjacencyList->arc;
-				toNode = graph->nodeArray[arc->successor];
+				toNode = arc->successor;
 				newDistance = currentNode->distanceLabel + arc->distance;
 
 				if (isTraceLogEnabled()) {

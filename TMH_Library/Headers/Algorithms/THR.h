@@ -60,9 +60,9 @@ typedef struct TMH_THR {
  *
  */
 
-TMH_THR* createTMHTHRInstance( TMHGraph* const graphData, TMHConfig* configuration, bool checkConfig, bool allowInterrupt );
+TMH_THR* createTMHTHRInstance( TMHGraph* const graphData, TMHConfig* configuration );
 
-void destroyTMHTHRInstance ( TMH_THR* const instance );
+void destroyTMHTHRInstance( TMH_THR* const instance, bool withConfig );
 
 void runTHR( TMH_THR* const instance );
 

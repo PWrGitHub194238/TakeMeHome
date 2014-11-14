@@ -122,7 +122,7 @@ const char* trace_TMHAlgorithmHelper_scanningBucket = "Scanning bucket\t:\t%u\t/
 const char* trace_TMHAlgorithmHelper_bucketEmpty = "Bucket is empty. Bucket skipped.";
 const char* trace_TMHAlgorithmHelper_pushIntoBucket = "Push node with ID: %u (distance: %u) into bucket with ID: %u.";
 const char* trace_TMHAlgorithmHelper_repinBetweenBuckets = "New distance label was set to node with ID: %u (new distance: %u). Node has been moved from source bucket to one with ID: %u.%s";
-
+const char* trace_TMHAlgorithmHelper_initTopologicalOrder = "%u nodes has been sorted in a topological order.";
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -130,9 +130,12 @@ const char* info_TMHAlgorithmHelper_SSSummaryBeforeExecution = "PreExecution sum
 const char* info_TMHAlgorithmHelper_destroyBucket = "Destroying temporary bucket structure (buckets to be destroyed: %u).";
 const char* info_TMHAlgorithmHelper_destroyStack = "Destroying temporary stack structure";
 const char* info_TMHAlgorithmHelper_destroyFibonacci = "Destroying temporary Fibonacci heap structure";
+const char* info_TMHAlgorithmHelper_destroyTopologicalOrderedArray = "Destroying temporary helper array with topogicaly ordered nodes' IDs.";
+const char* info_TMHAlgorithmHelper_destroyDHeap = "Destroying temporary D-Heap structure.";
 
 /*	WARN	*/
 const char* warn_TMHAlgorithmHelper_negativeCycleInGraph = "Negative cycle in graph has been found - returned results are useless!";
+const char* warn_TMHAlgorithmHelper_negativeCycleInGraphTopologicalOrder = "Negative cycle in graph has been found - unable to generate topologically ordered graph.";
 
 /*	ERROR	*/
 /*	FATAL	*/
@@ -254,6 +257,36 @@ const char* trace_DKF_decreaseKey = "Decrease key for node within Fibonacci Heap
 /*	FATAL	*/
 
 /* *****************************************************************************************************
+ * DKH
+ *
+ */
+
+/*	TRACE	*/
+/*	DEBUG	*/
+/*	INFO	*/
+/*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
+ * DKR
+ *
+ */
+
+/*	TRACE	*/
+const char* trace_DKR_initHeapWithSource = "Initialize R-Heap with source node with ID: %u (distance: %u). R-parameter: %u.";
+const char* trace_DKR_addMode = "Insert new node with ID: %u (distance: %u) to R-Heap.";
+const char* trace_DKR_decreaseKey = "Decrease key for node within R-Heap with ID: %u from %u to new distance: %u.";
+
+/*	DEBUG	*/
+/*	INFO	*/
+const char* info_DKR_parametrReaded = "Heap width parameter was set to: %u.";
+
+/*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
  * DKQ
  *
  */
@@ -295,8 +328,41 @@ const char* trace_TQQ_initQueueWithSource = "Initialize duoble queue with source
 /*	ERROR	*/
 /*	FATAL	*/
 
+/* ****************************************************************************************************
+ * THR
+ *
+ */
+
+/*	TRACE	*/
+const char* trace_THR_initQueueWithSource = "Initialize threshold main queue with source node with ID: %u (distance: %u).";
+const char* trace_THR_belowThresholdLevel = "Inserting node with ID: %u (distance: %u) into main queue (current threshold level: %u)";
+const char* trace_THR_outOfThresholdLevel = "Inserting node with ID: %u (distance: %u). New distance is not below current threshold level: %u";
+const char* trace_THR_updateThreshold = "Main queue is empty. Updating threshold level:\n\tOld value\t:\t%u\n\yNew value\t:\t%u";
+
+/*	DEBUG	*/
+/*	INFO	*/
+const char* info_THR_parametrReaded = "Threshold parameter was set to: %u. Threshold level was set to: %u.";
+
+/*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
 /* *****************************************************************************************************
- * TMHNodeDoubleQueue
+ * TMHDHeap
+ *
+ */
+
+/*	TRACE	*/
+/*	DEBUG	*/
+/*	INFO	*/
+/*	WARN	*/
+extern const char* warn_TMHDHeap_removeFromEmptyHeap = "Attempt to remove element from already empty D-Heap heap.";
+
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
+ * TMHFibHeap
  *
  */
 
