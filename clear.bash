@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TODELETEREGEXP='.*\(~\|aux\|bbl\|blg\|log\|nav\|out\|snm\|toc\|-converted-to.pdf\|run\)$'
+TODELETEREGEXP='.*\(~\|aux\|bbl\|blg\|log\|nav\|out\|snm\|toc\|idx\|gz\|-converted-to.pdf\|run\)$'
 
 function execute {
 	echo -e "List of files to be deleted in $(pwd) and subdirs:\n"

@@ -3,7 +3,7 @@
 DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SUBDIR="Thesis"
 
-TODELETEREGEXP='.*\(~\|aux\|bbl\|blg\|log\|nav\|out\|snm\|toc\|-converted-to.pdf\|run\)$'
+TODELETEREGEXP='.*\(~\|aux\|bbl\|blg\|log\|nav\|out\|snm\|toc\|idx\|gz\|-converted-to.pdf\|run\)$'
 
 function invalidFileStruct {
 	echo -e "No directory: \"$SUBDIR\". Abort."

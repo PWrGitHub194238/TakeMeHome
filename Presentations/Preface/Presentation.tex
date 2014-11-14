@@ -1,0 +1,819 @@
+% -*- TeX:PL -*-
+% $Id: $
+\documentclass[12pt]{beamer}
+\usepackage[T1]{polski}
+\usepackage[cp1250]{inputenc}
+\usepackage{lipsum}
+\usepackage{multimedia}
+
+\usepackage[ruled,vlined]{algorithm2e}
+%\usepackage[a4paper]{geometry}
+%\usepackage{graphicx}
+%\usepackage[]{hyperref}
+%
+
+%
+\author{Tomasz Strza³ka}
+\title{Algorytmy \\ wyznaczania najkrótszych œcie¿ek}
+ \subtitle{w rzeczywistych sieciach drogowych}
+ \date{\today}
+ \institute{Wydzia³ Podstawowych Problemów Techniki}
+ \subject{Logotyp Politechniki Wroc³awskiej}
+ \keywords{logotyp, Politechnika Wroc³awska, LaTeX}
+
+\setbeamersize{text margin left=0mm,text margin right=2.5mm}
+%\setbeamersize{sidebar width left=0mm,sidebar width right=0cm}
+\usetheme[lang=pl,pasek=pasek1]{pwr}
+
+\setbeamercovered{transparent=25}
+
+\newtheorem{pwrblock}{Definicja}
+\newenvironment<>{pwrblock}[1][]{%
+	\setbeamertemplate{blocks}[rounded][shadow=true]
+	\setbeamercolor{block title}{fg=white,bg=red!75!black}%
+	\begin{block}#2{#1}}{\end{block}}
+
+
+\transdissolve[duration=0.2]
+\logo{\includegraphics[height=7mm]{poziom-pl-pantone}}
+\logo{\includegraphics[height=7.05mm]{logopwrpl}}
+
+\begin{document}
+\begin{frame}[plain,t]
+ \maketitle
+\end{frame}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 1
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+\begin{frame}%[allowframebreaks=.7]
+\frametitle{Czy jest najkrótsza œcie¿ka?}
+
+\begin{pwrblock}[Najkrótsz¹ œcie¿k¹ nazywamy...]<1->
+	...tak¹ œcie¿kê $p = \left \langle v_{0}, v_{1}, \cdots, v_{k} \right \rangle $ z wierzcho³ka $v_{0}$ do $v_{k}$, ¿e dla ka¿dej pary $\left ( i,j \right ) : 1 \leq i \leq j \leq k$ œcie¿ka $p^{'} = \left \langle v_{i}, v_{i+1}, \cdots, v_{j} \right \rangle $ jest najkrótsz¹ œcie¿k¹.
+	\begin{itemize}
+		\item W³asnoœæ optymalnej podstruktury
+	\end{itemize}
+\end{pwrblock}
+
+
+\begin{pwrblock}[W szczególnoœci:]<2->
+	jeœli istnieje œcie¿ka $p^{(0)} = \left \langle v_{0}, v_{1}, \cdots, v_{k} \right \rangle $ i jest ona najkrótsza to rekurencyjnie œcie¿ka $p^{(1)} = \left \langle v_{0}, v_{1}, \cdots, v_{k-1} \right \rangle $ tak¿e ma tê w³asnoœæ.
+\end{pwrblock}
+
+\end{frame}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 2
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Czy jest najkrótsza œcie¿ka?}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=70mm,interpolate=false]{frame2/1}
+	\end{figure}
+	
+	\begin{pwrblock}[Opis]
+		Najkrótsza œcie¿ka: \textcolor[RGB]{0,204,0}{$p^{(0)} = \left \langle S, B, C \right \rangle $}. Najkrótsz¹ œcie¿k¹ jest zatem tak¿e \textcolor[RGB]{0,0,255}{$p^{(1)} = \left \langle S, B \right \rangle $} oraz \textcolor[RGB]{51,51,255}{$p^{(2)} = \left \langle S \right \rangle $}.
+	\end{pwrblock}
+\end{frame}
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 3
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Czy jest najkrótsza œcie¿ka?}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=75mm,interpolate=false]{frame2/2}
+	\end{figure}
+	
+	\begin{pwrblock}[Opis]
+		Najkrótsz¹ œcie¿k¹ nie jest œcie¿ka: \textcolor[RGB]{255,0,0}{$p^{(0)} = \left \langle S, A, B \right \rangle $} zatem...
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 4
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Czy jest najkrótsza œcie¿ka?}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=75mm,interpolate=false]{frame2/3}
+	\end{figure}
+	
+	\begin{pwrblock}[Opis]
+		... nie jest ni¹ tak¿e œcie¿ka: \textcolor[RGB]{255,0,0}{$p^{(0)} = \left \langle S, A, B, C \right \rangle $}.
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 5
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Jak rozwi¹zaæ problem...}
+	\framesubtitle{...najkrótszych œcie¿ek?}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=95mm,interpolate=false]{frame5/1}
+	\end{figure}
+
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 6
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Potrzebne oznaczenia}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=68mm,interpolate=false]{frame6/1}
+	\end{figure}
+	
+	\begin{pwrblock}[Opis]
+		\begin{itemize}
+			\item \textbf{$id$} - identyfikator,
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 7
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Potrzebne oznaczenia}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=68mm,interpolate=false]{frame6/1}
+	\end{figure}
+	
+	\begin{pwrblock}[Opis]
+		\begin{itemize}
+			\item \textbf{$A \left( id \right)$} - zbiór $\left\lbrace i : v_{id} \rightsquigarrow i \right\rbrace $,
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+	
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 8
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Potrzebne oznaczenia}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=68mm,interpolate=false]{frame6/1}
+	\end{figure}
+	
+	\begin{pwrblock}[Opis]
+		\begin{itemize}
+			\item \textbf{$Pred$} - poprzedzaj¹cy wêze³ w najkrótszej œcie¿ce.
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+	
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 9
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Potrzebne oznaczenia}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=65mm,interpolate=false]{frame6/2}
+	\end{figure}
+	
+	\begin{pwrblock}[Opis]
+		\begin{itemize}
+			\item \textbf{$d \left( i, j \right) $} - koszt przebycia drogi z $V_{i}$ do $V_{j}$.
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 10
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Potrzebne oznaczenia}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=65mm,interpolate=false]{frame6/2}
+	\end{figure}
+	
+	\begin{pwrblock}[Opis]
+		\begin{itemize}
+			\item \textbf{$d \left( id \right) $} - górne ograniczenie na koszt œcie¿ki od $V_{S}$ do $V_{id}$.
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 11
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Potrzebne oznaczenia}
+	
+	\begin{pwrblock}[W³aœciwoœci odleg³oœci:]
+		\begin{itemize}
+			\item \textbf{$d \left( id \right) = \left\{\begin{matrix}
+				0 & id = S \\ 
+				\infty  & id \neq S
+				\end{matrix}\right.$} 
+			\item Jeœli œcie¿ka $p = \left \langle v_{0}, v_{1}, \cdots, v_{k} \right \rangle $ jest najkrótsza wtedy dla ka¿dego wêz³a $v_{i}$ w tej œcie¿ce:
+			\begin{itemize}
+				\item $d \left( i \right) = \sum_{j=0}^{i-1} d \left ( j, j+1 \right )$
+			\end{itemize}
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Sens $d \left( id \right) = \infty$]<2->
+		\begin{itemize}
+			\item Relaksacja wierzcho³ków
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 12
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Relaksacja wierzcho³ków}
+	
+	\begin{pwrblock}[Operacja relaksacji:]
+		Jeœli jesteœmy w stanie znaleŸæ tak¹ œcie¿kê $p = \left \langle v_{0}, v_{1}, \cdots, v_{k} \right \rangle $, ¿e $ d \left( v_{k}^{ID} \right) + d \left( k, i \right) < d \left( v_{i}^{ID} \right)$ to znaczy, ¿e do $ d \left( v_{i}^{ID} \right)$ istnieje krótsza œcie¿ka, ni¿ wyliczona dotychczas. W takim przypadku aktualizuj $ d \left( v_{i}^{ID} \right)$ i ustaw $ Pred \left( v_{i}^{ID} \right) = v_{k}$.
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Sens $d \left( id \right) = \infty$]<2->
+		Przez powy¿sze równanie wyra¿amy fakt, ¿e nie znamy jeszcze drogi do wierzcho³ka o identyfikatorze $id$ (jego najkrótsza œcie¿ka ma koszt nieskoñczony - nigdy do danego wêz³a nie dojdziemy na podstawie posiadanych informacji).
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 13
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Bellmana - Forda - Moore'a}
+	
+	\begin{pwrblock}[Idea:]
+		Wykonaæ wielokrotnie relaksacjê dla wszystkich wierzcho³ków (jeœli konieczne).
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Przyk³ad:]
+		Nie mamy czasu na przyk³ady.
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 14
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Bellmana - Forda - Moore'a}
+	\framesubtitle{Czemu $\left| V \right| - 1$?}
+	
+	\begin{pwrblock}[Mniej ni¿ $\left| V \right| - 1$]
+		\begin{itemize}
+			\item Niech $\left| V \right| = 2 $
+			\item Algorytm nie wykona ¿adnych iteracji!
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=68mm,interpolate=false]{frame14/1}
+	\end{figure}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 15
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Bellmana - Forda - Moore'a}
+	\framesubtitle{Czemu $\left| V \right| - 1$?}
+	
+	\begin{pwrblock}[Wiêcej ni¿ $\left| V \right| - 1$]
+		\begin{itemize}
+			\item Ka¿da iteracja próbuje przeprowadziæ relaksacje ka¿dego z wêz³ów sieci,
+			\item najkrótsza œcie¿ka w sieci o $\left| V \right| = n$ wierzcho³kach ma maksymalnie $n$ wierzcho³ków sk³adowych,
+			\item wêze³, bêd¹cy Ÿród³em, "ju¿ jest zrelaksowany".
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Wiêcej ni¿ $\left| V \right| - 1$]<2->
+		Jeœli po wykonaniu $\left| V \right| - 1$ iteracji nadal jest mo¿liwa do wykonania operacja relaksacji znaczy to, ¿e w podanej sieci istnieje cykl o ujemnej d³ugoœci.
+	\end{pwrblock}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 16
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Bellmana - Forda - Moore'a}
+	\framesubtitle{Relaksacja w "ujemnym cyklu"}
+	
+	\begin{pwrblock}[Dla dowolnie du¿ej liczby iteracji:]
+		\begin{itemize}
+			\item<1,3,5,7,9,11,13> $A$ jest ostatnim wêz³em na "najkrótszej œcie¿ce". $B$ posiada $d \left( v_{B}^{ID} \right)$ wiêksze o wyra¿enie $m+n$ (ustalone w poprzednim cyklu). Nastêpuje relaksacja $B$.,
+			\item<2,4,6,8,10,12,14> po relaksacji $B$, jest ono ostatnim wêz³em na "najkrótszej œcie¿ce". $A$ posiada $d \left( v_{A}^{ID} \right)$ wiêksze o wyra¿enie $n+m$ (ustalone w poprzednim cyklu). Nastêpuje relaksacja $A$.,
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=42mm,interpolate=false]{frame16/1}
+	\end{figure}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 17
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Generyczny algorytm Dijkstry}
+	\framesubtitle{Pseudokod}
+	
+	\small
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\Begin{
+			$G = $ ustaw $ d \left( i \right) = \infty$ oraz $Pred \left( i \right) = NULL$ dla ka¿dego wêz³a o $id = i$. Dodatkowo dla Ÿród³a $ d \left( i \right) = 0$.\;
+			$S = \emptyset$\;
+			$Q = G.V$\;
+			\While{$Q \neq \emptyset$}{\label{InRes1}
+				usuñ z $Q$ element o najni¿szym $ d \left( i \right)$ i dodaj go do $S$ \;\label{InResR}
+				\For{ka¿dy wierzcho³ek $v \in A \left( i \right)$}{
+					wykonaj relaksacjê
+				}
+			}
+		}
+		\caption{$DIJKSTRA \left( G, w, s \right) $\label{IR}}
+	\end{algorithm}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 18
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Generyczny algorytm Dijkstry}
+	\framesubtitle{Przyk³ad}
+	
+	Nie mamy czasu na przyk³ady :<
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 19
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Wp³yw struktury}
+	\framesubtitle{na efektywnoœæ algorytmu}
+	
+	\begin{pwrblock}[Z³o¿onoœæ (generyczny algorytm Dijkstry)]
+		\begin{itemize}
+			\item inicjalizujemy $ \left| V \right| $ wierzcho³ków,
+			\item usuwamy ³¹cznie $ \left| V \right| $ wierzcho³ków,
+			\item wykonujemy relaksacjê dla $ \left| E \right| $ krawêdzi (ka¿dy wierzcho³ek odwiedzamy tylko raz),
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Zatem:]<2->
+		\begin{itemize}
+			\item<2-> $ \left| V \right| \cdot O \left( INIT \left( ? \right) \right)$,
+			\item[+]<3-> $ \left| V \right| \cdot O \left(EXTRACT\_MIN \left( Q \right) \right)$,
+			\item[+]<4-> $ \left| E \right| \cdot O \left(UPDATE \left( ? \right) \right)$
+		\end{itemize}
+	\end{pwrblock}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 20
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Tablice, listy, stosy, kolejki, kube³ki...}
+	\framesubtitle{sposoby podejœcia do problemu SSSP}
+	
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=110mm,interpolate=false]{frame20/1}
+	\end{figure}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 21
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Tablice, listy, stosy, kolejki, kube³ki...}
+	\framesubtitle{sposoby podejœcia do problemu SSSP}
+	
+	\begin{pwrblock}[Z³o¿onoœæ (generyczny algorytm Dijkstry)]
+		\small
+		$ \left| V \right| \cdot \left[ O \left( INSERT \left( Struct, Node \right) \right) + O \left(EXTRACT\_MIN \left( Struct \right) \right) \right] + \left| E \right| \cdot O \left(UPDATE\_STRUCT \left( Struct, Node \right) \right)$
+	\end{pwrblock}
+	
+	\begin{tabular}{cccccc}
+		\hline
+	    & Tablica & Lista & Stos & k. R-arny & k. Fibonacciego \\
+		\hline
+		I & $O \left( n \right)$ & $O \left( 1 \right)$ & $O \left( 1 \right)$ & $O \left( \log_{R} \left( n \right) \right)$ & $O \left( 1 \right)$ \\
+		E & $O \left( n \right)$ & $O \left( 1 \right)$ & $O \left( 1 \right)$ & $O \left( R \cdot \log_{R} \left( n \right) \right)$ & $O \left( \log \left( n \right) \right)$  \\
+		U & $O \left( n \right)$ & $O \left( n \right)$ & $O \left( n \right)$ & $O \left( \log_{R} \left( n \right) \right)$ & $O \left( 1 \right)$  \\
+		\hline
+	\end{tabular}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 22
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Koszty amortyzacyjne}
+	\framesubtitle{czyli jak oszukaæ przeznaczenie}
+	
+	\begin{tabular}{cccccc}
+		\hline
+		&	\multicolumn{2}{c}{Sortowanie Szybkie} & \multicolumn{2}{c}{kopiec Fibonacciego} \\
+		\hline
+		Analiza:&  WCA & randomizacja & WCA & amortyzacyjna \\
+		\hline
+		S & $O \left( n^{2} \right)$ & $O \left( n \cdot log \left( n \right) \right)$ & --- & $O \left( n \cdot log \left( n \right) \right)$ \\
+		D & --- & --- & $O \left( n \cdot log \left( n \right) \right)$ & $O \left( n \cdot 1 \right)$ \\
+	\end{tabular}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 23
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Struktura sieci}
+	
+	\begin{pwrblock}[Wp³yw struktury sieci na czas dzia³ania]
+		Oprócz samego  algorytmu, struktur danych w nim wykorzystanych, wa¿nym elementem, wp³ywaj¹cym na zachowywanie siê implementacji, jest tak¿e sposób reprezentacji samej sieci.
+	\end{pwrblock}
+
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 24
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Struktura sieci}
+
+	\begin{pwrblock}[Reprezentacje]
+		\begin{itemize}
+			\item<2-> Macierz incydencji
+			\begin{itemize}
+				\item<3-> wêze³-wêze³
+				\item<4-> wêze³-krawêdŸ
+			\end{itemize}
+			\item<5-> listy s¹siedztwa
+			\begin{itemize}
+				\item<6-> poœrednie
+				\item<7-> bezpoœrednie
+			\end{itemize}
+			\item<8-> Star Representation
+			\begin{itemize}
+				\item<9-> forward
+				\item<10-> reverse
+			\end{itemize}
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 25
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Opisy struktur reprezentacji sieci}
+	\framesubtitle{Listy s¹siedztwa}
+	
+	\begin{pwrblock}[Motywacja]
+		Najbardziej intuicyjna, szybka, niewiele ustêpuje z³o¿onoœci¹ FSR:
+		\begin{itemize}
+			\item pamiêciow¹ (bogata struktura danych)
+			\item obliczeniow¹ (czas operacji na listach)
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Motywacja]<2->
+		Ustêpuje funkcjonalnoœci¹ cF\&RSR (compact Forward and Revesre Star Representation):
+		\begin{itemize}
+			\item brak listy poprzedników
+		\end{itemize}
+	\end{pwrblock}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 26
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Opisy struktur reprezentacji sieci}
+	\framesubtitle{Listy s¹siedztwa}
+
+	\begin{figure}[htbp]
+		\centering
+		\pgfimage[width=80mm,interpolate=false]{frame26/1}
+	\end{figure}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 27
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm sortowania topologicznego}
+	\framesubtitle{Jak posortowaæ topologicznie?}
+	
+	\begin{pwrblock}[Motywacja]
+		Otrzymuj¹c wêz³y grafu w porz¹dku topologicznym mamy pewnoœæ, ¿e dla ka¿dego takiego wierzcho³ka wymagana jest co najwy¿ej jedna operacja relaksacji
+		\begin{itemize}
+			\item wyszukiwanie najkrótszej œcie¿ki w czasie liniowym
+		\end{itemize}
+	\end{pwrblock}
+
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 28
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm sortowania topologicznego}
+	\framesubtitle{Jak posortowaæ topologicznie?}
+	
+	\begin{pwrblock}[Kroki]
+		\begin{itemize}
+			\item<2-> zaczynamy od Ÿród³a
+			\item<3-> usuwamy krawêdzie, po których dotarliœmy do nastêpnego wêz³a.
+			\begin{itemize}
+				\item<4-> Jeœli lista poprzedników wêz³a jest pusta to dodaj wêze³ na koniec, posortowanej topologiczne, listy
+				\item<5-> w przeciwnym przypadku skanuj dalej
+			\end{itemize}
+			\item<6-> Jeœli przeszed³eœ po wszystkich wierzcho³kach, a w grafie nadal s¹ krawêdzie - istnieje cykl
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 29
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm sortowania topologicznego}
+	\framesubtitle{Jak posortowaæ topologicznie?}
+	
+	\begin{pwrblock}[Problemy]
+		\begin{itemize}
+			\item brak list poprzedników w wybranej reprezentacji
+			\item graf nie mo¿e mieæ cykli
+		\end{itemize}
+	\end{pwrblock}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 30
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Najszybsze algorytmy SSSP}
+	
+	\begin{pwrblock}[Implementacje]
+		\begin{itemize}
+			\item z dwoma kolejkami (TQQ)
+			\item Dijkstry z kube³kami:
+			\begin{itemize}
+				\item aproksymacyjnymi (DKA)
+				\item wielopoziomowymi (DKD - dwu)
+			\end{itemize}
+		\end{itemize}
+	\end{pwrblock}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 31
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Najszybsze algorytmy SSSP}
+	\framesubtitle{Algorytm Dijkstry z kube³kami - aproksymacyjny }
+	
+	\begin{pwrblock}[Implementacje]
+		Szkic na tablicy, jak bêdzie czas :|
+	\end{pwrblock}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 32
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Najszybsze algorytmy SSSP}
+	\framesubtitle{Algorytm Dijkstry z kube³kami - dwupoziomowy }
+	
+	\begin{pwrblock}[Implementacje]
+		Szkic na tablicy, jak bêdzie czas :|
+	\end{pwrblock}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 3X
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Biblioteka Take Me Home}
+	\framesubtitle{API}
+	
+	\begin{pwrblock}[Wymagania:]
+		\begin{itemize}
+			\item pliki z danymi zgodne z formatem narzuconym podczas 9th DIMACS Implementation Challenge
+			\item wierzcho³ki numerowane od 1
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Podstawowe API]
+		\begin{itemize}
+			\item logi oparte na idei biblioteki Log4j
+			\item podstawowe struktury:
+			\begin{itemize}
+				\item TMHConfig - konfiguracja algorytmów
+				\item TMH - konfiguracja biblioteki
+			\end{itemize}
+			\item pseudo-obiektowoœæ
+		\end{itemize}
+	\end{pwrblock}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 3XX
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Biblioteka Take Me Home}
+	\framesubtitle{API}
+	
+	\begin{pwrblock}[TMHConfig]
+		\begin{itemize}
+			\item createTMHConfig( œcie¿ka do pliku z poleceniami )
+			\begin{itemize}
+				\item createTMHConfig(USA-road-d.USA.ss);
+			\end{itemize}
+			\item setAllowInterrupt(config,false);
+			\item setCheckConfig(config,false);
+			\item setGraphOrder(config,NONE);
+			\begin{itemize}
+				\item NONE - z typu wyliczeniowego GraphOrder
+			\end{itemize}
+			\item setGraphStruct(config,ADJACENCY\_LIST);
+			\begin{itemize}
+				\item ADJACENCY\_LISTNE - z typu wyliczeniowego GraphStructAbbreviation
+			\end{itemize}
+		\end{itemize}
+	\end{pwrblock}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 3XXX
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Biblioteka Take Me Home}
+	\framesubtitle{API}
+	
+	\begin{pwrblock}[TMHConfig]
+		\begin{itemize}
+			\item setAlgorithm(config,BFM);
+			\begin{itemize}
+				\item BFM - z typu wyliczeniowego AlgorithmAbbreviation
+			\end{itemize}
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{pwrblock}[TMH\_API]
+		\begin{itemize}
+			\item ins = createTMHAlgorithmInstance(config,"*.gr");
+			\item runTMHAlgorithm(config->algorithm,ins);
+			\item destroyTMHAlgorithmInstancje(alg,ins,false);
+			\begin{itemize}
+				\item false - czy zresetowaæ kofiguracjê
+			\end{itemize}
+		\end{itemize}
+	\end{pwrblock}
+	
+\end{frame}
+
+\end{document}
