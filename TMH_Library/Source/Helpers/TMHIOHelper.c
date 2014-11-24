@@ -51,6 +51,11 @@
 
 static const char* MODULE_NAME = "TMHIOHelper";
 
+static const int C_LINE_ARGC = 0;
+static const int P_LINE_ARGC = 2;
+static const int A_LINE_ARGC = 3;
+static const int S_LINE_ARGC = 1;
+static const int Q_LINE_ARGC = 2;
 
 /*
  * Globals
@@ -77,7 +82,9 @@ void* getGraphDataWrapper( const GraphStructAbbreviation graphStruct, const char
 	if ( dataFile == NULL ) {
 		error(MODULE_NAME,err_TMHIOHelper_cannotOpenFile,filename);
 	} else {
-		info(MODULE_NAME,info_TMHIOHelper_startReadFile,filename);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHIOHelper_startReadFile,filename);
+		}
 		switch(graphStruct) {
 		case ADJACENCY_LIST:
 			return getGraphData(dataFile);
@@ -97,20 +104,35 @@ static TMHGraph* getGraphData( FILE* const dataFile ) {
 	while ( !feof(dataFile) ) {
 		switch (fgetc(dataFile)) {
 		case 'c':
-			fscanf(dataFile, "%*[^\n]\n");
+			if ( fscanf(dataFile, "%*[^\n]\n") != C_LINE_ARGC ) {
+				fatal(MODULE_NAME,fatal_TMHIOHelper_errorReadingFile);
+				return NULL;
+			}
 			break;
 		case 'p':
-			fscanf(dataFile," %*[^ ] %u %u\n",&numberOfNodes,&numberOfArcs);
-			info(MODULE_NAME,info_TMHIOHelper_problemDefinitionLineReaded,
-					"Shortest Path Problem",numberOfNodes,numberOfArcs);
-			graph = createTMHGraphInstance(&numberOfNodes,&numberOfArcs);
+			if ( fscanf(dataFile," %*[^ ] %u %u\n",&numberOfNodes,&numberOfArcs) == P_LINE_ARGC ) {
+				if (isInfoLogEnabled()) {
+					info(MODULE_NAME,info_TMHIOHelper_problemDefinitionLineReaded,
+							"Shortest Path Problem",numberOfNodes,numberOfArcs);
+				}
+				graph = createTMHGraphInstance(&numberOfNodes,&numberOfArcs);
+			} else {
+				fatal(MODULE_NAME,fatal_TMHIOHelper_errorReadingFile);
+				return NULL;
+			}
 			break;
 		case 'a':
-			fscanf(dataFile," %u %u %u\n",&fromNodeID,&toNodeID,&distanceLabel);
-			info(MODULE_NAME,info_TMHIOHelper_arcDefinitionLineReaded,
-					fromNodeID,distanceLabel,toNodeID);
-			maxArcCost = ( (maxArcCost < distanceLabel) ? distanceLabel : maxArcCost);
-			addArc(graph->nodeArray[fromNodeID],graph->nodeArray[toNodeID],&distanceLabel);
+			if ( fscanf(dataFile," %u %u %u\n",&fromNodeID,&toNodeID,&distanceLabel) == A_LINE_ARGC ) {
+				if (isInfoLogEnabled()) {
+					info(MODULE_NAME,info_TMHIOHelper_arcDefinitionLineReaded,
+							fromNodeID,distanceLabel,toNodeID);
+				}
+				maxArcCost = ( (maxArcCost < distanceLabel) ? distanceLabel : maxArcCost);
+				addArc(graph->nodeArray[fromNodeID],graph->nodeArray[toNodeID],&distanceLabel);
+			} else {
+				fatal(MODULE_NAME,fatal_TMHIOHelper_errorReadingFile);
+				return NULL;
+			}
 		}
 	}
 	graph->maxArcCost = maxArcCost;
@@ -130,34 +152,57 @@ TMHConfig* getConfigData( const char* const filename ) {
 	if ( dataFile == NULL ) {
 		error(MODULE_NAME,err_TMHIOHelper_cannotOpenFile,filename);
 	} else {
-		info(MODULE_NAME,info_TMHIOHelper_startReadFile,filename);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHIOHelper_startReadFile,filename);
+		}
 		while ( !feof(dataFile) ) {
 			switch (fgetc(dataFile)) {
 			case 'c':
-				fscanf(dataFile, "%*[^\n]\n");
+				if ( fscanf(dataFile, "%*[^\n]\n") != C_LINE_ARGC ) {
+					fatal(MODULE_NAME,fatal_TMHIOHelper_errorReadingFile);
+					return NULL;
+				}
 				break;
 			case 'p':
 				algMode = memMalloc(3,sizeof(char));
-				fscanf(dataFile," %*[^ ] %*[^ ] %s %u",algMode,&numberOfSources);
-				info(MODULE_NAME,info_TMHIOHelper_auxiliaryProblemDefinitionLineReaded,
-						"Shortest Path Problem",algMode,numberOfSources);
-				if ( !strcmp(algMode,dictionary_TMHConfigAlgorithmModeShortcut[SINGLE_SOURCE]) ) {
-					config = createTMHConfigInstance(numberOfSources,SINGLE_SOURCE);
-				} else if ( strcmp(algMode,dictionary_TMHConfigAlgorithmModeShortcut[POINT_TO_POINT]) ) {
-					config = createTMHConfigInstance(numberOfSources,POINT_TO_POINT);
+				if ( fscanf(dataFile," %*[^ ] %*[^ ] %s %u",algMode,&numberOfSources) == P_LINE_ARGC ) {
+					if (isInfoLogEnabled()) {
+						info(MODULE_NAME,info_TMHIOHelper_auxiliaryProblemDefinitionLineReaded,
+								"Shortest Path Problem",algMode,numberOfSources);
+					}
+					if ( !strcmp(algMode,dictionary_TMHConfigAlgorithmModeShortcut[SINGLE_SOURCE]) ) {
+						config = createTMHConfigInstance(numberOfSources,SINGLE_SOURCE);
+					} else if ( strcmp(algMode,dictionary_TMHConfigAlgorithmModeShortcut[POINT_TO_POINT]) ) {
+						config = createTMHConfigInstance(numberOfSources,POINT_TO_POINT);
+					}
+					memFree(algMode);
+				} else {
+					fatal(MODULE_NAME,fatal_TMHIOHelper_errorReadingFile);
+					return NULL;
 				}
-				memFree(algMode);
 				break;
 			case 's':
-				fscanf(dataFile," %u\n",&fromNodeID);
-				info(MODULE_NAME,info_TMHIOHelper_auxiliarySSDefinitionLineReaded,fromNodeID);
-				addSourceToRest(config,&fromNodeID,&numberOfSources);
+				if ( fscanf(dataFile," %u\n",&fromNodeID) == S_LINE_ARGC ) {
+					if (isInfoLogEnabled()) {
+						info(MODULE_NAME,info_TMHIOHelper_auxiliarySSDefinitionLineReaded,fromNodeID);
+					}
+					addSourceToRest(config,&fromNodeID,&numberOfSources);
+				} else {
+					fatal(MODULE_NAME,fatal_TMHIOHelper_errorReadingFile);
+					return NULL;
+				}
 				break;
 			case 'q':
-				fscanf(dataFile," %u %u\n",&fromNodeID,&toNodeID);
-				info(MODULE_NAME,info_TMHIOHelper_auxiliaryP2PDefinitionLineReaded,
-						fromNodeID,toNodeID);
-				addPointToPoint(config,&fromNodeID,&toNodeID,&numberOfSources);
+				if ( fscanf(dataFile," %u %u\n",&fromNodeID,&toNodeID) == Q_LINE_ARGC ) {
+					if (isInfoLogEnabled()) {
+						info(MODULE_NAME,info_TMHIOHelper_auxiliaryP2PDefinitionLineReaded,
+								fromNodeID,toNodeID);
+					}
+					addPointToPoint(config,&fromNodeID,&toNodeID,&numberOfSources);
+				} else {
+					fatal(MODULE_NAME,fatal_TMHIOHelper_errorReadingFile);
+					return NULL;
+				}
 				break;
 			}
 		}

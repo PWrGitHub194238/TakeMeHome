@@ -80,7 +80,9 @@ void destroyTMHDKBInstance ( TMH_DKB* const instance, bool withConfig ) {
 		destroyTMHConfigInstance(instance->configuration);
 	}
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void runDKB( TMH_DKB* const instance ) {
@@ -100,10 +102,12 @@ void runDKB_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
 		source = graph->nodeArray[sourceNodeArray[i]];
-		info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
-				dictionary_TMHAlgorithmFullName[DKB],
-				dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
-				source->nodeID);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
+					dictionary_TMHAlgorithmFullName[DKB],
+					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
+					source->nodeID);
+		}
 		runDKB_SingleSource(graph,source);
 	}
 }
@@ -113,6 +117,7 @@ void runDKB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 	TMHNodeIdx numberOfNodes = graph->numberOfNodes;
 	TMHNodeDLListWrapper** bucketsArray;
 	TMHNodeDLList* currentBucket;
+	TMHNodeData scannedNodes = 0;
 	TMHNodeData maxDistance = numberOfNodes * graph->maxArcCost + 1;
 
 	TMHNode* currentNode;
@@ -127,8 +132,8 @@ void runDKB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 
 	if (isTraceLogEnabled()) {
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_reinitGraph,numberOfNodes,sourceNode->nodeID);
-		trace(MODULE_NAME,trace_DKB_createBucket,maxDistance);
-		trace(MODULE_NAME,trace_DKB_initBucketWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
+		trace(MODULE_NAME,trace_DKB_createBuckets,maxDistance);
+		trace(MODULE_NAME,trace_TMHAlgorithmHelper_initBucketWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
 	}
 
 	for ( i = 0; i < maxDistance; i += 1 ) {
@@ -140,11 +145,12 @@ void runDKB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 			continue;
 		} else {
 			if (isTraceLogEnabled()) {
-				trace(MODULE_NAME,trace_TMHAlgorithmHelper_scanningBucket,i,maxDistance);
+				trace(MODULE_NAME,trace_TMHAlgorithmHelper_scanningBucket,i,i+1,maxDistance);
 			}
 			do {
 
 				currentNode = popTMHNodeDLList(currentBucket);
+				scannedNodes += 1;
 
 				if (isTraceLogEnabled()) {
 					if ( currentNode->predecessor == NULL ) {
@@ -173,28 +179,33 @@ void runDKB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 								trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 							}
 						}
-						if ( toNode->toUpperStruct == NULL ) {
-							if (isTraceLogEnabled()) {
+						if (isTraceLogEnabled()) {
+							if ( toNode->toUpperStruct == NULL ) {
 								trace(MODULE_NAME,trace_TMHAlgorithmHelper_pushIntoBucket,toNode->nodeID,newDistance,newDistance);
-							}
-							pushTMHNodeDLList(bucketsArray[newDistance]->head,toNode);
-						} else {
-							if (isTraceLogEnabled()) {
+							} else {
 								trace(MODULE_NAME,trace_TMHAlgorithmHelper_repinBetweenBuckets,toNode->nodeID,newDistance,newDistance,((bucketsArray[toNode->distanceLabel]->head->next->next)) ? "" : " Source bucket is now empty.");
 							}
-							repinTMHNodeDLList(bucketsArray[newDistance]->head,toNode);
 						}
 
 						toNode->distanceLabel = newDistance;
 						toNode->predecessor = currentNode;
+
+						if ( toNode->toUpperStruct == NULL ) {
+							pushTMHNodeDLList(bucketsArray[newDistance]->head,toNode);
+						} else {
+							repinTMHNodeDLList(bucketsArray[newDistance]->head,toNode);
+						}
 					}
 					adjacencyList = adjacencyList->nextElement;
 				}
 			} while ( currentBucket->next->next != NULL );
 		}
+		if ( scannedNodes == numberOfNodes ) break;	/* Nie warto skanować pustych kubełków - chyba*/
 	}
 
-	info(MODULE_NAME,info_TMHAlgorithmHelper_destroyBucket,maxDistance);
+	if (isInfoLogEnabled()) {
+		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyBucket,maxDistance);
+	}
 	cleanUpBuckets(bucketsArray,maxDistance);
 
 }

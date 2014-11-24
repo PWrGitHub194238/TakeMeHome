@@ -21,8 +21,10 @@
 
 #include "../../Headers/Helpers/TMHAlgorithmHelper.h"		/* TMHGraph, TMHNode, AlgorithmAbbreviation,
  	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 bool, NULL */
-#include "../../Headers/Helpers/TMHErrors.h"				/* warn(),
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	warn_TMHAlgorithmHelper_negativeCycleInGraphTopologicalOrder */
+
+#include "../../Headers/TMHLogger.h"						/* warn() */
+#include "../../Headers/Helpers/TMHErrors.h"				/* warn_TMHAlgorithmHelper_negativeCycleInGraphTopologicalOrder */
+
 
 /*
  * Constants

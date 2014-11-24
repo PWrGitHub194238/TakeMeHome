@@ -66,5 +66,7 @@ TMHNode* createTMHNodeInstance( const TMHNodeIdx nodeID ) {
 void destroyTMHNodeInstance ( TMHNode* const node ) {
 	destroyTMHArcListInstance(node->successors);
 	memFree(node);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }

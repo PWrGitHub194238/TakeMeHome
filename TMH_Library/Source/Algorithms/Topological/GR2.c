@@ -77,7 +77,9 @@ void destroyTMHGR2Instance ( TMH_GR2* const instance, bool withConfig ) {
 		destroyTMHConfigInstance(instance->configuration);
 	}
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void runGR2( TMH_GR2* const instance ) {
@@ -97,10 +99,12 @@ void runGR2_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
 		source = graph->nodeArray[sourceNodeArray[i]];
-		info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
-				dictionary_TMHAlgorithmFullName[GR2],
-				dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
-				source->nodeID);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
+					dictionary_TMHAlgorithmFullName[GR2],
+					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
+					source->nodeID);
+		}
 		runGR2_SingleSource(graph,source);
 	}
 }

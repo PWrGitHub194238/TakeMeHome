@@ -63,5 +63,7 @@ TMHRecord* createTMHRecordInstance( const TMHNodeIdx sourceNodeID, const TMHNode
 void destroyTMHRecordInstance ( TMHRecord* const instance ) {
 	destroyTMHNodeSlimListInstance(instance->pathFromSource);
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }

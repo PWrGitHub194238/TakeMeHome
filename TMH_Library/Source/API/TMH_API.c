@@ -30,15 +30,17 @@
 #include "../../Headers/Helpers/TMHGraphRebuilder.h"
 
 #include "../../Headers/Algorithms/THR.h"					/* THR */
-#include "../../Headers/Algorithms/Bellman/BFM.h"			/* THR */
-#include "../../Headers/Algorithms/Bellman/BFP.h"			/* THR */
-#include "../../Headers/Algorithms/Dijkstra/DKQ.h"			/* THR */
-#include "../../Headers/Algorithms/Dijkstra/Buckets/DKA.h"	/* THR */
-#include "../../Headers/Algorithms/Dijkstra/Buckets/DKB.h"	/* THR */
-#include "../../Headers/Algorithms/Dijkstra/Buckets/DKD.h"	/* THR */
-#include "../../Headers/Algorithms/Dijkstra/Buckets/DKM.h"	/* THR */
-#include "../../Headers/Algorithms/Dijkstra/Heaps/DKF.h"	/* THR */
-#include "../../Headers/Algorithms/Dijkstra/Heaps/DKH.h"	/* THR */
+#include "../../Headers/Algorithms/Bellman/BFM.h"			/* BFM */
+#include "../../Headers/Algorithms/Bellman/BFP.h"			/* BFP */
+#include "../../Headers/Algorithms/Dijkstra/Buckets/DDL.h"	/* DLL */
+#include "../../Headers/Algorithms/Dijkstra/Buckets/DKA.h"	/* DKA */
+#include "../../Headers/Algorithms/Dijkstra/Buckets/DKB.h"	/* DKB */
+#include "../../Headers/Algorithms/Dijkstra/Buckets/DKD.h"	/* DKD */
+#include "../../Headers/Algorithms/Dijkstra/Buckets/DKM.h"	/* DKM */
+#include "../../Headers/Algorithms/Dijkstra/DKQd.h"			/* DKQd */
+#include "../../Headers/Algorithms/Dijkstra/DKQs.h"			/* DKQs */
+#include "../../Headers/Algorithms/Dijkstra/Heaps/DKF.h"	/* DKF */
+#include "../../Headers/Algorithms/Dijkstra/Heaps/DKH.h"	/* DKH */
 #include "../../Headers/Algorithms/Dijkstra/Heaps/DKR.h"	/* DKR */
 #include "../../Headers/Algorithms/GraphGrowth/PAP.h"		/* PAP */
 #include "../../Headers/Algorithms/GraphGrowth/TQQ.h"		/* TQQ */
@@ -85,8 +87,9 @@ void setCheckConfig( TMHConfig* config, const bool checkConfig ) {
 	config->checkConfig = checkConfig;
 }
 
-void setAllowInterrupt( TMHConfig* config, const bool allowInterrupt ) {
+void setAllowInterrupt( TMHConfig* config, const bool allowInterrupt, TMHNodeData* const defaultParam ) {
 	config->allowInterrupt = allowInterrupt;
+	config->defaultParameter = defaultParam;
 }
 
 void* createTMHAlgorithmInstance( TMHConfig* const config, const char* const graphDataFilePath ) {
@@ -105,12 +108,16 @@ void* createTMHAlgorithmInstance( TMHConfig* const config, const char* const gra
 		return createTMHBFMInstance(newGraph, config);
 	case BFP:
 		return createTMHBFPInstance(newGraph, config);
-	case DKQ:
-		return createTMHDKQInstance(newGraph, config);
+	case DKQd:
+		return createTMHDKQDInstance(newGraph, config);
+	case DKQs:
+		return createTMHDKQSInstance(newGraph, config);
 	case DKB:
 		return createTMHDKBInstance(newGraph, config);
 	case DKM:
 		return createTMHDKMInstance(newGraph, config);
+	case DDL:
+		return createTMHDDLInstance(newGraph, config);
 	case DKA:
 		return createTMHDKAInstance(newGraph, config);
 	case DKD:
@@ -144,14 +151,20 @@ void runTMHAlgorithm(const AlgorithmAbbreviation algorithm, void* instance) {
 	case BFP:
 		runBFP(instance);
 		break;
-	case DKQ:
-		runDKQ(instance);
+	case DKQd:
+		runDKQD(instance);
+		break;
+	case DKQs:
+		runDKQS(instance);
 		break;
 	case DKB:
 		runDKB(instance);
 		break;
 	case DKM:
 		runDKM(instance);
+		break;
+	case DDL:
+		runDDL(instance);
 		break;
 	case DKA:
 		runDKA(instance);
@@ -194,14 +207,20 @@ void destroyTMHAlgorithmInstancje(const AlgorithmAbbreviation algorithm, void* i
 	case BFP:
 		destroyTMHBFPInstance(instance,withConfig);
 		break;
-	case DKQ:
-		destroyTMHDKQInstance(instance,withConfig);
+	case DKQd:
+		destroyTMHDKQDInstance(instance,withConfig);
+		break;
+	case DKQs:
+		destroyTMHDKQSInstance(instance,withConfig);
 		break;
 	case DKB:
 		destroyTMHDKBInstance(instance,withConfig);
 		break;
 	case DKM:
 		destroyTMHDKMInstance(instance,withConfig);
+		break;
+	case DDL:
+		destroyTMHDDLInstance(instance,withConfig);
 		break;
 	case DKA:
 		destroyTMHDKAInstance(instance,withConfig);

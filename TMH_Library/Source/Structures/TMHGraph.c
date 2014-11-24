@@ -74,7 +74,9 @@ void destroyTMHGraphInstance ( TMHGraph* const graph ) {
 	}
 	memFree(graph->nodeArray);
 	memFree(graph);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void addArc ( TMHNode* const fromNode, TMHNode* const toNode, const TMHArcCost* const distanceLabel ) {

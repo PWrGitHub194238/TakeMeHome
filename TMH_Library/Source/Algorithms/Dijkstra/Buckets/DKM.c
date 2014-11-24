@@ -79,8 +79,10 @@ TMH_DKM* createTMHDKMInstance( TMHGraph* const graphData, TMHConfig* const confi
 	if ( configuration->allowInterrupt ) {
 		printf("%s\n",ASK_FOR_NUMBER_OF_MAIN_BUCKET);
 		newInstance->numberOfMainBuckets = getParameterOrDefaultDKM(&(graphData->maxArcCost));
-	} else {
+	} else if ( configuration->defaultParameter == NULL ) {
 		newInstance->numberOfMainBuckets = graphData->maxArcCost;
+	} else {
+		newInstance->numberOfMainBuckets = *(configuration->defaultParameter);
 	}
 	if (isInfoLogEnabled()) {
 		info(MODULE_NAME,info_DKM_parametrReaded,newInstance->numberOfMainBuckets);
@@ -94,7 +96,9 @@ void destroyTMHDKMInstance ( TMH_DKM* const instance, bool withConfig ) {
 		destroyTMHConfigInstance(instance->configuration);
 	}
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void runDKM( TMH_DKM* const instance ) {
@@ -114,10 +118,12 @@ void runDKM_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
 		source = graph->nodeArray[sourceNodeArray[i]];
-		info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
-				dictionary_TMHAlgorithmFullName[DKM],
-				dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
-				source->nodeID);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
+					dictionary_TMHAlgorithmFullName[DKM],
+					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
+					source->nodeID);
+		}
 		runDKM_SingleSource(graph,source,*(numberOfMainBuckets));
 	}
 }
@@ -129,12 +135,12 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHNodeDLList* currentBucket;
 	TMHNodeDLList* overflowBag;
 	TMHNodeData minimumBucketRange = 0;
+	TMHNodeData minimumOverflowBucketValue = distanceLabelInfinity;
 	TMHNode* currentNode;
 	TMHArcList* adjacencyList;
 	TMHArc* arc;
 	TMHNode* toNode;
 	TMHNodeData newDistance;
-
 
 	reinitializeTMHGraph(graph,sourceNode);
 	bucketsArray = createBucketsDKM(numberOfBuckets,sourceNode);
@@ -142,13 +148,13 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 
 	if (isTraceLogEnabled()) {
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_reinitGraph,numberOfNodes,sourceNode->nodeID);
-		trace(MODULE_NAME,trace_DKM_createBucket,numberOfBuckets,numberOfBuckets);
+		trace(MODULE_NAME,trace_DKM_createBucket,numberOfBuckets+1,numberOfBuckets);
 		trace(MODULE_NAME,trace_DKM_initBucketWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
 	}
 
-	while ( overflowBag->next->next != NULL ) {	//dopoki jest cos w overflow bagu
+	do {	/* Dopóki overflow nie jest pusty - 1 pętla na main bucketach, by go zapełnić*/
 		if (isTraceLogEnabled()) {
-			trace(MODULE_NAME,trace_DKM_overflowBagNotEmpty);
+			trace(MODULE_NAME,trace_DKM_scanMainBuckets,numberOfBuckets,minimumBucketRange,minimumBucketRange+numberOfBuckets-1);
 		}
 		for ( i = 0; i < numberOfBuckets; i += 1 ) {
 			currentBucket = bucketsArray[i]->head;
@@ -159,7 +165,7 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 				continue;
 			} else {
 				if (isTraceLogEnabled()) {
-					trace(MODULE_NAME,trace_TMHAlgorithmHelper_scanningBucket,i,numberOfBuckets);
+					trace(MODULE_NAME,trace_TMHAlgorithmHelper_scanningBucket,i,i+1,numberOfBuckets);
 				}
 				do {
 					currentNode = popTMHNodeDLList(currentBucket);
@@ -190,20 +196,20 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 									trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 								}
 								if ( toNode->toUpperStruct == NULL ) {
-									trace(MODULE_NAME,trace_TMHAlgorithmHelper_pushIntoBucket,toNode->nodeID,newDistance,newDistance);
+									if ( newDistance - minimumBucketRange >= numberOfBuckets ) {
+										trace(MODULE_NAME,trace_DKM_pushIntoOverflowBucket,toNode->nodeID,newDistance,numberOfBuckets);
+									} else {
+										trace(MODULE_NAME,trace_DKM_pushIntoMainBucket,toNode->nodeID,newDistance,newDistance-minimumBucketRange);
+									}
 								} else {
-									if ( toNode->distanceLabel >= numberOfBuckets ) {
+									if ( toNode->distanceLabel - minimumBucketRange >= numberOfBuckets ) { /* Buckety od 0..po [k;k]. Max = n-1 dla n bucketów*/
 										if ( newDistance - minimumBucketRange >= numberOfBuckets ) {
 											trace(MODULE_NAME,trace_DKM_repinIgnored,toNode->nodeID,numberOfBuckets,toNode->distanceLabel,newDistance);
 										} else {
 											trace(MODULE_NAME,trace_DKM_repinFromOverflow,toNode->nodeID,toNode->distanceLabel,newDistance,numberOfBuckets,newDistance - minimumBucketRange,((bucketsArray[numberOfBuckets]->head->next->next)) ? "" : " Overflow bag is now empty.");
 										}
-									} else {
-										if ( newDistance - minimumBucketRange >= numberOfBuckets ) {
-											trace(MODULE_NAME,trace_DKM_repinToOverflow,toNode->nodeID,toNode->distanceLabel,newDistance,numberOfBuckets,((bucketsArray[toNode->distanceLabel]->head->next->next)) ? "" : " Source bucket is now empty.");
-										} else {
-											trace(MODULE_NAME,trace_DKM_repinBetweenMainBuckets,toNode->nodeID,toNode->distanceLabel,newDistance - minimumBucketRange,((bucketsArray[toNode->distanceLabel]->head->next->next)) ? "" : " Source bucket is now empty.");
-										}
+									} else {	/* repin z main do overflow nigdy się nie zdarzy, gdyż nie zwiększa się d()*/
+										trace(MODULE_NAME,trace_DKM_repinBetweenMainBuckets,toNode->nodeID,toNode->distanceLabel,newDistance - minimumBucketRange,((bucketsArray[toNode->distanceLabel-minimumBucketRange]->head->next->next)) ? "" : " Source bucket is now empty.");
 									}
 								}
 							}
@@ -211,14 +217,16 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 							toNode->distanceLabel = newDistance;
 							toNode->predecessor = currentNode;
 
-							newDistance = newDistance - minimumBucketRange;
+							newDistance = newDistance - minimumBucketRange;	/* temp value*/
 
-							if ( toNode->distanceLabel < numberOfBuckets || newDistance < numberOfBuckets ) {
+							if ( newDistance < numberOfBuckets ) {	/* Nie przepinamy z overflow do overflow + newDistance zawsze < od starego*/
 								if ( toNode->toUpperStruct == NULL ) {
-									pushTMHNodeDLList(bucketsArray[((newDistance<numberOfBuckets) ? newDistance : numberOfBuckets)]->head,toNode);
+									pushTMHNodeDLList(bucketsArray[newDistance]->head,toNode);
 								} else {
-									repinTMHNodeDLList(bucketsArray[((newDistance<numberOfBuckets) ? newDistance : numberOfBuckets)]->head,toNode);
+									repinTMHNodeDLList(bucketsArray[newDistance]->head,toNode);
 								}
+							} else if ( toNode->toUpperStruct == NULL ) {	// TODO
+								pushTMHNodeDLList(bucketsArray[numberOfBuckets]->head,toNode);
 							}
 						}
 						adjacencyList = adjacencyList->nextElement;
@@ -226,18 +234,54 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 				} while ( currentBucket->next->next != NULL );
 			}
 		}
-		currentBucket = overflowBag->next;
-		minimumBucketRange = distanceLabelInfinity;
 
-		while ( currentBucket->next != NULL ) {
-			if ( minimumBucketRange > currentBucket->data->distanceLabel ) {
-				minimumBucketRange = currentBucket->data->distanceLabel;
+		currentBucket = overflowBag->next;	/* scan overflow elements */
+
+		if ( currentBucket == bucketsArray[numberOfBuckets]->tail) {
+			if (isTraceLogEnabled()) {
+				trace(MODULE_NAME,trace_DKM_overflowBagIsEmpty);
 			}
-			currentBucket = currentBucket->next;
-		}
-	}
+			break; /*przerwij, bo overflow pusty i main tez */
+		} else {
 
-	info(MODULE_NAME,info_TMHAlgorithmHelper_destroyBucket,numberOfBuckets+1);	/* + Overflow bag */
+			while ( currentBucket->next != NULL ) {	/* Szukanie minimum -dopóki cB != tail */
+				newDistance = currentBucket->data->distanceLabel;
+				if ( minimumOverflowBucketValue > newDistance ) {
+					minimumOverflowBucketValue = newDistance;
+				}
+				currentBucket = currentBucket->next;
+			}
+			if (isTraceLogEnabled()) {
+				trace(MODULE_NAME,trace_DKM_overflowBagNotEmpty);
+				trace(MODULE_NAME,trace_DKM_mainBucketsEmpty,numberOfBuckets,minimumBucketRange,minimumBucketRange+numberOfBuckets-1,minimumOverflowBucketValue,minimumOverflowBucketValue+numberOfBuckets-1);
+			}
+
+			currentBucket = overflowBag->next;
+			minimumBucketRange = minimumOverflowBucketValue;
+			minimumOverflowBucketValue = distanceLabelInfinity;
+
+			while ( currentBucket->next != NULL ) {	/* Jeśli cB to nie tail (->next == null)*/
+				currentNode = currentBucket->data;
+				newDistance = currentNode->distanceLabel - minimumBucketRange;
+				currentBucket = currentBucket->next;	/* wymuszamy brak zmian w trakcie iterowania w przypadku repinu */
+
+				if ( newDistance < numberOfBuckets ) {
+					if (isTraceLogEnabled()) {
+						trace(MODULE_NAME,trace_DKM_fillMainBucketsFromOverflow,currentNode->nodeID,currentNode->distanceLabel,currentNode->predecessor->nodeID,newDistance);
+					}
+					repinTMHNodeDLList(bucketsArray[newDistance]->head,currentNode);
+				} else {
+					if (isTraceLogEnabled()) {
+						trace(MODULE_NAME,trace_DKM_fillMainBucketsFromOverflowNoRepin,currentNode->nodeID,currentNode->distanceLabel,currentNode->predecessor->nodeID,minimumBucketRange,minimumBucketRange+numberOfBuckets-1);
+					}
+				}
+			}
+		}
+	} while ( true );	/* Jeśli dotarliśmy tutaj to znaczy, że w overbagu coś było i należy przeskanować ponownie mainy*/
+
+	if (isInfoLogEnabled()) {
+		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyBucket,numberOfBuckets+1);	/* + Overflow bag */
+	}
 	cleanUpBuckets(bucketsArray,numberOfBuckets+1);
 }
 

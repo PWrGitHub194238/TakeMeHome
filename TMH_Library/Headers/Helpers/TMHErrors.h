@@ -90,6 +90,21 @@ extern const char* err_TMHIOHelper_cannotOpenFile;
 
 /*	FATAL	*/
 
+extern const char* fatal_TMHIOHelper_errorReadingFile;
+
+/* *****************************************************************************************************
+ * TMHNodeSLList
+ *
+ */
+
+/*	TRACE	*/
+/*	DEBUG	*/
+/*	INFO	*/
+/*	WARN	*/
+extern const char* warn_TMHNodeSLList_removeFromEmptyList;
+/*	ERROR	*/
+/*	FATAL	*/
+
 /* *****************************************************************************************************
  * TMHNodeDLList
  *
@@ -137,7 +152,10 @@ extern const char* trace_TMHAlgorithmHelper_scanningBucket;
 extern const char* trace_TMHAlgorithmHelper_bucketEmpty;
 extern const char* trace_TMHAlgorithmHelper_pushIntoBucket;
 extern const char* trace_TMHAlgorithmHelper_repinBetweenBuckets;
+extern const char* trace_TMHAlgorithmHelper_setRescan;
+extern const char* trace_TMHAlgorithmHelper_bucketScanEnds;
 extern const char* trace_TMHAlgorithmHelper_initTopologicalOrder;
+extern const char* trace_TMHAlgorithmHelper_initBucketWithSource;
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -170,18 +188,32 @@ extern const char* trace_BFP_skipNode;
 /*	FATAL	*/
 
 /* *****************************************************************************************************
+ * DDL
+ *
+ */
+
+/*	TRACE	*/
+extern const char* trace_DDL_createBuckets;
+
+/*	DEBUG	*/
+/*	INFO	*/
+/*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
  * DKA
  *
  */
 
 /*	TRACE	*/
 extern const char* trace_DKA_createBucket;
-extern const char* trace_DKA_initBucketWithSource;
-extern const char* trace_DKA_setRescan;
 
 /*	DEBUG	*/
 /*	INFO	*/
 extern const char* info_DKA_parametrReaded;
+extern const char* info_DKA_parametrSummary;
+extern const char* info_DKA_parametrSummaryZeroRange;
 
 /*	WARN	*/
 /*	ERROR	*/
@@ -193,8 +225,7 @@ extern const char* info_DKA_parametrReaded;
  */
 
 /*	TRACE	*/
-extern const char* trace_DKB_createBucket;
-extern const char* trace_DKB_initBucketWithSource;
+extern const char* trace_DKB_createBuckets;
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -241,11 +272,17 @@ extern const char* info_DKD_destroyBuckets;
 /*	TRACE	*/
 extern const char* trace_DKM_createBucket;
 extern const char* trace_DKM_initBucketWithSource;
-extern const char* trace_DKM_overflowBagNotEmpty;
+extern const char* trace_DKM_scanMainBuckets;
+extern const char* trace_DKM_pushIntoOverflowBucket;
+extern const char* trace_DKM_pushIntoMainBucket;
 extern const char* trace_DKM_repinIgnored;
 extern const char* trace_DKM_repinFromOverflow;
-extern const char* trace_DKM_repinToOverflow;
 extern const char* trace_DKM_repinBetweenMainBuckets;
+extern const char* trace_DKM_mainBucketsEmpty;
+extern const char* trace_DKM_fillMainBucketsFromOverflow;
+extern const char* trace_DKM_fillMainBucketsFromOverflowNoRepin;
+extern const char* trace_DKM_overflowBagNotEmpty;
+extern const char* trace_DKM_overflowBagIsEmpty;
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -308,7 +345,8 @@ extern const char* info_DKR_parametrReaded;
  */
 
 /*	TRACE	*/
-extern const char* trace_DKQ_initQStackWithSource;
+extern const char* trace_DKQ_initDLListWithSource;
+extern const char* trace_DKQ_initSLListWithSource;
 
 /*	DEBUG	*/
 /*	INFO	*/

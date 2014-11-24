@@ -120,7 +120,9 @@ void enableTime() {
 		LOG.date = memMalloc(1,sizeof(time_t));
 		LOG.formatedTime = memMalloc(FORMATTED_TIME_SIZE,sizeof(char));
 	} else {
-		info(MODULE_NAME,info_TMHLogger_timerAlreadyEnabled);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHLogger_timerAlreadyEnabled);
+		}
 	}
 }
 
@@ -141,7 +143,9 @@ void enableSaveLog( const char* logFileName, bool withTime ) {
 			atexit(disableSaveLog);
 		}
 	} else {
-		info(MODULE_NAME,info_TMHLogger_saveLogAlreadyEnabled,logFileName);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHLogger_saveLogAlreadyEnabled,logFileName);
+		}
 	}
 }
 
@@ -152,7 +156,9 @@ static void disableSaveLog() {
 		}
 		fclose(LOG.logFile);
 	} else {
-		info(MODULE_NAME,info_TMHLogger_timerNoNeedToDisable);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHLogger_timerNoNeedToDisable);
+		}
 	}
 }
 

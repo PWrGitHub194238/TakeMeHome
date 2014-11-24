@@ -73,6 +73,22 @@ const char* err_TMHIOHelper_cannotOpenFile = "Cannot open file '%s'.";
 
 /*	FATAL	*/
 
+const char* fatal_TMHIOHelper_errorReadingFile = "Fatal error - something goes wrong during file reading.";
+
+/* *****************************************************************************************************
+ * TMHNodeSLList
+ *
+ */
+
+/*	TRACE	*/
+/*	DEBUG	*/
+/*	INFO	*/
+/*	WARN	*/
+const char* warn_TMHNodeSLList_removeFromEmptyList = "Attempt to remove element from already empty list.";
+
+/*	ERROR	*/
+/*	FATAL	*/
+
 /* *****************************************************************************************************
  * TMHNodeDLList
  *
@@ -116,14 +132,16 @@ const char* trace_TMHAlgorithmHelper_nextForLoop = "Query for next element from 
 const char* trace_TMHAlgorithmHelper_nextQueueLoop = "Query for next element from queue.";
 const char* trace_TMHAlgorithmHelper_nextBucketScanLoop = "Rescanning %u buckets.";
 const char* trace_TMHAlgorithmHelper_getInfinityFromQueue = "Queried node is inaccessible from source node with ID: %u. No other node is reachable from source.";
-const char* trace_TMHAlgorithmHelper_popElementNoParent = "Queried node details:\n\tNode ID\t:\t%u\n\tDistance\t:\t%u\n\tParent's ID:\t:\tno parent";
-const char* trace_TMHAlgorithmHelper_popElement = "Queried node details:\n\tNode ID\t:\t%u\n\tDistance\t:\t%u\n\tParent's ID:\t:\t%u";
-const char* trace_TMHAlgorithmHelper_scanningBucket = "Scanning bucket\t:\t%u\t/\t%u";
-const char* trace_TMHAlgorithmHelper_bucketEmpty = "Bucket is empty. Bucket skipped.";
+const char* trace_TMHAlgorithmHelper_popElementNoParent = "Queried node details:\n\tNode ID\t\t:\t%u\n\tDistance\t:\t%u\n\tParent's ID:\t:\tno parent";
+const char* trace_TMHAlgorithmHelper_popElement = "Queried node details:\n\tNode ID\t\t:\t%u\n\tDistance\t:\t%u\n\tParent's ID:\t:\t%u";
+const char* trace_TMHAlgorithmHelper_scanningBucket = "Scanning bucket with ID: %u (%u / %u)";
+const char* trace_TMHAlgorithmHelper_bucketEmpty = "Bucket with ID: %u is empty. Bucket skipped.";
 const char* trace_TMHAlgorithmHelper_pushIntoBucket = "Push node with ID: %u (distance: %u) into bucket with ID: %u.";
 const char* trace_TMHAlgorithmHelper_repinBetweenBuckets = "New distance label was set to node with ID: %u (new distance: %u). Node has been moved from source bucket to one with ID: %u.%s";
+const char* trace_TMHAlgorithmHelper_setRescan = "Node with ID: %u (distance: %u) has been moved to bucket with ID: %u. New bucket scanning is required.";
+const char* trace_TMHAlgorithmHelper_bucketScanEnds ="Bucket with ID: %u is empty.";
 const char* trace_TMHAlgorithmHelper_initTopologicalOrder = "%u nodes has been sorted in a topological order.";
-
+const char* trace_TMHAlgorithmHelper_initBucketWithSource = "Initialize bucket[0] with source node with ID: %u (distance: %u).";
 /*	DEBUG	*/
 /*	INFO	*/
 const char* info_TMHAlgorithmHelper_SSSummaryBeforeExecution = "PreExecution summary:\n\tRunning algorithm\t:\t%s\n\tSelected mode\t\t:\t%s\n\tSource node's ID\t:\t%u";
@@ -146,7 +164,21 @@ const char* warn_TMHAlgorithmHelper_negativeCycleInGraphTopologicalOrder = "Nega
  */
 
 /*	TRACE	*/
-const char* trace_BFP_skipNode = "Node with ID: %u has no parent therefor it's distance label is ∞. Relaxation of any of it's sucessors is pointless. Skipped.";
+const char* trace_BFP_skipNode = "No-source node with ID: %u has no parent therefor it's distance label is ∞. Relaxation of any of it's sucessors is pointless. Skipped.";
+
+/*	DEBUG	*/
+/*	INFO	*/
+/*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
+ * DDL
+ *
+ */
+
+/*	TRACE	*/
+const char* trace_DDL_createBuckets = "%u bucket have been created with range [k;k] for every bucket k.";
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -160,13 +192,13 @@ const char* trace_BFP_skipNode = "Node with ID: %u has no parent therefor it's d
  */
 
 /*	TRACE	*/
-const char* trace_DKA_createBucket = "Bucket %u of total %u created:\n\tRange\t:\t[%u\t;\t%u]";
-const char* trace_DKA_initBucketWithSource = "Initialize bucket[0] with source node with ID: %u (distance: %u).";
-const char* trace_DKA_setRescan = "Node with ID: %u (distance: %u) has been moved to bucket with ID: %u. New bucket scanning is required.";
+const char* trace_DKA_createBucket = "Bucket %u of total %u created:\n\tBucket's ID\t:\t%u\n\tRange\t\t:\t[%u\t;\t%u]";
 
 /*	DEBUG	*/
 /*	INFO	*/
 const char* info_DKA_parametrReaded = "Approximation parameter was set to: %u.";
+const char* info_DKA_parametrSummary = "Parameter summary:\n\tMax cost\t:\t%u\n\tBucket range\t:\t[k;k+%u]\n\t# Buckets\t:\t%u.";
+const char* info_DKA_parametrSummaryZeroRange = "Parameter summary:\n\tMax cost\t:\t%u\n\tBucket range\t:\t[k;k]\n\t# Buckets\t:\t%u.";
 
 /*	WARN	*/
 /*	ERROR	*/
@@ -178,8 +210,7 @@ const char* info_DKA_parametrReaded = "Approximation parameter was set to: %u.";
  */
 
 /*	TRACE	*/
-const char* trace_DKB_createBucket = "%u buckets was created.";
-const char* trace_DKB_initBucketWithSource = "Initialize bucket[0] with source node with ID: %u (distance: %u).";
+const char* trace_DKB_createBuckets = "%u buckets was created.";
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -224,13 +255,19 @@ const char* info_DKD_destroyBuckets = "Destroying temporary bucket structure.\n\
  */
 
 /*	TRACE	*/
-const char* trace_DKM_createBucket = "%u buckets was created. Bucket with ID: %u is overflow bag.";
+const char* trace_DKM_createBucket = "%u buckets was created. Last bucket (with ID: %u) is overflow bag.";
 const char* trace_DKM_initBucketWithSource = "Initialize bucket[0] with source node with ID: %u (distance: %u).";
-const char* trace_DKM_overflowBagNotEmpty = "Overflow bucket is not empty.";
-const char* trace_DKM_repinIgnored = "Node with ID: %u will not be relocated to overflow bag with ID: %u regardless of it's distance label change (%u -> %u). Node is already in overflow bag.";
+const char* trace_DKM_scanMainBuckets = "Begin scanning %u of main buckets:\n\tMain buckets' range\t:\t[%u:%u].";
+const char* trace_DKM_pushIntoOverflowBucket = "Push node with ID: %u (distance: %u) into overflow bucket with ID: %u.";
+const char* trace_DKM_pushIntoMainBucket = "Push node with ID: %u (distance: %u) into main bucket with ID: %u.";
+const char* trace_DKM_repinIgnored = "Node with ID: %u will not be relocated from overflow bag with ID: %u regardless of it's distance label change (%u -> %u). Node is already in overflow bag.";
 const char* trace_DKM_repinFromOverflow = "Distance label of node with ID: %u has been changed (%u -> %u) and it will be moved from overflow bag with ID: %u to bucket with ID: %u.%s";
-const char* trace_DKM_repinToOverflow = "Distance label of node with ID: %u has been changed (%u -> %u) and it will be moved from overflow bag with ID: %u.%s";
-const char* trace_DKM_repinBetweenMainBuckets = "New distance label was set to node with ID: %u. Node has been moved from source bucket to one with ID: %u.%s";
+const char* trace_DKM_repinBetweenMainBuckets = "New distance label was set to node with ID: %u  (distance: %u). Node has been moved from source bucket to one with ID: %u.%s";
+const char* trace_DKM_mainBucketsEmpty = "All of %u main buckets are empty. New nodes from Overflow Bag will be taken.\n\tOld main buckets' range\t:\t[%u:%u]\n\tNew main backet's range\t:\t[%u:%u].";
+const char* trace_DKM_fillMainBucketsFromOverflow = "Move node from Overflow Bag:\n\tNode ID\t\t:\t%u\n\tDistance\t:\t%u\n\tParent's ID:\t:\t%u\nto main bucket with ID: %u.";
+const char* trace_DKM_fillMainBucketsFromOverflowNoRepin = "Node:\n\tNode ID\t\t:\t%u\n\tDistance\t:\t%u\n\tParent's ID:\t:\t%u\nis out of new ranges [%u:%u] and will be not removed from Overflow Bag.";
+const char* trace_DKM_overflowBagNotEmpty = "Overflow bucket is not empty. Main buckets will be rescanned.";
+const char* trace_DKM_overflowBagIsEmpty = "Overflow bucket is empty.";
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -292,7 +329,8 @@ const char* info_DKR_parametrReaded = "Heap width parameter was set to: %u.";
  */
 
 /*	TRACE	*/
-const char* trace_DKQ_initQStackWithSource = "Initialize stack with source node with ID: %u (distance: %u).";
+const char* trace_DKQ_initDLListWithSource = "Initialize double-linked list with source node with ID: %u (distance: %u).";
+const char* trace_DKQ_initSLListWithSource = "Initialize single-linked list with source node with ID: %u (distance: %u).";
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -320,7 +358,7 @@ const char* trace_PAP_initQueueWithSource = "Initialize stack with source node w
  */
 
 /*	TRACE	*/
-const char* trace_TQQ_initQueueWithSource = "Initialize duoble queue with source node with ID: %u (distance: %u).";
+const char* trace_TQQ_initQueueWithSource = "Initialize double queue with source node with ID: %u (distance: %u).";
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -337,7 +375,7 @@ const char* trace_TQQ_initQueueWithSource = "Initialize duoble queue with source
 const char* trace_THR_initQueueWithSource = "Initialize threshold main queue with source node with ID: %u (distance: %u).";
 const char* trace_THR_belowThresholdLevel = "Inserting node with ID: %u (distance: %u) into main queue (current threshold level: %u)";
 const char* trace_THR_outOfThresholdLevel = "Inserting node with ID: %u (distance: %u). New distance is not below current threshold level: %u";
-const char* trace_THR_updateThreshold = "Main queue is empty. Updating threshold level:\n\tOld value\t:\t%u\n\yNew value\t:\t%u";
+const char* trace_THR_updateThreshold = "Main queue is empty. Updating threshold level:\n\tOld value\t:\t%u\n\tNew value\t:\t%u";
 
 /*	DEBUG	*/
 /*	INFO	*/
@@ -356,7 +394,7 @@ const char* info_THR_parametrReaded = "Threshold parameter was set to: %u. Thres
 /*	DEBUG	*/
 /*	INFO	*/
 /*	WARN	*/
-extern const char* warn_TMHDHeap_removeFromEmptyHeap = "Attempt to remove element from already empty D-Heap heap.";
+const char* warn_TMHDHeap_removeFromEmptyHeap = "Attempt to remove element from already empty D-Heap heap.";
 
 /*	ERROR	*/
 /*	FATAL	*/

@@ -89,7 +89,9 @@ void destroyTMHConfigInstance ( TMHConfig* const config ) {
 		memFree(config->targetNodeIdxArray);
 	}
 	memFree(config);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 bool checkTMHConfig( const TMHConfig* const configuration ) {

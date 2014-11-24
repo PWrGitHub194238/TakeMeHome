@@ -73,7 +73,9 @@ void destroyTMHNodeStackInstance( TMHNodeStack* instance, bool withData ) {
 		memFree(instance);
 		instance = temp;
 	}
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void pushTMHNodeStack( TMHNodeStack** const stack, TMHNode* newNode ) {
@@ -97,4 +99,3 @@ TMHNode* popTMHNodeStack( TMHNodeStack** const stack ) {
 	*stack = nextElement;
 	return returnedData;
 }
-

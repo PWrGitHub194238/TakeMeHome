@@ -74,7 +74,9 @@ void destroyTMHFibNodeInstance( TMHFibNode* const instance, bool withData ) {
 		instance->data->toUpperStruct = NULL;
 	}
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 TMHFibNode* concatTMHFibNode( TMHFibNode* const nodeList1, TMHFibNode* const nodeList2 ) {

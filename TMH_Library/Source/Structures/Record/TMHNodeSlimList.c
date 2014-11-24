@@ -64,7 +64,9 @@ void destroyTMHNodeSlimListInstance ( TMHNodeSlimList* instance ) {
 		memFree(temp);
 		temp = instance;
 	}
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 TMHNodeSlimList* pushTMHNodeSlimList ( TMHNodeSlimList* const slimListBegin, TMHNodeSlim* const newNodeInfo ) {

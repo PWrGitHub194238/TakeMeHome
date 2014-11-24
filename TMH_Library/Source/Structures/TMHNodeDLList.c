@@ -83,7 +83,9 @@ void destroyTMHNodeDLListInstance( TMHNodeDLListWrapper* instance, bool withData
 		head = temp;
 	}
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void pushTMHNodeDLList( TMHNodeDLList* const listHead, TMHNode* newNode ) {
@@ -106,16 +108,39 @@ void pushLastTMHNodeDLList( TMHNodeDLList* const listTail, TMHNode* newNode ) {
 	newNode->toUpperStruct = newNodeElement;
 }
 
+void priorityPushTMHNodeDLList( TMHNodeDLList* const listHead, TMHNode* newNode ) {
+	TMHNodeDLList* newNodeElement = memMalloc(1,sizeof(TMHNodeDLList));
+	TMHNodeDLList* targetElement = listHead->next;
+	TMHNodeData newNodeLabel = newNode->distanceLabel;
+
+	/* Przesuwamy w dół - data == null mają z założenia tylko header i tail*/
+	while ( targetElement->data != NULL && targetElement->data->distanceLabel > newNodeLabel ) {
+		targetElement = targetElement->next;
+	}
+
+	/* Wstawiamy przed wybranym*/
+	newNodeElement->prev = targetElement->prev;
+	newNodeElement->next = targetElement;
+	targetElement->prev->next = newNodeElement;
+	targetElement->prev = newNodeElement;
+
+	newNodeElement->data = newNode;
+	newNode->toUpperStruct = newNodeElement;
+}
+
 TMHNode* popTMHNodeDLList( TMHNodeDLList* const listHead ) {
 	TMHNodeDLList* returnedElement = listHead->next;
 	TMHNode* returnedData = returnedElement->data;
 	if ( returnedElement->next == NULL ) {
-		warn(MODULE_NAME,warn_TMHNodeDLList_removeFromEmptyList);
+		if (isWarnLogEnabled()) {
+			warn(MODULE_NAME,warn_TMHNodeDLList_removeFromEmptyList);
+		}
 		return NULL;
 	}
 	listHead->next = returnedElement->next;
 	returnedElement->next->prev = listHead;
 	memFree(returnedElement);
+	returnedData->toUpperStruct = NULL;
 	return returnedData;
 }
 
@@ -123,26 +148,85 @@ TMHNode* popLastTMHNodeDLList( TMHNodeDLList* const listTail ) {
 	TMHNodeDLList* returnedElement = listTail->prev;
 		TMHNode* returnedData;
 		if ( returnedElement->prev == NULL ) {
-			warn(MODULE_NAME,warn_TMHNodeDLList_removeFromEmptyList);
+			if (isWarnLogEnabled()) {
+				warn(MODULE_NAME,warn_TMHNodeDLList_removeFromEmptyList);
+			}
 			return NULL;
 		}
 		returnedData = returnedElement->data;
 		listTail->prev = returnedElement->prev;
 		returnedElement->prev->next = listTail;
 		memFree(returnedElement);
+		returnedData->toUpperStruct = NULL;
 		return returnedData;
 }
 
-void repinTMHNodeDLList( TMHNodeDLList* const destinyList, TMHNode* const relocatedNode ) {
-	TMHNodeDLList* const sourceList = relocatedNode->toUpperStruct;
-	relocatedNode->toUpperStruct = destinyList;
+void repinTMHNodeDLList( TMHNodeDLList* const destinyListHead, TMHNode* const relocatedNode ) {
+	TMHNodeDLList* const sourceListElement = relocatedNode->toUpperStruct;
+
 	/* Usuwamy z listy*/
-	sourceList->prev->next = sourceList->next;
-	sourceList->next->prev = sourceList->prev;
-	/* wstawiamy za headerem listy docelowej*/
-	sourceList->next = destinyList->next;
-	sourceList->prev = destinyList;
-	/* aktualizujemy dowiazania listy docelowej*/
-	destinyList->next->prev = sourceList;
-	destinyList->next = sourceList;
+	sourceListElement->prev->next = sourceListElement->next;
+	sourceListElement->next->prev = sourceListElement->prev;
+	/* podpinamy wskaźniki do listy docelowej*/
+	sourceListElement->next = destinyListHead->next;
+	sourceListElement->prev = destinyListHead;
+	/* wstawiamy do listy docelowej*/
+	destinyListHead->next->prev = sourceListElement;
+	destinyListHead->next = sourceListElement;
+}
+
+/** Wrzuca na górę i spycha na dół, tak aby z najniższym labelem było na końcu */
+void priorityRepinTMHNodeDLList( TMHNodeDLList* const destinyListHead, TMHNode* const relocatedNode ) {
+	TMHNodeDLList* const sourceListElement = relocatedNode->toUpperStruct;
+	TMHNodeData relocatedNodeLabel = relocatedNode->distanceLabel;
+	TMHNodeDLList* destinyListElement;
+
+	/* Usuwamy z listy*/
+	sourceListElement->prev->next = sourceListElement->next;
+	sourceListElement->next->prev = sourceListElement->prev;
+
+	/* Pierwszy element po odpięciu z listy relokowanego (gdy był np. qw tej samej liście)*/
+	destinyListElement = destinyListHead->next;
+
+	/* Pzzesuwamy w dół*/
+	while ( destinyListElement->data != NULL && destinyListElement->data->distanceLabel > relocatedNodeLabel ) {
+		destinyListElement = destinyListElement->next;
+	}
+
+	/* Wstawiamy przed wybranym*/
+	/* podpinamy wskaźniki do listy docelowej*/
+	sourceListElement->prev = destinyListElement->prev;
+	sourceListElement->next = destinyListElement;
+	/* wstawiamy do listy docelowej*/
+	destinyListElement->prev->next = sourceListElement;
+	destinyListElement->prev = sourceListElement;
+}
+
+TMHNode* popMinTMHNodeDLList( TMHNodeDLListWrapper* const list ) {
+	TMHNodeDLList* listHead = list->head;
+	TMHNodeDLList* listTail = list->tail;
+	TMHNodeDLList* nextElement = listHead->next;
+	TMHNodeDLList* returnedElement = NULL;
+	TMHNode* returnedData;
+	TMHNodeData minDistance = distanceLabelInfinity;
+	if (nextElement == listTail ) {
+		if (isWarnLogEnabled()) {
+			warn(MODULE_NAME,warn_TMHNodeDLList_removeFromEmptyList);
+		}
+		return NULL;
+	}
+	do {
+		if ( nextElement->data->distanceLabel < minDistance ) {
+			minDistance = nextElement->data->distanceLabel;
+			returnedElement = nextElement;
+		}
+	} while((nextElement = nextElement->next) != listTail);
+
+	returnedData = returnedElement->data;
+
+	returnedElement->next->prev = returnedElement->prev;
+	returnedElement->prev->next = returnedElement->next;
+	memFree(returnedElement);
+	returnedData->toUpperStruct = NULL;
+	return returnedData;
 }

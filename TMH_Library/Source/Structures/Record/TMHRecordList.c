@@ -64,7 +64,9 @@ void destroyTMHRecordListInstance ( TMHRecordList* instance ) {
 		memFree(temp);
 		temp = instance;
 	}
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 TMHRecordList* pushTMHRecordList ( TMHRecordList* const slimListBegin, TMHRecord* const newRecord ) {

@@ -40,7 +40,6 @@
  *
  */
 
-extern const char* dictionary_TMHAlgorithmAbbreviation[];
 extern const char* dictionary_TMHAlgorithmFullName[];
 
 extern const char* dictionary_TMHConfigAlgorithmModeShortcut[];

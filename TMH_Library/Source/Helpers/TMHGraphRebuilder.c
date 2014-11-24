@@ -19,8 +19,9 @@
  *
  */
 
-#include "../../Headers/Helpers/TMHGraphRebuilder.h"			/* GraphOrder, TMHGraph */
+#include "../../Headers/Helpers/TMHGraphRebuilder.h"	/* GraphOrder, TMHGraph */
 
+#include "../../Headers/Helpers/TMHAllocHelper.h"		/* memMalloc() */
 /*
  * Constants
  *
@@ -57,7 +58,7 @@ void rebuildAdjacencyListGraph( const GraphOrder graphOrder, TMHGraph* const sou
 	}
 }
 
-TMHNode** copyArray( const TMHNode** const sourceArray, TMHNodeIdx numberOfNodes ) {
+/*TMHNode** copyArray( const TMHNode** const sourceArray, TMHNodeIdx numberOfNodes ) {
 	TMHNode** copyArray = memMalloc(numberOfNodes+1,sizeof(TMHNode*));
 
 	for ( ; numberOfNodes > 0; numberOfNodes-- ) {
@@ -65,10 +66,10 @@ TMHNode** copyArray( const TMHNode** const sourceArray, TMHNodeIdx numberOfNodes
 	}
 	copyArray[numberOfNodes] = sourceArray[numberOfNodes];
 	return copyArray;
-}
+}*/
 
 static void addTopologicalStructureToAdjacencyListGraph( TMHGraph* const sourceGraph ) {
 	TMHNodeIdx numberOfNodes = sourceGraph->numberOfNodes;
-
+	/* TODO */
 }
 

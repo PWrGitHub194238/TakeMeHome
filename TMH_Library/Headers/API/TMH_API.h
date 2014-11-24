@@ -59,7 +59,14 @@ void setGraphStruct( TMHConfig* config, const GraphStructAbbreviation graphStruc
 void setGraphOrder( TMHConfig* config, const GraphOrder graphOrder );
 void setAlgorithm( TMHConfig* config, const AlgorithmAbbreviation algorithm );
 void setCheckConfig( TMHConfig* config, const bool checkConfig );
-void setAllowInterrupt( TMHConfig* config, const bool allowInterrupt );
+
+/**
+ *
+ * @param config
+ * @param allowInterrupt
+ * @param defaultParam jeśli null i ai = true to liczy sam default
+ */
+void setAllowInterrupt( TMHConfig* config, const bool allowInterrupt, TMHNodeData* const defaultParam );
 
 void* createTMHAlgorithmInstance( TMHConfig* const config, const char* const graphDataFilePath );
 void runTMHAlgorithm(const AlgorithmAbbreviation algorithm, void* instance);

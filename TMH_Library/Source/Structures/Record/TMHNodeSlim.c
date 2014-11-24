@@ -61,5 +61,7 @@ TMHNodeSlim* createTMHNodeSlimInstance( const TMHNode* const node ) {
 
 void destroyTMHNodeSlimInstance ( TMHNodeSlim* const instance ) {
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }

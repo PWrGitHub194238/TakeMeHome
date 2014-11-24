@@ -98,7 +98,9 @@ void destroyTMHTHRInstance( TMH_THR* const instance, bool withConfig ) {
 		destroyTMHConfigInstance(instance->configuration);
 	}
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void runTHR( TMH_THR* const instance ) {
@@ -118,10 +120,12 @@ void runTHR_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
 		source = graph->nodeArray[sourceNodeArray[i]];
-		info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
-				dictionary_TMHAlgorithmFullName[THR],
-				dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
-				source->nodeID);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
+					dictionary_TMHAlgorithmFullName[THR],
+					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
+					source->nodeID);
+		}
 		runTHR_SingleSource(graph,source,*(threshold));
 	}
 }

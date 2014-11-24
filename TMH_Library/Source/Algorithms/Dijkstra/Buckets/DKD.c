@@ -96,7 +96,9 @@ void destroyTMHDKDInstance ( TMH_DKD* const instance, bool withConfig ) {
 		destroyTMHConfigInstance(instance->configuration);
 	}
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void runDKD( TMH_DKD* const instance ) {
@@ -116,10 +118,12 @@ void runDKD_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
 		source = graph->nodeArray[sourceNodeArray[i]];
-		info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
-				dictionary_TMHAlgorithmFullName[DKD],
-				dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
-				source->nodeID);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
+					dictionary_TMHAlgorithmFullName[DKD],
+					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
+					source->nodeID);
+		}
 		runDKD_SingleSource(graph,source,(*bucketsRangeMod));
 	}
 }
@@ -270,7 +274,9 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 		mapToLowLevelIdx += bucketsRangeMod;
 	}
 
-	info(MODULE_NAME,info_DKD_destroyBuckets,highLevelBucketCount,bucketsRangeMod);
+	if (isInfoLogEnabled()) {
+		info(MODULE_NAME,info_DKD_destroyBuckets,highLevelBucketCount,bucketsRangeMod);
+	}
 	cleanUpBuckets(highLevelBucketsArray,highLevelBucketCount);
 	cleanUpBuckets(lowLevelBucketsArray,bucketsRangeMod);
 }

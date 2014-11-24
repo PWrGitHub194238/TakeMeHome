@@ -50,9 +50,11 @@ typedef enum GraphOrder {
 typedef enum AlgorithmAbbreviation {
 	BFM,
 	BFP,
-	DKQ,
+	DKQd,
+	DKQs,
 	DKB,
 	DKM,
+	DDL,
 	DKA,
 	DKD,
 	DKF,
@@ -80,7 +82,9 @@ typedef struct TMHConfig {
 	TMHNodeIdx* sourceNodeIdxArray;
 	TMHNodeIdx* targetNodeIdxArray;
 	bool checkConfig;
+	bool checkGraph;
 	bool allowInterrupt;
+	TMHNodeData* defaultParameter;
 } TMHConfig;
 
 /*

@@ -4,18 +4,16 @@
  ****************************************************************************/
 
 /**
- * @file TQQ.h
+ * @file DKQs.h
  * @author tomasz
  * @date 10 sie 2014
  * @brief Brief description goes here.
  *
  * @details Detailed description goes here.
  *
- * Graph Growth with Two Queues -- Pallottino
+ * Dijkstra's Naive Implementation
  *
- * ze stosem
- *
- * @see http://www.Double.nl/~dimitri/doxygen/
+ * @see http://www.stack.nl/~dimitri/doxygen/
  */
 
 /*
@@ -23,22 +21,22 @@
  *
  */
 
-#include "../../../Headers/Algorithms/GraphGrowth/TQQ.h"	/* TMHGraph, TMHConfig, TMHNodeIdx, bool,
+#include "../../../Headers/Algorithms/Dijkstra/DKQs.h"	/* TMHGraph, TMHConfig, TMHNodeIdx, bool,
 														destroyTMHGraphInstance(),
  	 	 	 	 	 	 	 	 	 	 	 	 	 	destroyTMHConfigurationInstance(),*/
-
-#include "../../../Headers/Structures/TMHNodeDoubleQueue.h"/* TMHNodeDoubleQueue,
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 createTMHNodeDoubleQueueInstance(),
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 popTMHNodeDoubleQueue(),
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 pushTMHNodeDoubleQueue() */
+#include "../../../Headers/Structures/TMHNodeSLList.h"	/* TMHNodeSLListWrapper,
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 createTMHNodeSLListInstance(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 pushTMHNodeSLList(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 popMinTMHNodeSLList(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 destroyTMHNodeSLListInstance()*/
 #include "../../../Headers/Helpers/TMHAlgorithmHelper.h"/* reinitializeTMHGraph() */
 #include "../../../Headers/Helpers/TMHAllocHelper.h"	/* memMalloc(), memFree() */
 
 #include "../../../Headers/Helpers/TMHDictionary.h"		/* dictionary_TMHConfigAlgorithmMode,
  	 	 	 	 	 	 	 	 	 	 	 	 	 	 dictionary_TMHAlgorithmFullName,
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 TQQ */
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 DKQs */
 #include "../../../Headers/TMHLogger.h"					/* info(), warn(), trace() */
-#include "../../../Headers/Helpers/TMHErrors.h"			/* debug_TQQ_instanceDeletedSuccessfully,
+#include "../../../Headers/Helpers/TMHErrors.h"			/* debug_DKQ_instanceDeletedSuccessfully,
  	 	 	 	 	 	 	 	 	 	 	 	 	 	 trace_ */
 
 /*
@@ -46,7 +44,7 @@
  *
  */
 
-static const char* MODULE_NAME = "TQQ";
+static const char* MODULE_NAME = "DKQs";
 
 
 /*
@@ -68,14 +66,14 @@ static const char* MODULE_NAME = "TQQ";
  *
  */
 
-TMH_TQQ* createTMHTQQInstance( TMHGraph* const graphData, TMHConfig* configuration ) {
-	TMH_TQQ* newInstance = memMalloc(1,sizeof(TMH_TQQ));
+TMH_DKQS* createTMHDKQSInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
+	TMH_DKQS* newInstance = memMalloc(1,sizeof(TMH_DKQS));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
 	return newInstance;
 }
 
-void destroyTMHTQQInstance ( TMH_TQQ* const instance, bool withConfig ) {
+void destroyTMHDKQSInstance ( TMH_DKQS* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
 	if (withConfig) {
 		destroyTMHConfigInstance(instance->configuration);
@@ -86,10 +84,10 @@ void destroyTMHTQQInstance ( TMH_TQQ* const instance, bool withConfig ) {
 	}
 }
 
-void runTQQ( TMH_TQQ* const instance ) {
+void runDKQS( TMH_DKQS* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runTQQ_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
+		runDKQS_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -98,22 +96,22 @@ void runTQQ( TMH_TQQ* const instance ) {
 	}
 }
 
-void runTQQ_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize ) {
+void runDKQS_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize ) {
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
 		source = graph->nodeArray[sourceNodeArray[i]];
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
-					dictionary_TMHAlgorithmFullName[TQQ],
+					dictionary_TMHAlgorithmFullName[DKQs],
 					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
 					source->nodeID);
 		}
-		runTQQ_SingleSource(graph,source);
+		runDKQS_SingleSource(graph,source);
 	}
 }
 
-void runTQQ_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
+void runDKQS_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 	TMHNodeIdx numberOfNodes = graph->numberOfNodes;
 	TMHNode* currentNode;
 	TMHArcList* adjacencyList;
@@ -121,29 +119,32 @@ void runTQQ_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 	TMHNode* toNode;
 	TMHNodeData newDistance;
 
-	TMHNodeDoubleQueue* queue = createTMHNodeDoubleQueueInstance();
+	TMHNodeSLListWrapper* list = createTMHNodeSLListInstance();
 
 	reinitializeTMHGraph(graph,sourceNode);
-	pushLastTMHNodeDoubleQueue(queue,sourceNode);
+	pushTMHNodeSLList(list->head,sourceNode);
 
 	if (isTraceLogEnabled()) {
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_reinitGraph,numberOfNodes,sourceNode->nodeID);
-		trace(MODULE_NAME,trace_TQQ_initQueueWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
+		trace(MODULE_NAME,trace_DKQ_initSLListWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
 	}
 
-	while ( (currentNode = popTMHNodeDoubleQueue(queue)) != NULL ) {
+	while ( (currentNode = popMinTMHNodeSLList(list)) != NULL ) {
 		if (isTraceLogEnabled()) {
 			trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
-		}
-
-		if (isTraceLogEnabled()) {
-			if ( currentNode->predecessor == NULL ) {
-				trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
+			if ( currentNode->distanceLabel == distanceLabelInfinity ) {
+				trace(MODULE_NAME,trace_TMHAlgorithmHelper_getInfinityFromQueue,currentNode->nodeID);
 			} else {
-				trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElement,currentNode->nodeID,currentNode->distanceLabel,currentNode->predecessor->nodeID);
+				if ( currentNode->predecessor == NULL ) {
+					trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
+				} else {
+					trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElement,currentNode->nodeID,currentNode->distanceLabel,currentNode->predecessor->nodeID);
+				}
 			}
 		}
-
+		if ( currentNode->distanceLabel == distanceLabelInfinity ) {
+			break;
+		}
 		adjacencyList = currentNode->successors;
 
 		while ( adjacencyList != NULL ) {
@@ -159,17 +160,27 @@ void runTQQ_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 					if ( toNode->predecessor == NULL ) {
 						trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelaxPredNULL,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 					} else {
-						trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						if ( toNode->predecessor == currentNode ) {
+							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,currentNode->nodeID,(toNode->distanceLabel-arc->distance),arc->distance,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						} else {
+							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						}
 					}
 				}
-
-				pushLastTMHNodeDoubleQueue(queue,toNode);	/* nie priorytetowa, a potrzeba starej odleg�o�ci*/
-
 				toNode->distanceLabel = newDistance;
 				toNode->predecessor = currentNode;
+
+				if ( toNode->toUpperStruct == NULL ) {
+					pushTMHNodeSLList(list->head,toNode);
+				}
 			}
 			adjacencyList = adjacencyList->nextElement;
 		}
 	}
+
+	if (isInfoLogEnabled()) {
+		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyStack);
+	}
+	destroyTMHNodeSLListInstance(list,false);
 }
 

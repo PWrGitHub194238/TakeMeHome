@@ -86,7 +86,9 @@ void destroyTMHNodeStackQueueInstance( TMHNodeStackQueue* instance, bool withDat
 	}
 	destroyTMHNodeDLListInstance(instance->list,withData);
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void pushTMHNodeStackQueue( TMHNodeStackQueue* const queue, TMHNode* newNode ) {
@@ -97,7 +99,9 @@ void pushTMHNodeStackQueue( TMHNodeStackQueue* const queue, TMHNode* newNode ) {
 			pushTMHNodeStack(&(queue->head),newNode);
 		}
 	} else {
-		info(MODULE_NAME,info_TMHNodeStackQueue_alreadyInQueue,newNode->nodeID,newNode->distanceLabel);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHNodeStackQueue_alreadyInQueue,newNode->nodeID,newNode->distanceLabel);
+		}
 	}
 }
 

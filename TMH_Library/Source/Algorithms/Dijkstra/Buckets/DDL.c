@@ -4,7 +4,7 @@
  ****************************************************************************/
 
 /**
- * @file DKA.h
+ * @file DDL.h
  * @author tomasz
  * @date 10 sie 2014
  * @brief Brief description goes here.
@@ -21,7 +21,8 @@
  *
  */
 
-#include "../../../../Headers/Algorithms/Dijkstra/Buckets/DKA.h"	/* TMH_DKA, TMHGraph, TMHConfig, TMHNodeIdx, bool,
+#include "../../../../Headers/Algorithms/Dijkstra/Buckets/DDL.h"
+															/* TMH_DDL, TMHGraph, TMHConfig, TMHNodeIdx, bool,
 															destroyTMHGraphInstance(),
  	 	 	 	 	 	 	 	 	 	 	 	 	 		destroyTMHConfigurationInstance(),
  	 	 	 	 	 	 	 	 	 	 	 	 	 		memFree() */
@@ -35,9 +36,9 @@
 
 #include "../../../../Headers/Helpers/TMHDictionary.h"		/* dictionary_TMHConfigAlgorithmMode,
  	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 dictionary_TMHAlgorithmFullName,
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 DKA */
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 DDL */
 #include "../../../../Headers/TMHLogger.h"					/* info(), warn(), trace() */
-#include "../../../../Headers/Helpers/TMHErrors.h"			/* debug_DKA_instanceDeletedSuccessfully,
+#include "../../../../Headers/Helpers/TMHErrors.h"			/* debug_DDL_instanceDeletedSuccessfully,
  	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 trace_ */
 
 /*
@@ -45,13 +46,7 @@
  *
  */
 
-static const char* MODULE_NAME = "DKA";
-static const char* ASK_FOR_NUMBER_OF_MAIN_BUCKET = "Interrupt!\nBucket-based implementation of "
-		"Dijkstra's algorithm with Approximate buckets requires additional parameter.\nLeaving input empty "
-		"will set this parameter to it's optimized value (in DKA implementation this parameter"
-		"partitions buckets' ranges - determining number of buckets (number of buckets "
-		"will be equal to maximal arc cost divided by that parameter plus 1) which can lead "
-		"to either greater memory or time consumption. See documentation for implementation details.).";
+static const char* MODULE_NAME = "DDL";
 
 /*
  * Globals
@@ -65,11 +60,6 @@ static const char* ASK_FOR_NUMBER_OF_MAIN_BUCKET = "Interrupt!\nBucket-based imp
  *
  */
 
-static TMHNodeData getParameterOrDefaultDKA( const TMHNodeIdx* const numberOfArcs, const TMHNodeIdx* const numberOfNodes, const TMHArcCost* const maxArcCost );
-
-static TMHNodeData findBestParameter( const TMHNodeIdx* const numberOfArcs, const TMHNodeIdx* const numberOfNodes, const TMHArcCost* const maxArcCost );
-
-static long long int worstCaseTimeKDA( const TMHNodeIdx* const numberOfArcs, const TMHNodeIdx* const numberOfNodes, const TMHArcCost* const maxArcCost, const TMHNodeData param );
 
 
 /*
@@ -77,26 +67,14 @@ static long long int worstCaseTimeKDA( const TMHNodeIdx* const numberOfArcs, con
  *
  */
 
-TMH_DKA* createTMHDKAInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
-	TMH_DKA* newInstance = memMalloc(1,sizeof(TMH_DKA));
+TMH_DDL* createTMHDDLInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
+	TMH_DDL* newInstance = memMalloc(1,sizeof(TMH_DDL));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
-
-	if ( configuration->allowInterrupt ) {
-		printf("%s\n",ASK_FOR_NUMBER_OF_MAIN_BUCKET);
-		newInstance->bucketsRangeMod = getParameterOrDefaultDKA(&(graphData->numberOfArcs),&(graphData->numberOfNodes),&(graphData->maxArcCost));
-	} else if ( configuration->defaultParameter == NULL ) {
-		newInstance->bucketsRangeMod = findBestParameter(&(graphData->numberOfArcs),&(graphData->numberOfNodes),&(graphData->maxArcCost));
-	} else {
-		newInstance->bucketsRangeMod = *(configuration->defaultParameter);
-	}
-	if (isInfoLogEnabled()) {
-		info(MODULE_NAME,info_DKA_parametrReaded,newInstance->bucketsRangeMod);
-	}
 	return newInstance;
 }
 
-void destroyTMHDKAInstance ( TMH_DKA* const instance, bool withConfig ) {
+void destroyTMHDDLInstance ( TMH_DDL* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
 	if (withConfig) {
 		destroyTMHConfigInstance(instance->configuration);
@@ -107,10 +85,10 @@ void destroyTMHDKAInstance ( TMH_DKA* const instance, bool withConfig ) {
 	}
 }
 
-void runDKA( TMH_DKA* const instance ) {
+void runDDL( TMH_DDL* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runDKA_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources,&(instance->bucketsRangeMod));
+		runDDL_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -119,22 +97,22 @@ void runDKA( TMH_DKA* const instance ) {
 	}
 }
 
-void runDKA_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize, const TMHNodeData* const bucketsRangeMod ) {
+void runDDL_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize ) {
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
 		source = graph->nodeArray[sourceNodeArray[i]];
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
-					dictionary_TMHAlgorithmFullName[DKA],
+					dictionary_TMHAlgorithmFullName[DDL],
 					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
 					source->nodeID);
 		}
-		runDKA_SingleSource(graph,source,*bucketsRangeMod);
+		runDDL_SingleSource(graph,source);
 	}
 }
 
-void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, const TMHNodeData bucketsRangeMod ) {
+void runDDL_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 	bool continueScanning = true;
 	TMHArcCost i;
 	TMHArcCost newIdx;
@@ -142,7 +120,7 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHNodeDLListWrapper** bucketsArray;
 	TMHNodeDLListWrapper* currentBucket;
 	TMHArcCost maxCost = graph->maxArcCost;
-	TMHArcCost numberOfBuckets = maxCost/bucketsRangeMod + 1;
+	TMHArcCost numberOfBuckets = maxCost + 1;
 
 	TMHNode* currentNode;
 	TMHArcList* adjacencyList;
@@ -152,20 +130,11 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 
 
 	reinitializeTMHGraph(graph,sourceNode);
-	bucketsArray = createBucketsDKA(numberOfBuckets,sourceNode);
+	bucketsArray = createBucketsDDL(numberOfBuckets,sourceNode);
 
-	if (isInfoLogEnabled()) {
-		if ( bucketsRangeMod > 1 ) {
-			info(MODULE_NAME,info_DKA_parametrSummary,maxCost,bucketsRangeMod-1,numberOfBuckets);
-		} else {
-			info(MODULE_NAME,info_DKA_parametrSummaryZeroRange,maxCost,numberOfBuckets);
-		}
-	}
 	if (isTraceLogEnabled()) {
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_reinitGraph,numberOfNodes,sourceNode->nodeID);
-		for ( i = 1; i <= numberOfBuckets; i += 1 ) {
-			trace(MODULE_NAME,trace_DKA_createBucket,i,numberOfBuckets,i-1,(i-1)*bucketsRangeMod, i*bucketsRangeMod-1);
-		}
+		trace(MODULE_NAME,trace_DDL_createBuckets,numberOfBuckets);
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_initBucketWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
 	}
 
@@ -186,7 +155,7 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 					trace(MODULE_NAME,trace_TMHAlgorithmHelper_scanningBucket,i,i+1,numberOfBuckets);
 				}
 				do {
-					currentNode = popLastTMHNodeDLList(currentBucket->tail);	/* fifo - wrzucamy od strony headera, wyci�gamy z taila */
+					currentNode = popTMHNodeDLList(currentBucket->head);
 
 					if (isTraceLogEnabled()) {
 						if ( currentNode->predecessor == NULL ) {
@@ -219,16 +188,17 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 								}
 							}
 
-							newIdx = newDistance/bucketsRangeMod;
-							if ( newIdx >= numberOfBuckets ) {
-								newIdx = newIdx % numberOfBuckets;
+							newIdx = newDistance % numberOfBuckets;
+
+							if ( newIdx < i ) {
 								continueScanning = true;
 							}
+
 							if (isTraceLogEnabled()) {
 								if ( toNode->toUpperStruct == NULL ) {
 									trace(MODULE_NAME,trace_TMHAlgorithmHelper_pushIntoBucket,toNode->nodeID,newDistance,newIdx);
 								} else {
-									trace(MODULE_NAME,trace_TMHAlgorithmHelper_repinBetweenBuckets,toNode->nodeID,newDistance,newIdx,((bucketsArray[(toNode->distanceLabel/bucketsRangeMod)%numberOfBuckets]->head->next->next)) ? "" : " Source bucket is now empty.");
+									trace(MODULE_NAME,trace_TMHAlgorithmHelper_repinBetweenBuckets,toNode->nodeID,newDistance,newIdx,((bucketsArray[toNode->distanceLabel%numberOfBuckets]->head->next->next)) ? "" : " Source bucket is now empty.");
 								}
 							}
 
@@ -236,9 +206,9 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 							toNode->predecessor = currentNode;
 
 							if ( toNode->toUpperStruct == NULL ) {
-								priorityPushTMHNodeDLList(bucketsArray[newIdx]->head,toNode);
+								pushTMHNodeDLList(bucketsArray[newIdx]->head,toNode);
 							} else {
-								priorityRepinTMHNodeDLList(bucketsArray[newIdx]->head,toNode);
+								repinTMHNodeDLList(bucketsArray[newIdx]->head,toNode);
 							}
 						}
 
@@ -260,41 +230,4 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyBucket,numberOfBuckets);
 	}
 	cleanUpBuckets(bucketsArray,numberOfBuckets);
-}
-
-static TMHNodeData getParameterOrDefaultDKA( const TMHNodeIdx* const numberOfArcs, const TMHNodeIdx* const numberOfNodes, const TMHArcCost* const maxArcCost ) {
-	int j=0;
-	int c;
-	while ( (c = getc(stdin)) != '\n' ) {
-		j = ((j<<3) + (j<<1)) + (c - 48);	/*10 = 3*2 + 2 */
-	}
-	if ( j == 0 ) {
-		return findBestParameter(numberOfArcs,numberOfNodes,maxArcCost);
-	} else {
-		return (TMHNodeData) j;
-	}
-}
-
-/**
- * takes O(nI+mD+nE) time where I, D, E is the time for insert, decrease-key, extract-min
- * @param numberOfArcs
- * @param numberOfNodes
- * @param maxArcCost
- * @return
- */
-static TMHNodeData findBestParameter( const TMHNodeIdx* const numberOfArcs, const TMHNodeIdx* const numberOfNodes, const TMHArcCost* const maxArcCost ) {
-	long long int i = worstCaseTimeKDA(numberOfArcs,numberOfNodes,maxArcCost,1);
-	TMHNodeData j = 2;
-	if ( i >= 0 ) {
-		return 1;
-	} else {
-		do {
-			i = worstCaseTimeKDA(numberOfArcs,numberOfNodes,maxArcCost,j++);
-		} while ( i < 0 );
-		return j;
-	}
-}
-
-static long long int worstCaseTimeKDA( const TMHNodeIdx* const numberOfArcs, const TMHNodeIdx* const numberOfNodes, const TMHArcCost* const maxArcCost, const TMHNodeData param ) {
-	return -(((*maxArcCost)*(*numberOfNodes)))/(param*param) + (*numberOfArcs) + (*numberOfNodes);
 }

@@ -77,7 +77,9 @@ void destroyTMHGR1Instance ( TMH_GR1* const instance, bool withConfig ) {
 		destroyTMHConfigInstance(instance->configuration);
 	}
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void runGR1( TMH_GR1* const instance ) {
@@ -97,10 +99,12 @@ void runGR1_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
 		source = graph->nodeArray[sourceNodeArray[i]];
-		info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
-				dictionary_TMHAlgorithmFullName[GR1],
-				dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
-				source->nodeID);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
+					dictionary_TMHAlgorithmFullName[GR1],
+					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
+					source->nodeID);
+		}
 		runGR1_SingleSource(graph,source);
 	}
 }
@@ -166,6 +170,8 @@ void runGR1_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 		}
 	}
 
-	info(MODULE_NAME,info_TMHAlgorithmHelper_destroyTopologicalOrderedArray);
+	if (isInfoLogEnabled()) {
+		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyTopologicalOrderedArray);
+	}
 	memFree(topologicalOrderID);
 }

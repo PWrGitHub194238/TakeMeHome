@@ -65,7 +65,9 @@ void destroyTMHArcListInstance ( TMHArcList* instance ) {
 		memFree(temp);
 		temp = instance;
 	}
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 TMHArcList* pushTMHArcList ( TMHArcList* const arcListBegin, struct TMHArc* const newArc ) {

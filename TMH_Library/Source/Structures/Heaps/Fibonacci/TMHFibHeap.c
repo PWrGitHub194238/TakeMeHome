@@ -97,7 +97,9 @@ void destroyTMHFibHeapInstance( TMHFibHeap* const instance ) {
 	}
 
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 static void destryAuxiliaryArray( TMHFibNode** const auxiliaryArray, TMHNodeIdx maxDegree ) {

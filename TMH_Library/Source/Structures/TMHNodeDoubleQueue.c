@@ -86,7 +86,9 @@ void destroyTMHNodeDoubleQueueInstance( TMHNodeDoubleQueue* instance, bool withD
 		head = temp;
 	}
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void pushLastTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue, TMHNode* newNode ) {
@@ -101,7 +103,9 @@ void pushLastTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue, TMHNode* newNo
 		newNodeElement->data = newNode;
 		newNode->toUpperStruct = newNodeElement;
 	} else {
-		info(MODULE_NAME,info_TMHNodeDoubleQueue_alreadyInQueue,newNode->nodeID,newNode->distanceLabel);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHNodeDoubleQueue_alreadyInQueue,newNode->nodeID,newNode->distanceLabel);
+		}
 	}
 }
 

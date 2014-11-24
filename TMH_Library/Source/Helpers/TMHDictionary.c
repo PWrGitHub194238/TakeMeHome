@@ -30,14 +30,14 @@ const char* dictionary_TMHGraphStructAbbreviation[] = {"Adjacency list structure
 
 const char* dictionary_TMHGraphOrder[] = {"No order","Topological order"};
 
-const char* dictionary_TMHAlgorithmAbbreviation[] = {"BFM","BFP","DKQ","DKB","DKM","DKA","DKD","DKF",
-		"DKH","DKR","PAP","TQQ","THR","GR1","GR2"};
 const char* dictionary_TMHAlgorithmFullName[] = {
 		"Bellman-Ford-Moore",
 		"Bellman-Ford-Moore (with Parent checking)",
-		"Dijkstra's Naive Implementation",
+		"Dijkstra's Naive Implementation with double-linked lists",
+		"Dijkstra's Naive Implementation with single-linked lists",
 		"Dijkstra's Buckets (Basic implementation)",
 		"Dijkstra's Buckets (Overflow Bag)",
+		"Dijkstra's Buckets (Dial)",
 		"Dijkstra's Buckets (Approximate)",
 		"Dijkstra's Buckets (Double buckets)",
 		"Dijkstra's Heap (Fibonacci heap)",

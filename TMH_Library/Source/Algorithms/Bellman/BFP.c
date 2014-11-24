@@ -13,6 +13,8 @@
  *
  * Bellman-Ford-Moore
  *
+ * do sprawdzenia czy zmiana ifów z continue na jakiś inny coś zmienia,przyspiesza
+ *
  * @see http://www.stack.nl/~dimitri/doxygen/
  */
 
@@ -77,7 +79,9 @@ void destroyTMHBFPInstance ( TMH_BFP* const instance, bool withConfig ) {
 		destroyTMHConfigInstance(instance->configuration);
 	}
 	memFree(instance);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }
 
 void runBFP( TMH_BFP* const instance ) {
@@ -97,10 +101,12 @@ void runBFP_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
 		source = graph->nodeArray[sourceNodeArray[i]];
-		info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
-				dictionary_TMHAlgorithmFullName[BFP],
-				dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
-				source->nodeID);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
+					dictionary_TMHAlgorithmFullName[BFP],
+					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
+					source->nodeID);
+		}
 		runBFP_SingleSource(graph,source);
 	}
 }
@@ -127,33 +133,37 @@ void runBFP_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 		}
 		for ( i = j; i > 0; i-- ) {					/* dla takiej TMHGraph trzeba przeglądnąć wszystkie nody*/
 			currentNode = graph->nodeArray[i];
-			if (isTraceLogEnabled() && currentNode->predecessor == NULL) {
+			if (isTraceLogEnabled() && currentNode->distanceLabel == distanceLabelInfinity) {
 				trace(MODULE_NAME,trace_BFP_skipNode,currentNode->nodeID);
 			}
-			if ( currentNode->predecessor == NULL ) {	/* nie ma sensu sprawdzac nastepcow i ich mozliwosci relaksacji, skoro ich parent ma infinity
-			 	 	 	 	 	 	 	 	 	 	 	 ( == nie ma parenta)*/
-				adjacencyList = currentNode->successors;
-				while ( adjacencyList != NULL ) {
-					arc = adjacencyList->arc;
-					toNode = arc->successor;
-					newDistance = currentNode->distanceLabel + arc->distance;
+			if ( currentNode->distanceLabel == distanceLabelInfinity ) continue;
+
+			/* nie ma sensu sprawdzac nastepcow i ich mozliwosci relaksacji, skoro ich parent ma infinity*/
+			adjacencyList = currentNode->successors;
+			while ( adjacencyList != NULL ) {
+				arc = adjacencyList->arc;
+				toNode = arc->successor;
+				newDistance = currentNode->distanceLabel + arc->distance;
+				if (isTraceLogEnabled()) {
+					trace(MODULE_NAME,trace_TMHAlgorithmHelper_checkRelax,currentNode->nodeID,arc->distance,toNode->nodeID,toNode->distanceLabel,newDistance);
+				}
+				if ( toNode->distanceLabel > newDistance ) {
 					if (isTraceLogEnabled()) {
-						trace(MODULE_NAME,trace_TMHAlgorithmHelper_checkRelax,currentNode->nodeID,arc->distance,toNode->nodeID,toNode->distanceLabel,newDistance);
-					}
-					if ( toNode->distanceLabel > newDistance ) {
-						if (isTraceLogEnabled()) {
-							if ( toNode->predecessor == NULL ) {
-								trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelaxPredNULL,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						if ( toNode->predecessor == NULL ) {
+							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelaxPredNULL,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						} else {
+							if ( toNode->predecessor == currentNode ) {
+								trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,currentNode->nodeID,(toNode->distanceLabel-arc->distance),arc->distance,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 							} else {
 								trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 							}
 						}
-						toNode->distanceLabel = newDistance;
-						toNode->predecessor = currentNode;
-						hasChanged = true;
 					}
-					adjacencyList = adjacencyList->nextElement;
+					toNode->distanceLabel = newDistance;
+					toNode->predecessor = currentNode;
+					hasChanged = true;
 				}
+				adjacencyList = adjacencyList->nextElement;
 			}
 		}
 		if (!hasChanged) break;

@@ -41,7 +41,9 @@ static const char* MODULE_NAME = "TMHAllocHelper";
 
 void memFree( void* object ) {
 	if ( object == NULL ) {
-		info(MODULE_NAME,info_TMHAllocHelper_cannotFreeNull);
+		if (isInfoLogEnabled()) {
+			info(MODULE_NAME,info_TMHAllocHelper_cannotFreeNull);
+		}
 	} else {
 		free(object);
 		object = NULL;

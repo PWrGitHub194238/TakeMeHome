@@ -4,27 +4,27 @@
  ****************************************************************************/
 
 /**
- * @file DKA.h
+ * @file DLL.h
  * @author tomasz
  * @date 10 sie 2014
  * @brief Brief description goes here.
  *
  * @details Detailed description goes here.
  *
- * Dijkstra's Buckets -- Overflow Bag
+ * Dijkstra's Buckets -- Dial
  *
  * @see http://www.stack.nl/~dimitri/doxygen/
  */
 
 /*
- * DKA.h
+ * DLL.h
  *
  *  Created on: 10 sie 2014
  *      Author: tomasz
  */
 
-#ifndef DKA_H_
-#define DKA_H_
+#ifndef DDL_H_
+#define DDL_H_
 
 /*
  * Includes
@@ -41,11 +41,10 @@
  *
  */
 
-typedef struct TMH_DKA {
+typedef struct TMH_DDL {
 	TMHGraph* graphData;
 	TMHConfig* configuration;
-	TMHNodeData bucketsRangeMod;
-} TMH_DKA;
+} TMH_DDL;
 
 /*
  * Externs
@@ -60,16 +59,16 @@ typedef struct TMH_DKA {
 /**
  * allowInterrupt - gdy true to algorytm zapyta o parametr 'a'. Jesli nie to zostanie wybrana stala, wybrana doswiadczalnie.
  */
-TMH_DKA* createTMHDKAInstance( TMHGraph* const graphData, TMHConfig* const configuration );
-void destroyTMHDKAInstance ( TMH_DKA* const instance, bool withConfig );
+TMH_DDL* createTMHDDLInstance( TMHGraph* const graphData, TMHConfig* const configuration );
+void destroyTMHDDLInstance ( TMH_DDL* const instance, bool withConfig );
 
-void runDKA( TMH_DKA* const instance );
+void runDDL( TMH_DDL* const instance );
 
-void runDKA_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize, const TMHNodeData* const bucketsRangeMod );
+void runDDL_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize );
 
-void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, const TMHNodeData bucketsRangeMod );
+void runDDL_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode );
 
-inline TMHNodeDLListWrapper** createBucketsDKA( TMHArcCost numberOfBuckets, TMHNode* const sourceNode ) __attribute__((always_inline));
+inline TMHNodeDLListWrapper** createBucketsDDL( TMHArcCost numberOfBuckets, TMHNode* const sourceNode ) __attribute__((always_inline));
 
 /*
  * Inline definitions
@@ -79,7 +78,7 @@ inline TMHNodeDLListWrapper** createBucketsDKA( TMHArcCost numberOfBuckets, TMHN
 /**
  * tworzy buckety i wrzuca source node do kube�ka[0], gdzie indeksy to dystans. Tworzy te� overflow baga.
  */
-inline TMHNodeDLListWrapper** createBucketsDKA( TMHArcCost numberOfBuckets, TMHNode* const sourceNode ) {
+inline TMHNodeDLListWrapper** createBucketsDDL( TMHArcCost numberOfBuckets, TMHNode* const sourceNode ) {
 	TMHNodeDLListWrapper** bucketArray = memMalloc(numberOfBuckets,sizeof(TMHNodeDLListWrapper*));
 	for ( numberOfBuckets--; numberOfBuckets > 0; numberOfBuckets-- ) {
 		bucketArray[numberOfBuckets] = createTMHNodeDLListInstance();
@@ -91,4 +90,4 @@ inline TMHNodeDLListWrapper** createBucketsDKA( TMHArcCost numberOfBuckets, TMHN
 }
 
 
-#endif /* DKA_H_ */
+#endif /* DDL_H_ */

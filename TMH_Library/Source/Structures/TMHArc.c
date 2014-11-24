@@ -62,5 +62,7 @@ TMHArc* createTMHArcInstance( struct TMHNode* const successor, const TMHArcCost*
 
 void destroyTMHArcInstance ( TMHArc* const arc ) {
 	memFree(arc);
-	debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	if (isDebugLogEnabled()) {
+		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
+	}
 }

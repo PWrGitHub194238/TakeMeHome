@@ -4,7 +4,7 @@
  ****************************************************************************/
 
 /**
- * @file DKQ.h
+ * @file DKQD.h
  * @author tomasz
  * @date 10 sie 2014
  * @brief Brief description goes here.
@@ -18,14 +18,14 @@
  */
 
 /*
- * DKQ.h
+ * DKQD.h
  *
  *  Created on: 10 sie 2014
  *      Author: tomasz
  */
 
-#ifndef DKQ_H_
-#define DKQ_H_
+#ifndef DKQD_H_
+#define DKQD_H_
 
 /*
  * Includes
@@ -40,10 +40,10 @@
  *
  */
 
-typedef struct TMH_DKQ {
+typedef struct TMH_DKQD {
 	TMHGraph* graphData;
 	TMHConfig* configuration;
-} TMH_DKQ;
+} TMH_DKQD;
 
 /*
  * Externs
@@ -57,18 +57,18 @@ typedef struct TMH_DKQ {
  *
  */
 
-TMH_DKQ* createTMHDKQInstance( TMHGraph* const graphData, TMHConfig* const configuration );
-void destroyTMHDKQInstance ( TMH_DKQ* const instance, bool withConfig );
+TMH_DKQD* createTMHDKQDInstance( TMHGraph* const graphData, TMHConfig* const configuration );
+void destroyTMHDKQDInstance ( TMH_DKQD* const instance, bool withConfig );
 
-void runDKQ( TMH_DKQ* const instance );
+void runDKQD( TMH_DKQD* const instance );
 
-void runDKQ_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize );
+void runDKQD_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize );
 
-void runDKQ_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode );
+void runDKQD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode );
 
 /*
  * Inline definitions
  *
  */
 
-#endif /* DKQ_H_ */
+#endif /* DKQD_H_ */
