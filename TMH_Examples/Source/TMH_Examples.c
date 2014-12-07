@@ -60,31 +60,33 @@ void loopTest( int i, int j ) {
 		printf("%f\n",e-s);*/
 
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/testTMHdial.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/testTMH1.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.NY.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/testTMH1.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.BAY.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.NY.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.COL.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.BAY.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.FLA.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.COL.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.NW.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.FLA.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.NE.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.NW.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.CAL.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.NE.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.LKS.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.CAL.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.E.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.LKS.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.W.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.E.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.CTR.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.W.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.USA.gr",DKM);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.CTR.gr",THR);
+
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.USA.gr",THR);
 	}
 }
 
@@ -94,7 +96,7 @@ void loadTest( char* path, const AlgorithmAbbreviation alg ) {
 
 	TMHConfig* config = createTMHConfig("/home/tomasz/workspace/TMH_Tests/ss/test.ss");
 	TMHNodeData* param = NULL;/* malloc(sizeof(TMHNodeData));
-	*param = 2;*/
+	*param = 8;*/
 	setAllowInterrupt(config,false,param);
 	setCheckConfig(config,false);
 	setGraphOrder(config,NONE);
@@ -128,6 +130,10 @@ void loadTest( char* path, const AlgorithmAbbreviation alg ) {
 
 	printf("%f ",e2-s2);
 	printf("%f\n",e3-s3);
+
+	if ( param != NULL ) {
+		free(param);
+	}
 }
 
 void test( int j ) {
@@ -144,8 +150,8 @@ void makeTest() {
 	void* ins = NULL;
 	TMHConfig* config = createTMHConfig("/home/tomasz/workspace/TMH_Tests/ss/test.ss");
 
-	TMHNodeData* param = malloc(sizeof(TMHNodeData));
-	*param = 2;
+	TMHNodeData* param = NULL; // malloc(sizeof(TMHNodeData));
+//	*param = 2;
 	setAllowInterrupt(config,false,param);
 	setCheckConfig(config,false);
 	setGraphOrder(config,NONE);

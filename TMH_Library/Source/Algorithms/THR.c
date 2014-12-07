@@ -68,7 +68,6 @@ static const char* ASK_FOR_PARAM = "Interrupt!\nThreshold Algorithm requires add
 
 static TMHNodeData getParameterOrDefaultTHR( const TMHNodeData constant );
 static TMHNodeDLListWrapper* relocateAndUpdateTHR( TMHNodeDLListWrapper* const mainQueue, TMHNodeDLListWrapper* const outQueue, TMHNodeData* const threshold );
-
 /*
  * Definitions
  *
@@ -82,11 +81,15 @@ TMH_THR* createTMHTHRInstance( TMHGraph* const graphData, TMHConfig* configurati
 	if ( configuration->allowInterrupt ) {
 		printf("%s\n",ASK_FOR_PARAM);
 		newInstance->thresholdParam = getParameterOrDefaultTHR(DEFAULT_PARAM);
-		newInstance->threshold = computeThreshold(graphData,&(newInstance->thresholdParam));
+		newInstance->threshold = computeThreshold(graphData,newInstance->thresholdParam);
+	} else if ( configuration->defaultParameter == NULL ) {
+		newInstance->threshold = computeThreshold(graphData,DEFAULT_PARAM);
 	} else {
-		newInstance->threshold = computeThreshold(graphData,&(DEFAULT_PARAM));
+		newInstance->threshold = *(configuration->defaultParameter);
 	}
+
 	if (isInfoLogEnabled()) {
+		newInstance->thresholdParam = 0; //TODO
 		info(MODULE_NAME,info_THR_parametrReaded,newInstance->thresholdParam,newInstance->threshold);
 	}
 	return newInstance;
@@ -106,7 +109,7 @@ void destroyTMHTHRInstance( TMH_THR* const instance, bool withConfig ) {
 void runTHR( TMH_THR* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runTHR_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources,&(instance->threshold));
+		runTHR_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources,instance->threshold);
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -115,7 +118,7 @@ void runTHR( TMH_THR* const instance ) {
 	}
 }
 
-void runTHR_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize, const TMHNodeData* const threshold ) {
+void runTHR_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize, const TMHNodeData threshold ) {
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
@@ -126,7 +129,7 @@ void runTHR_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
 					source->nodeID);
 		}
-		runTHR_SingleSource(graph,source,*(threshold));
+		runTHR_SingleSource(graph,source,threshold);
 	}
 }
 
@@ -137,6 +140,12 @@ void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMH
 	TMHArc* arc;
 	TMHNode* toNode;
 	TMHNodeData newDistance;
+
+	long long int k = 0;
+
+	printf("\nTHRESH: %u\n",threshold);
+
+	printf("\nNODES: %u\n",numberOfNodes);
 
 	TMHNodeDLListWrapper* mainQueue = createTMHNodeDLListInstance();
 	TMHNodeDLListWrapper* outQueue = createTMHNodeDLListInstance();
@@ -150,7 +159,8 @@ void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMH
 	}
 
 	do {
-		while ( (currentNode = popTMHNodeDLList(mainQueue->head)) != NULL ) {
+		while ( (currentNode = popMinTMHNodeDLList(mainQueue)) != NULL ) {
+			k+= 1;
 			if (isTraceLogEnabled()) {
 				trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
 			}
@@ -165,6 +175,10 @@ void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMH
 
 			adjacencyList = currentNode->successors;
 
+			if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+				trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+			}
+
 			while ( adjacencyList != NULL ) {
 				arc = adjacencyList->arc;
 				toNode = arc->successor;
@@ -178,25 +192,45 @@ void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMH
 						if ( toNode->predecessor == NULL ) {
 							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelaxPredNULL,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 						} else {
-							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+							if ( toNode->predecessor == currentNode ) {
+								trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,currentNode->nodeID,(toNode->distanceLabel-arc->distance),arc->distance,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+							} else {
+								trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+							}
 						}
-						if ( newDistance < threshold ) {
-							trace(MODULE_NAME,trace_THR_belowThresholdLevel,toNode->nodeID,toNode->distanceLabel);
+						if ( toNode->toUpperStruct == NULL ) {
+							if ( newDistance < threshold ) {
+								trace(MODULE_NAME,trace_THR_insertBelowThresholdLevel,toNode->nodeID,newDistance,threshold);
+							} else {
+								trace(MODULE_NAME,trace_THR_insertOutOfThresholdLevel,toNode->nodeID,newDistance,threshold);
+							}
 						} else {
-							trace(MODULE_NAME,trace_THR_outOfThresholdLevel,toNode->nodeID,toNode->distanceLabel);
+							if ( newDistance >= threshold ) {	// nie przepinaj z b -> b	toNode->distanceLabel >= newDistance
+								trace(MODULE_NAME,trace_THR_uselessBackgroundRepin,toNode->nodeID,toNode->distanceLabel,newDistance,threshold);
+							} else if ( toNode->distanceLabel >= threshold ) {	// przepnij z b -> m
+								trace(MODULE_NAME,trace_THR_repinFromBackground,toNode->nodeID,toNode->distanceLabel,newDistance,threshold);
+							} else {	// nie przepinaj z m -> m
+								trace(MODULE_NAME,trace_THR_uselessMainRepin,toNode->nodeID,toNode->distanceLabel,newDistance,threshold);
+							}
 						}
+					}
+
+					if ( toNode->toUpperStruct == NULL ) {
+						pushLastTMHNodeDLList(((newDistance < threshold) ? mainQueue->tail : outQueue->tail),toNode);
+					} else if ( toNode->distanceLabel >= threshold && newDistance < threshold  ) {
+						repinTMHNodeDLList(mainQueue->head,toNode);
 					}
 
 					toNode->distanceLabel = newDistance;
 					toNode->predecessor = currentNode;
-
-					pushTMHNodeDLList(((newDistance < threshold) ? mainQueue->head : outQueue->head),toNode);
 
 				}
 				adjacencyList = adjacencyList->nextElement;
 			}
 		}
 	} while ( (mainQueue = relocateAndUpdateTHR(mainQueue,outQueue,&threshold) ) != NULL );
+	printf("\nNODES: %u\n",k);
+
 }
 
 static TMHNodeData getParameterOrDefaultTHR( const TMHNodeData constant ) {
@@ -215,6 +249,7 @@ static TMHNodeData getParameterOrDefaultTHR( const TMHNodeData constant ) {
 static TMHNodeDLListWrapper* relocateAndUpdateTHR( TMHNodeDLListWrapper* const mainQueue, TMHNodeDLListWrapper* const outQueue, TMHNodeData* const threshold ) {
 	TMHNodeDLList* list = outQueue->head->next;
 	TMHNodeDLList* tail = outQueue->tail;
+	TMHNode* repinNode;
 	TMHNodeData currentNodeDistance;
 	TMHNodeData newThreshold = *(threshold);
 
@@ -230,21 +265,23 @@ static TMHNodeDLListWrapper* relocateAndUpdateTHR( TMHNodeDLListWrapper* const m
 	newThreshold += *(threshold);
 
 	if (isTraceLogEnabled()) {
-		trace(MODULE_NAME,trace_THR_updateThreshold,*(threshold),newThreshold);
+		trace(MODULE_NAME,trace_THR_updateThreshold,threshold,newThreshold);
 	}
 
 	while ( list != tail ) {
-		currentNodeDistance = list->data->distanceLabel;
-		if ( currentNodeDistance < newThreshold ) {
-			repinTMHNodeDLList(mainQueue->head,list->data);
-		}
+		repinNode = list->data;
+		currentNodeDistance = repinNode->distanceLabel;
 		list = list->next;
+		if ( currentNodeDistance < newThreshold ) {
+			repinTMHNodeDLList(mainQueue->head,repinNode);
+		}
 	}
 
 	*(threshold) = newThreshold;
 
 	if (  mainQueue->head->next == mainQueue->tail ) {
 		destroyTMHNodeDLListInstance(mainQueue,false);
+		destroyTMHNodeDLListInstance(outQueue,false);
 		return NULL;
 	} else {
 		return mainQueue;

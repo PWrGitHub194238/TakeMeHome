@@ -68,6 +68,10 @@ TMHNodeDoubleQueue* createTMHNodeDoubleQueueInstance() {
 	tailRight->prev = tailLeft;
 	tailRight->data = NULL;
 	tailRight->next = NULL;
+
+	queue->head = head;
+	queue->tailLeft = tailLeft;
+	queue->tailRight = tailRight;
 	return queue;
 }
 
@@ -96,10 +100,12 @@ void pushLastTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue, TMHNode* newNo
 	TMHNodeDLList* tail;
 	if ( newNode->toUpperStruct == NULL ) {
 		newNodeElement = memMalloc(1,sizeof(TMHNodeDLList));
-		tail = ((newNode->distanceLabel == distanceLabelInfinity) ? queue->tailRight : queue->tailLeft);
+		tail = ((newNode->distanceLabel == distanceLabelInfinity) ? queue->tailLeft : queue->tailRight);
+		tail->prev->next = newNodeElement;
 		newNodeElement->prev = tail->prev;
-		newNodeElement->next = tail;
 		tail->prev = newNodeElement;
+		newNodeElement->next = tail;
+
 		newNodeElement->data = newNode;
 		newNode->toUpperStruct = newNodeElement;
 	} else {
@@ -112,12 +118,9 @@ void pushLastTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue, TMHNode* newNo
 TMHNode* popTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue ) {
 	TMHNodeDLList* returnedElement = queue->head->next;
 	TMHNode* returnedData;
-	if ( returnedElement == queue->tailLeft ) {
-		returnedElement = returnedElement->next;
-		if ( returnedElement == queue->tailRight ) {
-			warn(MODULE_NAME,warn_TMHNodeDoubleQueue_removeFromEmptyQueue);
-			return NULL;
-		}
+	if ( returnedElement->next == queue->tailRight ) {	// na po headerze tylko LT (next) i RT (next->next)
+		warn(MODULE_NAME,warn_TMHNodeDoubleQueue_removeFromEmptyQueue);
+		return NULL;
 	}
 	returnedData = returnedElement->data;
 

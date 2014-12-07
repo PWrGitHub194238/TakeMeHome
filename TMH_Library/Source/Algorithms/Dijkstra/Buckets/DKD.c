@@ -22,7 +22,7 @@
  *
  */
 
-#include <math.h>											/* pow() */
+#include <math.h>											/* ceil(), pow() */
 
 #include "../../../../Headers/Algorithms/Dijkstra/Buckets/DKD.h"	/* TMH_DKD, TMHGraph, TMHConfig, TMHNodeIdx, bool,
 															destroyTMHGraphInstance(),
@@ -81,8 +81,10 @@ TMH_DKD* createTMHDKDInstance( TMHGraph* const graphData, TMHConfig* const confi
 	if ( configuration->allowInterrupt ) {
 		printf("%s\n",ASK_FOR_NUMBER_OF_MAIN_BUCKET);
 		newInstance->bucketsRangeMod = getParameterOrDefaultDKD((TMHNodeData) pow(graphData->maxArcCost,0.5));
-	} else {
+	} else if ( configuration->defaultParameter == NULL ) {
 		newInstance->bucketsRangeMod = (TMHNodeData) pow(graphData->maxArcCost,0.5);
+	} else {
+		newInstance->bucketsRangeMod = *(configuration->defaultParameter);
 	}
 	if (isInfoLogEnabled()) {
 		info(MODULE_NAME,info_DKD_parametrReaded,newInstance->bucketsRangeMod);
@@ -133,11 +135,12 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHNodeIdx numberOfNodes = graph->numberOfNodes;
 	TMHNodeDLListWrapper** highLevelBucketsArray;
 	TMHNodeDLListWrapper** lowLevelBucketsArray;
-	TMHNodeData highLevelBucketCount = (numberOfNodes * graph->maxArcCost) / bucketsRangeMod;
+	TMHNodeData highLevelBucketCount = ((numberOfNodes * graph->maxArcCost) / bucketsRangeMod) + 1;
 	TMHNodeDLList* currentHighLevelBucket;
 	TMHNodeDLList* currentLowLevelBucket;
 	TMHNode* currentNode;
 	TMHArcList* adjacencyList;
+
 	TMHArc* arc;
 	TMHNode* toNode;
 	TMHNodeData newDistance;
@@ -167,13 +170,14 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 			if (isTraceLogEnabled()) {
 				trace(MODULE_NAME,trace_DKD_highLevelBucketEmpty,i);
 			}
+			mapToLowLevelIdx += bucketsRangeMod;
 			continue;
 		} else {
 			if (isTraceLogEnabled()) {
 				trace(MODULE_NAME,trace_DKD_scanningHighLevelBucket,i);
 			}
 
-			do {
+			do {	// nie jest pusty
 				if (isTraceLogEnabled()) {
 					trace(MODULE_NAME,trace_DKD_populateLowLevelBuckets,currentHighLevelBucket->data->nodeID,currentHighLevelBucket->data->distanceLabel,i,currentHighLevelBucket->data->distanceLabel-mapToLowLevelIdx);
 				}
@@ -183,7 +187,9 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 			} while ( currentHighLevelBucket->next != NULL );
 
 			for ( j = 0; j < bucketsRangeMod; j++ ) {
-				trace(MODULE_NAME,trace_DKD_lowLevelLoop,j,j+1,bucketsRangeMod,i);
+				if (isTraceLogEnabled()) {
+					trace(MODULE_NAME,trace_DKD_lowLevelLoop,j,j+1,bucketsRangeMod,i);
+				}
 				currentLowLevelBucket = lowLevelBucketsArray[j]->head;
 				if ( currentLowLevelBucket->next->next == NULL ) {	// is empty
 					if (isTraceLogEnabled()) {
@@ -207,6 +213,10 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 						}
 
 						adjacencyList = currentNode->successors;
+
+						if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+							trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+						}
 
 						while ( adjacencyList != NULL ) {
 							arc = adjacencyList->arc;
@@ -244,18 +254,22 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 								} else {
 									if ( oldLowLevelDistance < bucketsRangeMod ) {	/* new < old < bRM => low -> low*/
 										if (isTraceLogEnabled()) {
-											trace(MODULE_NAME,trace_DKD_repinBetweenLowLevelBuckets,toNode->nodeID,newDistance,oldLowLevelDistance,newLowLevelDistance,((lowLevelBucketsArray[oldLowLevelDistance]->head->next->next)) ? "" : " Source low-level bucket is now empty.");
+											trace(MODULE_NAME,trace_DKD_repinBetweenLowLevelBuckets,toNode->nodeID,newDistance,oldLowLevelDistance,newLowLevelDistance,((lowLevelBucketsArray[oldLowLevelDistance]->head->next->next->next)) ? "" : " Source low-level bucket is now empty.");
 										}
 										repinTMHNodeDLList(lowLevelBucketsArray[newLowLevelDistance]->head,toNode);
 									} else {
 										if ( newLowLevelDistance < bucketsRangeMod ) {	/* high -> low */
 											if (isTraceLogEnabled()) {
-												trace(MODULE_NAME,trace_DKD_repinToLowLevelBuckets,toNode->nodeID,newDistance,toNode->distanceLabel/bucketsRangeMod,newLowLevelDistance,((highLevelBucketsArray[toNode->distanceLabel/bucketsRangeMod]->head->next->next)) ? "" : " Source high-level bucket is now empty.");
+												trace(MODULE_NAME,trace_DKD_repinToLowLevelBuckets,toNode->nodeID,newDistance,toNode->distanceLabel/bucketsRangeMod,newLowLevelDistance,((highLevelBucketsArray[toNode->distanceLabel/bucketsRangeMod]->head->next->next->next)) ? "" : " Source high-level bucket is now empty.");
 											}
 											repinTMHNodeDLList(lowLevelBucketsArray[newLowLevelDistance]->head,toNode);
-										} else {	/* high -> high */
+										} else if ( toNode->distanceLabel/bucketsRangeMod == newDistance/bucketsRangeMod ) {	/* high -> high, jeśli ma sens */
 											if (isTraceLogEnabled()) {
-												trace(MODULE_NAME,trace_DKD_repinBetweenHighLevelBucket,toNode->nodeID,newDistance,toNode->distanceLabel/bucketsRangeMod,newDistance/bucketsRangeMod,((highLevelBucketsArray[toNode->distanceLabel/bucketsRangeMod]->head->next->next)) ? "" : " Source high-level bucket is now empty.");
+												trace(MODULE_NAME,trace_DKD_noRepinBetweenHighLevelBucket,toNode->nodeID,newDistance,newDistance/bucketsRangeMod);
+											}
+										} else {
+											if (isTraceLogEnabled()) {
+												trace(MODULE_NAME,trace_DKD_repinBetweenHighLevelBucket,toNode->nodeID,newDistance,toNode->distanceLabel/bucketsRangeMod,newDistance/bucketsRangeMod,((highLevelBucketsArray[toNode->distanceLabel/bucketsRangeMod]->head->next->next->next)) ? "" : " Source high-level bucket is now empty.");
 											}
 											repinTMHNodeDLList(highLevelBucketsArray[newDistance/bucketsRangeMod]->head,toNode);
 										}
@@ -270,8 +284,8 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 					} while ( currentLowLevelBucket->next->next != NULL );
 				}
 			}
+			mapToLowLevelIdx += bucketsRangeMod;
 		}
-		mapToLowLevelIdx += bucketsRangeMod;
 	}
 
 	if (isInfoLogEnabled()) {

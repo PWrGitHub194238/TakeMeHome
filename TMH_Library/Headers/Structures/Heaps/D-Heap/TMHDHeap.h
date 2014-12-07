@@ -42,6 +42,7 @@ typedef struct TMHDHeap {
 	TMHNodeIdx heapSize;
 	TMHNodeIdx arraySize;
 	TMHNode** nodeArray;
+	TMHNodeIdx* heapIDArray;	// IDki dla kopca
 } TMHDHeap;
 
 /*
@@ -66,6 +67,6 @@ TMHNode* getMinimumTMHDHeap( TMHDHeap* const instance );
 
 TMHNode* removeMinimumTMHDHeap( TMHDHeap* const instance );
 
-void decreaseKeyTMHDHeap( TMHDHeap* const instance, TMHNodeIdx* nodeIdx, const TMHNodeData newDistance );
+void decreaseKeyTMHDHeap( TMHDHeap* const instance, TMHNodeIdx heapID, const TMHNodeData newDistance );
 
 #endif /* TMHDHEAP_H_ */

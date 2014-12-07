@@ -40,9 +40,7 @@
 
 typedef struct TMHNodeDoubleQueue {
 	struct TMHNodeDLList* head;
-	struct TMHNodeDLList* listLeft;
 	struct TMHNodeDLList* tailLeft;
-	struct TMHNodeDLList* listRight;
 	struct TMHNodeDLList* tailRight;
 } TMHNodeDoubleQueue;
 

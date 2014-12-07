@@ -131,6 +131,11 @@ void runBFM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 		for ( i = j; i > 0; i-- ) {					/* dla takiej TMHGraph trzeba przeglądnąć wszystkie nody*/
 			currentNode = graph->nodeArray[i];
 			adjacencyList = currentNode->successors;
+
+			if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+				trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+			}
+
 			while ( adjacencyList != NULL ) {
 				arc = adjacencyList->arc;
 				toNode = arc->successor;

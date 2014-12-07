@@ -180,6 +180,10 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 
 					adjacencyList = currentNode->successors;
 
+					if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+						trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+					}
+
 					while ( adjacencyList != NULL ) {
 						arc = adjacencyList->arc;
 						toNode = arc->successor;
@@ -193,7 +197,11 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 								if ( toNode->predecessor == NULL ) {
 									trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelaxPredNULL,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 								} else {
-									trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+									if ( toNode->predecessor == currentNode ) {
+										trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,currentNode->nodeID,(toNode->distanceLabel-arc->distance),arc->distance,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+									} else {
+										trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+									}
 								}
 								if ( toNode->toUpperStruct == NULL ) {
 									if ( newDistance - minimumBucketRange >= numberOfBuckets ) {
@@ -206,10 +214,10 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 										if ( newDistance - minimumBucketRange >= numberOfBuckets ) {
 											trace(MODULE_NAME,trace_DKM_repinIgnored,toNode->nodeID,numberOfBuckets,toNode->distanceLabel,newDistance);
 										} else {
-											trace(MODULE_NAME,trace_DKM_repinFromOverflow,toNode->nodeID,toNode->distanceLabel,newDistance,numberOfBuckets,newDistance - minimumBucketRange,((bucketsArray[numberOfBuckets]->head->next->next)) ? "" : " Overflow bag is now empty.");
+											trace(MODULE_NAME,trace_DKM_repinFromOverflow,toNode->nodeID,toNode->distanceLabel,newDistance,numberOfBuckets,newDistance - minimumBucketRange,((bucketsArray[numberOfBuckets]->head->next->next->next)) ? "" : " Overflow bag is now empty.");
 										}
 									} else {	/* repin z main do overflow nigdy się nie zdarzy, gdyż nie zwiększa się d()*/
-										trace(MODULE_NAME,trace_DKM_repinBetweenMainBuckets,toNode->nodeID,toNode->distanceLabel,newDistance - minimumBucketRange,((bucketsArray[toNode->distanceLabel-minimumBucketRange]->head->next->next)) ? "" : " Source bucket is now empty.");
+										trace(MODULE_NAME,trace_DKM_repinBetweenMainBuckets,toNode->nodeID,toNode->distanceLabel,newDistance - minimumBucketRange,((bucketsArray[toNode->distanceLabel-minimumBucketRange]->head->next->next->next)) ? "" : " Source bucket is now empty.");
 									}
 								}
 							}

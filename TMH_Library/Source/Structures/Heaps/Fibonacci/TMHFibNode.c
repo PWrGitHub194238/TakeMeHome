@@ -73,24 +73,20 @@ void destroyTMHFibNodeInstance( TMHFibNode* const instance, bool withData ) {
 	if (instance->data) {
 		instance->data->toUpperStruct = NULL;
 	}
+	error(MODULE_NAME,"Zdeallocotwanie node: %u (dL: %u, d: %u, m: %u).",instance->data->nodeID,instance->data->distanceLabel,instance->degree,instance->mark);
+
 	memFree(instance);
 	if (isDebugLogEnabled()) {
 		debug(MODULE_NAME,debug_instanceDeletedSuccessfully,MODULE_NAME);
 	}
 }
 
+/* Łączy dwie root listy i zwraca minimalny node z min. nodów 2 root list - łapanie, czy któraś lub czy obie są puste trzeba robić wyżej*/
 TMHFibNode* concatTMHFibNode( TMHFibNode* const nodeList1, TMHFibNode* const nodeList2 ) {
-	TMHFibNode* nextElement;
-	if (nodeList1 == NULL) {
-			return nodeList2;
-	} else if (nodeList2 == NULL) {
-			return nodeList1;
-	} else {
-		nextElement= nodeList1->next;
-		nodeList2->next = nextElement;
-		nextElement->prev = nodeList2;
-		nodeList2->prev = nodeList1;
-		nodeList1->next = nodeList2;
-		return ((nodeList1->data->distanceLabel <= nodeList2->data->distanceLabel ) ? nodeList1 : nodeList2 );
-	}
+	nodeList1->next->prev = nodeList2->prev;
+	nodeList2->prev->next = nodeList1->next;
+	nodeList1->next = nodeList2;
+	nodeList2->prev = nodeList1;
+	error(MODULE_NAME,"[concatTMHFibNode] połączono l1 (min: %u) z l2 (min: %u)",nodeList1->data->distanceLabel,nodeList2->data->distanceLabel);
+	return ((nodeList1->data->distanceLabel <= nodeList2->data->distanceLabel ) ? nodeList1 : nodeList2 );
 }

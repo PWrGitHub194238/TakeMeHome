@@ -37,9 +37,12 @@
 #include "../../Headers/Algorithms/Dijkstra/Buckets/DKB.h"	/* DKB */
 #include "../../Headers/Algorithms/Dijkstra/Buckets/DKD.h"	/* DKD */
 #include "../../Headers/Algorithms/Dijkstra/Buckets/DKM.h"	/* DKM */
+#include "../../Headers/Algorithms/Dijkstra/Buckets/DKX.h"	/* DKX */
+#include "../../Headers/Algorithms/Dijkstra/Buckets/DKXb.h"	/* DKXb */
 #include "../../Headers/Algorithms/Dijkstra/DKQd.h"			/* DKQd */
 #include "../../Headers/Algorithms/Dijkstra/DKQs.h"			/* DKQs */
 #include "../../Headers/Algorithms/Dijkstra/Heaps/DKF.h"	/* DKF */
+#include "../../Headers/Algorithms/Dijkstra/Heaps/DKFb.h"	/* DKFb */
 #include "../../Headers/Algorithms/Dijkstra/Heaps/DKH.h"	/* DKH */
 #include "../../Headers/Algorithms/Dijkstra/Heaps/DKR.h"	/* DKR */
 #include "../../Headers/Algorithms/GraphGrowth/PAP.h"		/* PAP */
@@ -122,6 +125,12 @@ void* createTMHAlgorithmInstance( TMHConfig* const config, const char* const gra
 		return createTMHDKAInstance(newGraph, config);
 	case DKD:
 		return createTMHDKDInstance(newGraph, config);
+	case DKX:
+		return createTMHDKXInstance(newGraph, config);
+	case DKXb:
+		return createTMHDKXBInstance(newGraph, config);
+	case DKFb:
+		return createTMHDKFBInstance(newGraph, config);
 	case DKF:
 		return createTMHDKFInstance(newGraph, config);
 	case DKH:
@@ -171,6 +180,15 @@ void runTMHAlgorithm(const AlgorithmAbbreviation algorithm, void* instance) {
 		break;
 	case DKD:
 		runDKD(instance);
+		break;
+	case DKX:
+		runDKX(instance);
+		break;
+	case DKXb:
+		runDKXB(instance);
+		break;
+	case DKFb:
+		runDKFB(instance);
 		break;
 	case DKF:
 		runDKF(instance);
@@ -227,6 +245,15 @@ void destroyTMHAlgorithmInstancje(const AlgorithmAbbreviation algorithm, void* i
 		break;
 	case DKD:
 		destroyTMHDKDInstance(instance,withConfig);
+		break;
+	case DKX:
+		destroyTMHDKXInstance(instance,withConfig);
+		break;
+	case DKXb:
+		destroyTMHDKXBInstance(instance,withConfig);
+		break;
+	case DKFb:
+		destroyTMHDKFBInstance(instance,withConfig);
 		break;
 	case DKF:
 		destroyTMHDKFInstance(instance,withConfig);

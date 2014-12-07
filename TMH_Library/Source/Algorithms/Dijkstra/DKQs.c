@@ -147,6 +147,10 @@ void runDKQS_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) 
 		}
 		adjacencyList = currentNode->successors;
 
+		if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+			trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+		}
+
 		while ( adjacencyList != NULL ) {
 			arc = adjacencyList->arc;
 			toNode = arc->successor;

@@ -4,16 +4,14 @@
  ****************************************************************************/
 
 /**
- * @file PAP.h
+ * @file DKF.h
  * @author tomasz
  * @date 10 sie 2014
  * @brief Brief description goes here.
  *
  * @details Detailed description goes here.
  *
- * Graph Growth -- Pape
- *
- * ze stosem
+ * Dijkstra's Heap -- Fibonacci basic impl
  *
  * @see http://www.stack.nl/~dimitri/doxygen/
  */
@@ -23,30 +21,31 @@
  *
  */
 
-#include "../../../Headers/Algorithms/GraphGrowth/PAP.h"	/* TMHGraph, TMHConfig, TMHNodeIdx, bool,
-														destroyTMHGraphInstance(),
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	destroyTMHConfigurationInstance(),*/
+#include "../../../../Headers/Algorithms/Dijkstra/Heaps/DKFb.h"	/* TMHGraph, TMHConfig, TMHNodeIdx, bool,
+																destroyTMHGraphInstance(),
+																destroyTMHConfigurationInstance(),*/
+#include "../../../../Headers/Structures/Heaps/Fibonacci/TMHFibHeapBasic.h"
+																/* TMHFibHeap,
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 createSingleTMHFibHeapInstance(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 removeMinimumTMHFibHeap(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 insertSingleTMHFibHeapInstance(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 decreaseKeyTMHFibHeap(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 createTMHFibNodeInstance()*/
+#include "../../../../Headers/Helpers/TMHAlgorithmHelper.h"		/* reinitializeTMHGraph() */
+#include "../../../../Headers/Helpers/TMHAllocHelper.h"			/* memMalloc(), memFree() */
 
-#include "../../../Headers/Structures/TMHNodeStackQueue.h"/* TMHNodeStackQueue,
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 createTMHNodeStackQueueInstance(),
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 popTMHNodeStackQueue(),
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 pushTMHNodeStackQueue() */
-#include "../../../Headers/Helpers/TMHAlgorithmHelper.h"/* reinitializeTMHGraph() */
-#include "../../../Headers/Helpers/TMHAllocHelper.h"	/* memMalloc(), memFree() */
-
-#include "../../../Headers/Helpers/TMHDictionary.h"		/* dictionary_TMHConfigAlgorithmMode,
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 dictionary_TMHAlgorithmFullName,
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 PAP */
-#include "../../../Headers/TMHLogger.h"					/* info(), warn(), trace() */
-#include "../../../Headers/Helpers/TMHErrors.h"			/* debug_PAP_instanceDeletedSuccessfully,
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 trace_ */
+#include "../../../../Headers/Helpers/TMHDictionary.h"			/* dictionary_TMHConfigAlgorithmMode,
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 dictionary_TMHAlgorithmFullName,
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 DKF */
+#include "../../../../Headers/TMHLogger.h"						/* info(), warn(), trace() */
+#include "../../../../Headers/Helpers/TMHErrors.h"				/* debug_DKF_instanceDeletedSuccessfully */
 
 /*
  * Constants
  *
  */
 
-static const char* MODULE_NAME = "PAP";
+static const char* MODULE_NAME = "DKFb";
 
 
 /*
@@ -68,14 +67,14 @@ static const char* MODULE_NAME = "PAP";
  *
  */
 
-TMH_PAP* createTMHPAPInstance( TMHGraph* const graphData, TMHConfig* configuration ) {
-	TMH_PAP* newInstance = memMalloc(1,sizeof(TMH_PAP));
+TMH_DKFB* createTMHDKFBInstance( TMHGraph* const graphData, TMHConfig* const configuration ) {
+	TMH_DKFB* newInstance = memMalloc(1,sizeof(TMH_DKFB));
 	newInstance->graphData = graphData;
 	newInstance->configuration = configuration;
 	return newInstance;
 }
 
-void destroyTMHPAPInstance ( TMH_PAP* const instance, bool withConfig ) {
+void destroyTMHDKFBInstance ( TMH_DKFB* const instance, bool withConfig ) {
 	destroyTMHGraphInstance(instance->graphData);
 	if (withConfig) {
 		destroyTMHConfigInstance(instance->configuration);
@@ -86,10 +85,10 @@ void destroyTMHPAPInstance ( TMH_PAP* const instance, bool withConfig ) {
 	}
 }
 
-void runPAP( TMH_PAP* const instance ) {
+void runDKFB( TMH_DKFB* const instance ) {
 	switch (instance->configuration->mode) {
 	case SINGLE_SOURCE:
-		runPAP_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
+		runDKFB_SingleSourceWrapper(instance->graphData,instance->configuration->sourceNodeIdxArray,instance->configuration->numberOfSources);
 		break;
 	case POINT_TO_POINT:
 		break;
@@ -98,22 +97,22 @@ void runPAP( TMH_PAP* const instance ) {
 	}
 }
 
-void runPAP_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize ) {
+void runDKFB_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize ) {
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
 		source = graph->nodeArray[sourceNodeArray[i]];
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
-					dictionary_TMHAlgorithmFullName[PAP],
+					dictionary_TMHAlgorithmFullName[DKF],
 					dictionary_TMHConfigAlgorithmMode[SINGLE_SOURCE],
 					source->nodeID);
 		}
-		runPAP_SingleSource(graph,source);
+		runDKFB_SingleSource(graph,source);
 	}
 }
 
-void runPAP_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
+void runDKFB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 	TMHNodeIdx numberOfNodes = graph->numberOfNodes;
 	TMHNode* currentNode;
 	TMHArcList* adjacencyList;
@@ -121,29 +120,39 @@ void runPAP_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 	TMHNode* toNode;
 	TMHNodeData newDistance;
 
-	TMHNodeStackQueue* queue = createTMHNodeStackQueueInstance();
+	TMHFibHeap* heap;
 
 	reinitializeTMHGraph(graph,sourceNode);
-	pushTMHNodeStackQueue(queue,sourceNode);
+
+	heap = createSingleTMHFibBHeapInstance(
+			createTMHFibNodeInstance(sourceNode),
+			numberOfNodes);
 
 	if (isTraceLogEnabled()) {
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_reinitGraph,numberOfNodes,sourceNode->nodeID);
-		trace(MODULE_NAME,trace_PAP_initQueueWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
+		trace(MODULE_NAME,trace_DKF_initQueueWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
 	}
 
-	while ( (currentNode = popTMHNodeStackQueue(queue)) != NULL ) {
+	while ( (currentNode = extractMinTMHFibBHeap(heap)) != NULL ) {
 		if (isTraceLogEnabled()) {
 			trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
 		}
 
 		if (isTraceLogEnabled()) {
-			if ( currentNode->predecessor == NULL ) {
-				trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
+			if ( currentNode->distanceLabel == distanceLabelInfinity ) {
+				trace(MODULE_NAME,trace_TMHAlgorithmHelper_getInfinityFromQueue,currentNode->nodeID);
 			} else {
-				trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElement,currentNode->nodeID,currentNode->distanceLabel,currentNode->predecessor->nodeID);
+				if ( currentNode->predecessor == NULL ) {
+					trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
+				} else {
+					trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElement,currentNode->nodeID,currentNode->distanceLabel,currentNode->predecessor->nodeID);
+				}
 			}
 		}
 
+		if ( currentNode->distanceLabel == distanceLabelInfinity ) {
+			break;
+		}
 		adjacencyList = currentNode->successors;
 
 		if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
@@ -169,15 +178,29 @@ void runPAP_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 						}
 					}
+					if ( toNode->toUpperStruct == NULL ) {
+						trace(MODULE_NAME,trace_DKF_addMode,toNode->nodeID,newDistance);
+					} else {
+						trace(MODULE_NAME,trace_DKF_decreaseKey,toNode->nodeID,toNode->distanceLabel,newDistance);
+					}
 				}
-
-				pushTMHNodeStackQueue(queue,toNode);	/* nie priorytetowa, a potrzeba starej odleg�o�ci*/
 
 				toNode->distanceLabel = newDistance;
 				toNode->predecessor = currentNode;
+
+				if ( toNode->toUpperStruct == NULL ) {
+					insertSingleTMHFibBHeap(heap,
+							createTMHFibNodeInstance(toNode));
+				} else {
+					decreaseKeyTMHFibBHeap(heap,(TMHFibNode*)toNode->toUpperStruct,newDistance);
+				}
 			}
 			adjacencyList = adjacencyList->nextElement;
 		}
 	}
-}
 
+	if (isInfoLogEnabled()) {
+		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyFibonacci);
+	}
+	destroyTMHFibBHeapInstance(heap);
+}

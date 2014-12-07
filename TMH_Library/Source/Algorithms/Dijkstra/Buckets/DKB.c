@@ -162,6 +162,10 @@ void runDKB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 
 				adjacencyList = currentNode->successors;
 
+				if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+					trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+				}
+
 				while ( adjacencyList != NULL ) {
 					arc = adjacencyList->arc;
 					toNode = arc->successor;
@@ -172,9 +176,11 @@ void runDKB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 					}
 
 					if ( toNode->distanceLabel > newDistance ) {
-						if (isTraceLogEnabled()) {
-							if ( toNode->predecessor == NULL ) {
-								trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelaxPredNULL,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						if ( toNode->predecessor == NULL ) {
+							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelaxPredNULL,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						} else {
+							if ( toNode->predecessor == currentNode ) {
+								trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,currentNode->nodeID,(toNode->distanceLabel-arc->distance),arc->distance,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 							} else {
 								trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 							}
@@ -183,7 +189,7 @@ void runDKB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 							if ( toNode->toUpperStruct == NULL ) {
 								trace(MODULE_NAME,trace_TMHAlgorithmHelper_pushIntoBucket,toNode->nodeID,newDistance,newDistance);
 							} else {
-								trace(MODULE_NAME,trace_TMHAlgorithmHelper_repinBetweenBuckets,toNode->nodeID,newDistance,newDistance,((bucketsArray[toNode->distanceLabel]->head->next->next)) ? "" : " Source bucket is now empty.");
+								trace(MODULE_NAME,trace_TMHAlgorithmHelper_repinBetweenBuckets,toNode->nodeID,newDistance,newDistance,((bucketsArray[toNode->distanceLabel]->head->next->next->next)) ? "" : " Source bucket is now empty.");
 							}
 						}
 

@@ -140,6 +140,11 @@ void runBFP_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 
 			/* nie ma sensu sprawdzac nastepcow i ich mozliwosci relaksacji, skoro ich parent ma infinity*/
 			adjacencyList = currentNode->successors;
+
+			if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+				trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+			}
+
 			while ( adjacencyList != NULL ) {
 				arc = adjacencyList->arc;
 				toNode = arc->successor;

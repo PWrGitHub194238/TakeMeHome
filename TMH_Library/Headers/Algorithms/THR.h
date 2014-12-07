@@ -66,25 +66,26 @@ void destroyTMHTHRInstance( TMH_THR* const instance, bool withConfig );
 
 void runTHR( TMH_THR* const instance );
 
-void runTHR_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize, const TMHNodeData* const threshold );
+void runTHR_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const sourceNodeArray, const TMHNodeIdx sourceNodeArraySize, const TMHNodeData threshold );
 
 void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMHNodeData threshold  );
 
-inline TMHNodeData computeThreshold( const TMHGraph* const graphData, const TMHNodeData* thresholdParam ) __attribute__((always_inline));
+inline TMHNodeData computeThreshold( const TMHGraph* const graphData, const TMHNodeData thresholdParam ) __attribute__((always_inline));
 /*
  * Inline definitions
  *
  */
 
-inline TMHNodeData computeThreshold( const TMHGraph* const graphData, const TMHNodeData* thresholdParam ) {
+inline TMHNodeData computeThreshold( const TMHGraph* const graphData, const TMHNodeData thresholdParam ) {
 	TMHNodeIdx numberOfNodes = graphData->numberOfNodes;
 	TMHNode* currentNode = NULL;
 	TMHArcList* adjacencyList = NULL;
 	TMHNodeIdx i;
 	TMHNodeData averageArcCost = 0;
-	TMHNodeData dense = 50;
+	double minDense = 1;
+	double dense;
 
-	for ( i = 0; i < numberOfNodes; i++ ) {					/* dla takiej TMHGraph trzeba przeglądnąć wszystkie nody*/
+	for ( i = 1; i <= numberOfNodes; i++ ) {					/* dla takiej TMHGraph trzeba przeglądnąć wszystkie nody*/
 		currentNode = graphData->nodeArray[i];
 		adjacencyList = currentNode->successors;
 		while ( adjacencyList != NULL ) {
@@ -94,12 +95,12 @@ inline TMHNodeData computeThreshold( const TMHGraph* const graphData, const TMHN
 	}
 	averageArcCost = averageArcCost / graphData->numberOfArcs;
 
-	i = graphData->numberOfArcs / graphData->numberOfNodes;
+	dense = (graphData->numberOfArcs*1.0) / graphData->numberOfNodes;
 
-	if ( i >= dense ) {
-		dense = i;
+	if ( dense < minDense ) {
+		dense = minDense;
 	}
-	return averageArcCost * *(thresholdParam) / dense;
+	return averageArcCost * (TMHNodeData) (thresholdParam / dense);
 }
 
 #endif /* THR_H_ */

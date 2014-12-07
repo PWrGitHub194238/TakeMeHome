@@ -147,6 +147,10 @@ void runGR1_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 		}
 		adjacencyList = currentNode->successors;
 
+		if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+			trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+		}
+
 		while ( adjacencyList != NULL ) {
 			arc = adjacencyList->arc;
 			toNode = arc->successor;
@@ -160,7 +164,11 @@ void runGR1_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 					if ( toNode->predecessor == NULL ) {
 						trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelaxPredNULL,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 					} else {
-						trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						if ( toNode->predecessor == currentNode ) {
+							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,currentNode->nodeID,(toNode->distanceLabel-arc->distance),arc->distance,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						} else {
+							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						}
 					}
 				}
 				toNode->distanceLabel = newDistance;

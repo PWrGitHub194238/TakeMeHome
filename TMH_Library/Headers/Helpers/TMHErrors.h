@@ -148,7 +148,10 @@ extern const char* trace_TMHAlgorithmHelper_nextBucketScanLoop;
 extern const char* trace_TMHAlgorithmHelper_getInfinityFromQueue;
 extern const char* trace_TMHAlgorithmHelper_popElementNoParent;
 extern const char* trace_TMHAlgorithmHelper_popElement;
+extern const char* trace_TMHAlgorithmHelper_noOutgoingEdges;
+extern const char* trace_TMHAlgorithmHelper_createBucketWithRange;
 extern const char* trace_TMHAlgorithmHelper_scanningBucket;
+extern const char* trace_TMHAlgorithmHelper_scanningBucketWithRange;
 extern const char* trace_TMHAlgorithmHelper_bucketEmpty;
 extern const char* trace_TMHAlgorithmHelper_pushIntoBucket;
 extern const char* trace_TMHAlgorithmHelper_repinBetweenBuckets;
@@ -207,8 +210,6 @@ extern const char* trace_DDL_createBuckets;
  */
 
 /*	TRACE	*/
-extern const char* trace_DKA_createBucket;
-
 /*	DEBUG	*/
 /*	INFO	*/
 extern const char* info_DKA_parametrReaded;
@@ -253,6 +254,7 @@ extern const char* trace_DKD_pushIntoLowLevelBucket;
 extern const char* trace_DKD_pushIntoHighLevelBucket;
 extern const char* trace_DKD_repinBetweenLowLevelBuckets;
 extern const char* trace_DKD_repinToLowLevelBuckets;
+extern const char* trace_DKD_noRepinBetweenHighLevelBucket;
 extern const char* trace_DKD_repinBetweenHighLevelBucket;
 
 /*	DEBUG	*/
@@ -288,6 +290,35 @@ extern const char* trace_DKM_overflowBagIsEmpty;
 /*	INFO	*/
 extern const char* info_DKM_parametrReaded;
 
+/*	WARN	*/
+/*	ERROR	*/
+/*	FATAL	*/
+
+/* *****************************************************************************************************
+ * DKX
+ *
+ */
+
+/*	TRACE	*/
+extern const char* trace_DKX_createOverflowBucket;
+extern const char* trace_DKX_scanningOverflowBucket;
+extern const char* trace_DKX_singleNodeInBucket;
+extern const char* trace_DKX_multiplyNodesInBucketSingleRange;
+extern const char* trace_DKX_uselessOverflowRepin;
+extern const char* trace_DKX_uselessRepinBetweenBuckets;
+extern const char* trace_DKX_mapNodeToBucket;
+extern const char* trace_DKX_multiplyNodesInOverflow;
+extern const char* trace_DKX_multiplyNodesInBucket;
+extern const char* trace_DKX_newOverflowRange;
+extern const char* trace_DKX_newBucketRange;
+extern const char* trace_DKX_bucketRedistribution;
+extern const char* trace_DKX_nodeRedistributionFromBucket;
+extern const char* trace_DKX_uselessOverflowRepinRedistribution;
+extern const char* trace_DKX_uselessBucketRepinRedistribution;
+extern const char* trace_DKX_setRescan;
+
+/*	DEBUG	*/
+/*	INFO	*/
 /*	WARN	*/
 /*	ERROR	*/
 /*	FATAL	*/
@@ -389,8 +420,11 @@ extern const char* trace_TQQ_initQueueWithSource;
 
 /*	TRACE	*/
 extern const char* trace_THR_initQueueWithSource;
-extern const char* trace_THR_belowThresholdLevel;
-extern const char* trace_THR_outOfThresholdLevel;
+extern const char* trace_THR_insertBelowThresholdLevel;
+extern const char* trace_THR_insertOutOfThresholdLevel;
+extern const char* trace_THR_uselessBackgroundRepin;
+extern const char* trace_THR_repinFromBackground;
+extern const char* trace_THR_uselessMainRepin;
 extern const char* trace_THR_updateThreshold;
 
 /*	DEBUG	*/

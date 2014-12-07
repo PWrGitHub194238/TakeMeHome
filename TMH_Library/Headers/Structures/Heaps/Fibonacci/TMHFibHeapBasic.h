@@ -4,7 +4,7 @@
  ****************************************************************************/
 
 /**
- * @file TMHFibHeap.h
+ * @file TMHFibHeapBasic.h
  * @author tomasz
  * @date 15 sie 2014
  * @brief Brief description goes here.
@@ -58,19 +58,12 @@ typedef struct TMHFibHeap {
 
 void printFib( TMHFibNode* minNode, int lvl );
 
-void decreaseKey( TMHFibHeap* H, TMHFibNode* x, TMHNodeData k );
-void insertSingleTMHFibHeapInstance2( TMHFibHeap* H, TMHFibNode* x );
-TMHFibNode* concatenate( TMHFibNode* Hmin, TMHFibNode* x );
-void CUT( TMHFibHeap* H, TMHFibNode* x, TMHFibNode* y );
-void cascCUT( TMHFibHeap* H, TMHFibNode* y );
-TMHNode* extractMin( TMHFibHeap* H );
-
 /*
  * Declarations
  *
  */
 
-TMHFibHeap* createSingleTMHFibHeapInstance( TMHFibNode* rootNode, const TMHNodeIdx maxNumberOfNodes );
+TMHFibHeap* createSingleTMHFibBHeapInstance( TMHFibNode* rootNode, const TMHNodeIdx maxNumberOfNodes );
 
 /**
  * Tworzy nowy kopiec, ustawiajac minNode rootNode i ustawia liczbe wezlow w kopcu.
@@ -79,34 +72,11 @@ TMHFibHeap* createSingleTMHFibHeapInstance( TMHFibNode* rootNode, const TMHNodeI
  * Jedyny sposob na jej konstrukcje to concatTMHFibDLList(), ktory zawsze zwraca wskaznik
  * na element listy spelniajacy warunki bycia minNode.
  */
-TMHFibHeap* createTMHFibHeapInstance( TMHFibNode* rootNode, const TMHNodeIdx maxNumberOfNodes );
+TMHFibHeap* createTMHFibBHeapInstance( TMHFibNode* rootNode, const TMHNodeIdx maxNumberOfNodes );
 
-void destroyTMHFibHeapInstance( TMHFibHeap* const instance );
+void destroyTMHFibBHeapInstance( TMHFibHeap* const instance );
 
-void insertSingleTMHFibHeapInstance( TMHFibHeap* const instance, TMHFibNode* singleNode );
-
-/**
- * Dodaje nody do kopca (do roor listy).
- * Jesli nodeList jest puste to nic nie rob. Wpp. polacz listy i ustaw minNode.
- * Takze zakladamy, ze i rootLista z instance i nodeList wskazuja na nody o wlasnosci minNode
- * Jesli listSize = 0 to sprawdz recznie
- */
-void insertTMHFibHeapInstance( TMHFibHeap* const instance, TMHFibNode* nodeList, const TMHNodeIdx listSize );
-
-/**
- * Zwraca minNode.
- */
-TMHFibNode* getMinimumTMHFibBHeap( const TMHFibHeap* const instance );
-
-/**
- * insertTMHFibHeapInstance() i zwraca pierwszy kopiec - heap1
- */
-TMHFibHeap* unionTMHFibHeap( TMHFibHeap* const heap1, TMHFibHeap* const heap2 );
-
-TMHNode* removeMinimumTMHFibHeap2( TMHFibHeap* const instance );
-TMHNode* removeMinimumTMHFibHeap( TMHFibHeap* const instance );
-
-void decreaseKeyTMHFibHeap( TMHFibHeap* const instance, TMHFibNode* const node, const TMHNodeIdx newKey );
+void insertSingleTMHFibBHeap( TMHFibHeap* H, TMHFibNode* x );
 
 /** !!! Operujemy na unsigned - minimum to 0, wiec nie moze byc innych nodow z kosztem 0 ( co w arunkach drogowych raczej jest bez sensu, wiec jest ok)
  *
@@ -114,6 +84,15 @@ void decreaseKeyTMHFibHeap( TMHFibHeap* const instance, TMHFibNode* const node, 
  * @param node
  * @return
  */
-TMHNode* deleteNodeTMHFibHeap( TMHFibHeap* const instance, TMHFibNode* const node );
+TMHNode* extractMinTMHFibBHeap( TMHFibHeap* H );
+
+/**
+ * Zwraca minNode.
+ */
+TMHFibNode* getMinimumTMHFibBHeap( const TMHFibHeap* const instance );
+
+void decreaseKeyTMHFibBHeap( TMHFibHeap* H, TMHFibNode* x, TMHNodeData k );
+
+TMHNode* deleteNodeTMHFibBHeap( TMHFibHeap* const instance, TMHFibNode* const node );
 
 #endif /* TMHFIBHEAP_H_ */

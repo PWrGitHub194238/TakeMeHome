@@ -39,11 +39,14 @@ static const char* MODULE_NAME = "TMHDHeap";
  *
  */
 
+static const TMHNodeIdx ROOT_IDX = 1;
+
 /*
  * Private declarations
  *
  */
-static void maxHeapify( TMHNode** nodeArray, TMHNodeIdx arraySize, TMHNodeIdx* nodeIdx, const TMHNodeIdx firstChildIdx, const TMHNodeIdx dHeapParam );
+
+static void maxHeapify( TMHNode** const nodeArray, TMHNodeIdx* const heapIDArray, const TMHNodeIdx heapSize, const TMHNodeIdx dHeapParam, TMHNodeIdx heapID );
 
 /*
  * Definitions
@@ -52,98 +55,138 @@ static void maxHeapify( TMHNode** nodeArray, TMHNodeIdx arraySize, TMHNodeIdx* n
 
 TMHDHeap* createTMHDHeapInstance( TMHNode** const inputArray, const TMHNodeIdx numberOfNodes, const TMHNodeIdx dHeapParam ) {
 	TMHDHeap* newHeap = memMalloc(1,sizeof(TMHDHeap));
+	TMHNodeIdx noOfNodes = numberOfNodes+ROOT_IDX;
+	TMHNodeIdx* heapIDArray = memMalloc(noOfNodes,sizeof(TMHNodeIdx));
 
 	newHeap->dHeapParam = dHeapParam;
-	newHeap->arraySize = numberOfNodes+1;
+	newHeap->arraySize = noOfNodes;
 	newHeap->nodeArray = inputArray;
+	newHeap->heapIDArray = heapIDArray;
 	newHeap->heapSize = 0;
+
+	for ( noOfNodes--; noOfNodes > 0; noOfNodes-- ) {
+		heapIDArray[noOfNodes] = noOfNodes;
+	}
 
 	return newHeap;
 }
 
 void destroyTMHDHeapInstance( TMHDHeap* const instance ) {
-	TMHNode** nodeArray = instance->nodeArray;
-	TMHNodeIdx nodeArraySize = instance->arraySize;
-	for ( nodeArraySize--; nodeArraySize > 0; nodeArraySize-- ) {
-		memFree(nodeArray[nodeArraySize]->toUpperStruct);
-	}
-	memFree(nodeArray[nodeArraySize]->toUpperStruct);
+	memFree(instance->heapIDArray);
 	memFree(instance);
 }
 
+/* toUS teraz jest indeksem węzłów w ich tablicy - ich id dłużej się nie pokrywa z kolejnością w tablicy*/
 void insertTMHDHeap( TMHDHeap* const instance, TMHNode* const newNode ) {
-	TMHNodeIdx* nodeIdx = memCalloc(1,sizeof(TMHNodeIdx));
-	*nodeIdx = newNode->nodeID;
-	newNode->toUpperStruct = nodeIdx;
+	TMHNode* oldNode;
+	TMHNodeIdx* heapIDArray = instance->heapIDArray;
+	TMHNode** nodeArray = instance->nodeArray;
 	instance->heapSize = instance->heapSize + 1;
-	decreaseKeyTMHDHeap(instance,(TMHNodeIdx*)newNode->toUpperStruct,newNode->distanceLabel);
+
+	oldNode = nodeArray[instance->heapSize];	// wstawia węzeł na koniec kopca
+
+	nodeArray[instance->heapSize] = newNode;
+	nodeArray[heapIDArray[newNode->nodeID]] = oldNode;	// a stary wstawiany na stare miejsce nowego
+
+	heapIDArray[oldNode->nodeID] = heapIDArray[newNode->nodeID];
+	heapIDArray[newNode->nodeID] = instance->heapSize;
+
+	decreaseKeyTMHDHeap(instance,instance->heapSize,newNode->distanceLabel);
 }
 
 TMHNode* getMinimumTMHDHeap( TMHDHeap* const instance ) {
-	return instance->nodeArray[1];
+	return instance->nodeArray[ROOT_IDX];
 }
 
 TMHNode* removeMinimumTMHDHeap( TMHDHeap* const instance ) {
 	TMHNode* minNode;
-	if ( instance->heapSize == 0 ) {
-		warn(MODULE_NAME,warn_TMHDHeap_removeFromEmptyHeap);
-		return NULL;
-	} else {
-		minNode = instance->nodeArray[1];
-		instance->heapSize -= 1;
-		maxHeapify(instance->nodeArray,instance->arraySize,(TMHNodeIdx*)minNode->toUpperStruct,instance->dHeapParam,instance->dHeapParam);
-		return minNode;
+
+	switch (instance->heapSize) {
+		case 0:
+			if(isWarnLogEnabled()) {
+				warn(MODULE_NAME,warn_TMHDHeap_removeFromEmptyHeap);
+			}
+			return NULL;
+		case 1:
+			instance->heapSize -= 1;
+			return instance->nodeArray[ROOT_IDX];
+		default:
+			minNode = instance->nodeArray[ROOT_IDX];
+
+			instance->nodeArray[ROOT_IDX] = instance->nodeArray[instance->heapSize];	// wraz z przeniesieniem z końca na początek
+			instance->heapIDArray[instance->nodeArray[ROOT_IDX]->nodeID] = ROOT_IDX;	// node, który został przeniesiony na początek ma id na początku
+
+			instance->nodeArray[instance->heapSize] = minNode;
+			instance->heapIDArray[minNode->nodeID] = instance->heapSize;
+
+			instance->heapSize -= 1;
+
+			if ( instance->heapSize > 1 ) {
+				maxHeapify(instance->nodeArray,instance->heapIDArray,instance->heapSize,instance->dHeapParam,ROOT_IDX);
+			}
+			return minNode;
 	}
 }
 
-void decreaseKeyTMHDHeap( TMHDHeap* const instance, TMHNodeIdx* nodeIdx, const TMHNodeData newDistance ) {
-	TMHNode* swap;
-	TMHNodeIdx swapIdx;
+void decreaseKeyTMHDHeap( TMHDHeap* const instance, TMHNodeIdx heapID, const TMHNodeData newDistance ) {
 	TMHNodeIdx dHeapParam = instance->dHeapParam;
 	TMHNode** nodeArray = instance->nodeArray;
-	TMHNodeIdx* parentIDx = (TMHNodeIdx*) nodeArray[(*nodeIdx)/dHeapParam]->toUpperStruct;
+	TMHNode* swap;
+	TMHNodeIdx parentID;
 
-	while ( (*nodeIdx) > 1 && nodeArray[*parentIDx]->distanceLabel > newDistance ) {
-		swapIdx = *parentIDx;
-		swap = nodeArray[swapIdx];
-		nodeArray[*parentIDx] = nodeArray[*nodeIdx];
-		*parentIDx = *nodeIdx;
-		nodeArray[*nodeIdx] = swap;
-		*nodeIdx = swapIdx;
-		parentIDx = (TMHNodeIdx*) nodeArray[(*nodeIdx)/dHeapParam]->toUpperStruct;
+	while ( heapID > ROOT_IDX ) {
+		parentID = (TMHNodeIdx) (((heapID-ROOT_IDX)-1)/dHeapParam+ROOT_IDX);
+
+		if ( nodeArray[parentID]->distanceLabel > newDistance ) {
+
+			swap = instance->nodeArray[heapID];
+
+			instance->nodeArray[heapID] = instance->nodeArray[parentID];		// parent dalej
+			instance->heapIDArray[instance->nodeArray[heapID]->nodeID] = heapID;	// odpowiednio idx parenta
+
+			instance->nodeArray[parentID] = swap;	// w miejsce parenta
+			instance->heapIDArray[swap->nodeID] = parentID;
+
+
+			heapID = parentID;
+		} else {
+			break;
+		}
 	}
 }
 
-static void maxHeapify( TMHNode** nodeArray, TMHNodeIdx arraySize, TMHNodeIdx* nodeIdx, const TMHNodeIdx firstChildIdx, const TMHNodeIdx dHeapParam ) {
+static void maxHeapify( TMHNode** const nodeArray, TMHNodeIdx* const heapIDArray, const TMHNodeIdx heapSize, const TMHNodeIdx dHeapParam, TMHNodeIdx heapID ) {
 	static TMHNode* swap;
 	static TMHNodeIdx swapIdx;
-	static TMHNodeIdx* minIdx;
 	static TMHNodeIdx minId;
-	static TMHNodeIdx j;
-	static TMHNodeIdx childrenLastIdx;
-	static TMHNodeIdx lastestIdx;
+	static TMHNodeIdx firstChildIdx;
+	static TMHNodeIdx lastChildIdx;
 
-	minIdx = nodeIdx;
-	minId = *minIdx;
-	lastestIdx = firstChildIdx;
-	childrenLastIdx = lastestIdx + dHeapParam;
-	if ( childrenLastIdx >= arraySize ) {
-		childrenLastIdx = dHeapParam - (childrenLastIdx-arraySize+1);
+	minId = heapID;
+	firstChildIdx = dHeapParam*(heapID-ROOT_IDX)+1+ROOT_IDX;
+	lastChildIdx = firstChildIdx + dHeapParam - 1;
+
+	if ( lastChildIdx > heapSize ) {
+		lastChildIdx = heapSize;
 	}
-	for ( j = 0; j < childrenLastIdx; j += 1 ) {
-		if ( nodeArray[minId]->distanceLabel > nodeArray[lastestIdx]->distanceLabel ) {
-			minId = lastestIdx;
+
+	for ( ; firstChildIdx <= lastChildIdx; firstChildIdx += 1 ) {
+		if ( nodeArray[firstChildIdx]->distanceLabel < nodeArray[minId]->distanceLabel ) {
+			minId = firstChildIdx;
 		}
-		lastestIdx += 1;
 	}
-	if ( minId != *nodeIdx ) {
-		minIdx = (TMHNodeIdx*) nodeArray[minId]->toUpperStruct;
-		swapIdx = *minIdx;
-		swap = nodeArray[swapIdx];
-		nodeArray[*minIdx] = nodeArray[*nodeIdx];
-		*minIdx = *nodeIdx;
-		nodeArray[*nodeIdx] = swap;
-		*nodeIdx = swapIdx;
-		maxHeapify(nodeArray,arraySize,minIdx,*minIdx*dHeapParam,dHeapParam);
+
+	if ( minId != heapID ) {	// if not already minimum
+
+		swap = nodeArray[heapID];
+		swapIdx = heapIDArray[swap->nodeID];
+
+		nodeArray[heapID] = nodeArray[minId];
+		heapIDArray[swap->nodeID] = heapIDArray[nodeArray[minId]->nodeID];
+
+		heapIDArray[nodeArray[minId]->nodeID] = swapIdx;
+		nodeArray[minId] = swap;
+
+		maxHeapify(nodeArray,heapIDArray,heapSize,dHeapParam,minId);
 	}
 }

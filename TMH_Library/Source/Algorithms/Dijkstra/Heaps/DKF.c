@@ -25,12 +25,6 @@
 																destroyTMHGraphInstance(),
 																destroyTMHConfigurationInstance(),*/
 
-#include "../../../../Headers/Structures/Heaps/Fibonacci/TMHFibHeap.h"/* TMHFibHeap,
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 createSingleTMHFibHeapInstance(),
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 removeMinimumTMHFibHeap(),
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 insertSingleTMHFibHeapInstance(),
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 decreaseKeyTMHFibHeap(),
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 createTMHFibNodeInstance()*/
 #include "../../../../Headers/Helpers/TMHAlgorithmHelper.h"		/* reinitializeTMHGraph() */
 #include "../../../../Headers/Helpers/TMHAllocHelper.h"			/* memMalloc(), memFree() */
 
@@ -38,15 +32,22 @@
  	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 dictionary_TMHAlgorithmFullName,
  	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 DKF */
 #include "../../../../Headers/TMHLogger.h"						/* info(), warn(), trace() */
-#include "../../../../Headers/Helpers/TMHErrors.h"				/* debug_DKF_instanceDeletedSuccessfully,
- 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 trace_ */
+#include "../../../../Headers/Helpers/TMHErrors.h"				/* debug_DKF_instanceDeletedSuccessfully*/
+#include "../../../../Headers/Structures/Heaps/Fibonacci/TMHFibHeap.h"
+																/* TMHFibHeap,
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 createSingleTMHFibHeapInstance(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 removeMinimumTMHFibHeap(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 insertSingleTMHFibHeapInstance(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 decreaseKeyTMHFibHeap(),
+ 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 	 createTMHFibNodeInstance()*/
+
 
 /*
  * Constants
  *
  */
 
-static const char* MODULE_NAME = "DKF";
+static const char* MODULE_NAME = "DKFx";
 
 
 /*
@@ -124,16 +125,20 @@ void runDKF_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 	TMHFibHeap* heap;
 
 	reinitializeTMHGraph(graph,sourceNode);
+
 	heap = createSingleTMHFibHeapInstance(
 			createTMHFibNodeInstance(sourceNode),
-			&numberOfNodes);
+			numberOfNodes);
 
 	if (isTraceLogEnabled()) {
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_reinitGraph,numberOfNodes,sourceNode->nodeID);
 		trace(MODULE_NAME,trace_DKF_initQueueWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
 	}
 
-	while ( (currentNode = removeMinimumTMHFibHeap(heap)) != NULL ) {
+	printf("\n\nGET: %u\n",currentNode->nodeID);
+			printFib(heap->minNode,0);
+			printf("\n\n");
+	while ( (currentNode = extractMin(heap)) != NULL ) {
 		if (isTraceLogEnabled()) {
 			trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
 		}
@@ -149,10 +154,19 @@ void runDKF_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 				}
 			}
 		}
+
+		printf("\n\nAFTER GET: %u\n",currentNode->nodeID);
+				printFib(heap->minNode,0);
+				printf("\n\n");
+
 		if ( currentNode->distanceLabel == distanceLabelInfinity ) {
 			break;
 		}
 		adjacencyList = currentNode->successors;
+
+		if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+			trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+		}
 
 		while ( adjacencyList != NULL ) {
 			arc = adjacencyList->arc;
@@ -167,7 +181,11 @@ void runDKF_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 					if ( toNode->predecessor == NULL ) {
 						trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelaxPredNULL,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 					} else {
-						trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						if ( toNode->predecessor == currentNode ) {
+							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,currentNode->nodeID,(toNode->distanceLabel-arc->distance),arc->distance,toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						} else {
+							trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
+						}
 					}
 					if ( toNode->toUpperStruct == NULL ) {
 						trace(MODULE_NAME,trace_DKF_addMode,toNode->nodeID,newDistance);
@@ -180,10 +198,16 @@ void runDKF_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 				toNode->predecessor = currentNode;
 
 				if ( toNode->toUpperStruct == NULL ) {
-					insertSingleTMHFibHeapInstance(heap,
+					insertSingleTMHFibHeapInstance2(heap,
 							createTMHFibNodeInstance(toNode));
+					printf("\n\nAFTER INSERT: %u\n",toNode->nodeID);
+									printFib(heap->minNode,0);
+									printf("\n\n");
 				} else {
-					decreaseKeyTMHFibHeap(heap,toNode->toUpperStruct,&newDistance);
+					decreaseKey(heap,(TMHFibNode*)toNode->toUpperStruct,newDistance);
+					printf("\n\nAFTER DEC: %u\n",toNode->nodeID);
+									printFib(heap->minNode,0);
+									printf("\n\n");
 				}
 			}
 			adjacencyList = adjacencyList->nextElement;

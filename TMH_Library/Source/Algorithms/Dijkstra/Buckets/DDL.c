@@ -167,6 +167,10 @@ void runDDL_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 
 					adjacencyList = currentNode->successors;
 
+					if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+						trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+					}
+
 					while ( adjacencyList != NULL ) {
 						arc = adjacencyList->arc;
 						toNode = arc->successor;
@@ -198,7 +202,7 @@ void runDDL_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 								if ( toNode->toUpperStruct == NULL ) {
 									trace(MODULE_NAME,trace_TMHAlgorithmHelper_pushIntoBucket,toNode->nodeID,newDistance,newIdx);
 								} else {
-									trace(MODULE_NAME,trace_TMHAlgorithmHelper_repinBetweenBuckets,toNode->nodeID,newDistance,newIdx,((bucketsArray[toNode->distanceLabel%numberOfBuckets]->head->next->next)) ? "" : " Source bucket is now empty.");
+									trace(MODULE_NAME,trace_TMHAlgorithmHelper_repinBetweenBuckets,toNode->nodeID,newDistance,newIdx,((bucketsArray[toNode->distanceLabel%numberOfBuckets]->head->next->next->next)) ? "" : " Source bucket is now empty.");
 								}
 							}
 

@@ -81,8 +81,10 @@ TMH_DKR* createTMHDKRInstance( TMHGraph* const graphData, TMHConfig* const confi
 	if ( configuration->allowInterrupt ) {
 		printf("%s\n",ASK_FOR_WIDTH_OF_HEAP);
 		newInstance->dHeapParameter = getParameterOrDefaultDKR(graphData->numberOfArcs,graphData->numberOfNodes);
-	} else {
+	} else if ( configuration->defaultParameter == NULL ) {
 		newInstance->dHeapParameter = findBestParameter(graphData->numberOfArcs,graphData->numberOfNodes);
+	} else {
+		newInstance->dHeapParameter = *(configuration->defaultParameter);
 	}
 	if (isInfoLogEnabled()) {
 		info(MODULE_NAME,info_DKR_parametrReaded,newInstance->dHeapParameter);
@@ -165,6 +167,10 @@ void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 		}
 		adjacencyList = currentNode->successors;
 
+		if( isTraceLogEnabled() &&  adjacencyList == NULL ) {
+			trace(MODULE_NAME,trace_TMHAlgorithmHelper_noOutgoingEdges,currentNode->nodeID);
+		}
+
 		while ( adjacencyList != NULL ) {
 			arc = adjacencyList->arc;
 			toNode = arc->successor;
@@ -180,7 +186,7 @@ void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 					} else {
 						trace(MODULE_NAME,trace_TMHAlgorithmHelper_makeRelax,toNode->predecessor->nodeID,toNode->predecessor->distanceLabel,(toNode->distanceLabel-toNode->predecessor->distanceLabel),toNode->nodeID,toNode->distanceLabel,currentNode->nodeID,currentNode->distanceLabel,arc->distance,toNode->nodeID,newDistance);
 					}
-					if ( toNode->toUpperStruct == NULL ) {
+					if ( heap->heapIDArray[toNode->nodeID] > heap->heapSize ) {
 						trace(MODULE_NAME,trace_DKR_addMode,toNode->nodeID,newDistance);
 					} else {
 						trace(MODULE_NAME,trace_DKR_decreaseKey,toNode->nodeID,toNode->distanceLabel,newDistance);
@@ -189,10 +195,10 @@ void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 				toNode->distanceLabel = newDistance;
 				toNode->predecessor = currentNode;
 
-				if ( toNode->toUpperStruct == NULL ) {
+				if ( heap->heapIDArray[toNode->nodeID] > heap->heapSize ) {	// jeśli został wyrzucony poza kopiec poprzez inny element, a sam "po prostu tam był" i musiał dostać identyfikator. Jeśli tak było to traktuj go jako nowy węzeł
 					insertTMHDHeap(heap,toNode);
 				} else {
-					decreaseKeyTMHDHeap(heap,(TMHNodeIdx*)toNode->toUpperStruct,newDistance);
+					decreaseKeyTMHDHeap(heap,heap->heapIDArray[toNode->nodeID],newDistance);
 				}
 			}
 			adjacencyList = adjacencyList->nextElement;
