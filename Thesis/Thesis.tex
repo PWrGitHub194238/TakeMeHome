@@ -3,7 +3,16 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 
-\usepackage[ruled,vlined]{algorithm2e}
+\usepackage[ruled,vlined,linesnumbered,longend]{algorithm2e}
+\SetKwBlock{Begin}{begin}{end}
+\SetKwBlock{bBegin}{begin}{}
+\SetKwBlock{eBegin}{}{end}
+\newcommand\KwTrue[0]{\emph{\textbf{TRUE}}}
+\newcommand\KwFalse[0]{\emph{\textbf{FALSE}}}
+\newcommand\KwNull[0]{\emph{\textbf{NULL}}}
+\newcommand\algcomment[1]{\footnotesize{#1}}
+\SetCommentSty{algcomment}
+
 \usepackage{listings} 
 
 \usepackage{color}
@@ -127,8 +136,9 @@
 \newtheorem{corollary}{Wniosek}[section]
 \newtheorem{definition}{Definicja}[section]
 
+
 \newenvironment{proof}{\par\noindent {\bf Dowód.}}
-{\begin{flushright} \vspace*{-6mm}\mbox{$\Box$} \end{flushright}}
+{\begin{flushright} \vspace*{-6mm}\mbox{$\blacklozenge$} \end{flushright}}
 
 \newenvironment{remark}{\bigskip \par\noindent\begin{small}{\bf Uwaga.}}
                        {\vspace*{4mm}\end{small}}
@@ -145,7 +155,7 @@
    przy-kład pod-zbio-rów po-mię-dzy re-pre-zen-to-wa-ne
    rów-no-waż-ne bi-blio-te-kach wy-pro-wa-dza ma-te-ria-łów
    prze-ka-za-nym skoń-czo-nym moż-esz na-tu-ral-na cią-gu tab-li-cy
-   prze-ka-za-nej}
+   prze-ka-za-nej od-po-wied-nio}
 
 % ***************************************************************************************************
 % Dokument																							*

@@ -25,9 +25,9 @@ void test( int j );
 void makeTest();
 
 int main(void) {
-	//enableLog(ALL,false);
-	disableLog();
-	//enableSaveLog("templog",true);
+	enableLog(ALL,false);
+	//disableLog();
+	enableSaveLog("templog",true);
 	loopTest(1,1);
 	return EXIT_SUCCESS;
 }
@@ -60,9 +60,9 @@ void loopTest( int i, int j ) {
 		printf("%f\n",e-s);*/
 
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/testTMH1.gr",THR);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/testTMH.gr",GR1);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/testTMH1.gr",THR);
+	/*	loadTest("/home/tomasz/workspace/TMH_Tests/gr/testTMH1.gr",THR);
 
 		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.NY.gr",THR);
 
@@ -86,7 +86,7 @@ void loopTest( int i, int j ) {
 
 		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.CTR.gr",THR);
 
-		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.USA.gr",THR);
+		loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d.USA.gr",THR);*/
 	}
 }
 

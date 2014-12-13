@@ -77,6 +77,8 @@ TMHNodeIdx* getTopologicalOrder( TMHNode** nodeArray, const TMHNodeIdx nodeArray
 	for ( ; i > 0; i-- ) {	/* wrzucanie na liste nodow, ktore sa startowe, bez lukow wchodzacych */
 		if ( successorCountArray[i] == 0 ) {
 			pushLastTMHNodeDLList(nodeList->tail,nodeArray[i]);
+			topologicalIndexOrder[i] = orderCounter;
+			orderCounter += 1;
 		}
 	}
 
@@ -88,7 +90,7 @@ TMHNodeIdx* getTopologicalOrder( TMHNode** nodeArray, const TMHNodeIdx nodeArray
 			toNodeID = adjacencyList->arc->successor->nodeID;
 			successorCountArray[toNodeID] -= 1; /* Jesli odwiedzono lukiem node to "usun" prowadzacy do niego luk */
 			if ( successorCountArray[toNodeID] == 0 ) {	/* Jesli do luku nie prowadzi juz wezel to ustaw w jakiej kolejnosci zostal wyzerowany z lukow */
-				successorCountArray[toNodeID] = orderCounter;
+				topologicalIndexOrder[toNodeID] = orderCounter;
 				orderCounter += 1;
 				pushLastTMHNodeDLList(nodeList->tail,nodeArray[toNodeID]);
 			}
@@ -105,13 +107,13 @@ TMHNodeIdx* getTopologicalOrder( TMHNode** nodeArray, const TMHNodeIdx nodeArray
 		}
 	}
 
-	i = nodeArraySize;
+	/*i = nodeArraySize;
 
 	for ( ; i > 0; i-- ) {
-		topologicalIndexOrder[successorCountArray[i]] = i;	/* indeksy sCA: nodeID; wartosci: kolejnosc odwiedzen*/
-	}
+		topologicalIndexOrder[successorCountArray[i]] = i;	 indeksy sCA: nodeID; wartosci: kolejnosc odwiedzen
+	}*/
 
-	topologicalIndexOrder[i] = 0;
+//	topologicalIndexOrder[i] = 0;
 
 	return topologicalIndexOrder;
 }
