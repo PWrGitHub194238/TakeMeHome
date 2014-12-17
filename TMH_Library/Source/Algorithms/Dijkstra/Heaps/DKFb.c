@@ -122,6 +122,13 @@ void runDKFB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) 
 
 	TMHFibHeap* heap;
 
+
+	long long int k = 0;
+
+	printf("\nNODE: %u", numberOfNodes);
+
+
+
 	reinitializeTMHGraph(graph,sourceNode);
 
 	heap = createSingleTMHFibBHeapInstance(
@@ -134,6 +141,7 @@ void runDKFB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) 
 	}
 
 	while ( (currentNode = extractMinTMHFibBHeap(heap)) != NULL ) {
+		k+=1;
 		if (isTraceLogEnabled()) {
 			trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
 		}
@@ -203,4 +211,8 @@ void runDKFB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) 
 		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyFibonacci);
 	}
 	destroyTMHFibBHeapInstance(heap);
+
+
+	printf("\nNODE: %llu\n", k);
+
 }

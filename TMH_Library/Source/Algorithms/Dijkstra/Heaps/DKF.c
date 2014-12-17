@@ -135,7 +135,7 @@ void runDKF_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 		trace(MODULE_NAME,trace_DKF_initQueueWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
 	}
 
-	printf("\n\nGET: %u\n",currentNode->nodeID);
+//	printf("\n\nGET: %u\n",currentNode->nodeID);
 			printFib(heap->minNode,0);
 			printf("\n\n");
 	while ( (currentNode = extractMin(heap)) != NULL ) {

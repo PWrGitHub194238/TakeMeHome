@@ -11,7 +11,7 @@
  *
  * @details Detailed description goes here.
  *
- * Dijkstra's Buckets -- Approximate
+ * Dijkstra's Buckets -- Radix Heap with nC buckets
  *
  * @see http://www.stack.nl/~dimitri/doxygen/
  */
@@ -178,6 +178,8 @@ void runDKXB_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 			if ( currentBucket->head->next == currentBucketTail || i < 2 ) {	// jesli byl tylko jedne element lub range = [k;k]
 
 				do {
+					error("OK","\nNO: %llu / %d", k, numberOfNodes);
+
 					k+=1;
 					if (isTraceLogEnabled()) {
 						if ( currentNode->predecessor == NULL ) {

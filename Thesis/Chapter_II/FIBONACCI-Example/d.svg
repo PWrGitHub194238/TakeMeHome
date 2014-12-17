@@ -26,9 +26,9 @@
      inkscape:window-height="744"
      id="namedview320"
      showgrid="false"
-     inkscape:zoom="2.6061629"
-     inkscape:cx="153.72141"
-     inkscape:cy="76.5"
+     inkscape:zoom="4.99"
+     inkscape:cx="179.222"
+     inkscape:cy="76.511951"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
@@ -502,20 +502,6 @@
        width="12"
        y="131.02"
        x="263.83" />
-    <path
-       id="path304"
-       pointer-events="none"
-       stroke-miterlimit="10"
-       stroke="#000000"
-       fill="none"
-       d="M 207.01 40.73 L 207.01 75.99 L 239.96 75.99 L 239.96 104.88" />
-    <path
-       id="path306"
-       pointer-events="none"
-       stroke-miterlimit="10"
-       stroke="#000000"
-       fill="#000000"
-       d="M 239.96 110.13 L 236.46 103.13 L 239.96 104.88 L 243.46 103.13 Z" />
     <path
        id="path308"
        pointer-events="none"
@@ -1045,5 +1031,19 @@
            inkscape:connector-curvature="0"
            id="path4077-60"
            d="m 478.44,422.14 0,0.74 -0.01,0.75 -0.02,0.75 -0.04,0.74 -0.04,0.75 -0.06,0.74 -0.08,0.74 -0.09,0.73 -0.12,0.73 -0.14,0.73 -0.16,0.72 -0.19,0.72 -0.21,0.72 -0.25,0.7 -0.28,0.7 -0.15,0.35 -0.16,0.34 c -2.28,4.8 -6.37,5.6 -8.47,5.6 -2.98,0 -6.62,-1.3 -8.67,-5.94 -1.59,-3.44 -1.84,-7.33 -1.84,-11.31 0,-3.74 0.2,-8.22 2.25,-12 2.14,-4.03 5.78,-5.03 8.22,-5.03 v 1.09 c -1.94,0 -4.89,1.25 -5.79,6.03 -0.54,2.98 -0.54,7.56 -0.54,10.52 0,3.18 0,6.46 0.4,9.15 0.94,5.94 4.68,6.38 5.93,6.38 1.64,0 4.93,-0.89 5.87,-5.83 0.5,-2.78 0.5,-6.58 0.5,-9.7 0,-3.75 0,-7.13 -0.55,-10.32 -0.75,-4.73 -3.59,-6.23 -5.82,-6.23 h 0 v -1.09 c 2.68,0 6.46,1.04 8.67,5.78 1.59,3.43 1.84,7.31 1.84,11.25 z" /></g>    </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0"
+       d="m 209.51403,110.9881 0,-35.000004 -3,0 0,-28.63"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path316-2" />
+    <path
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0"
+       d="m 206.51403,42.108096 3.5,7 -3.5,-1.75 -3.5,1.75 z"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path318-4" />
   </g>
 </svg>

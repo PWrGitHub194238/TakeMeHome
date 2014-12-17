@@ -147,6 +147,9 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHNodeData oldLowLevelDistance;
 	TMHNodeData newLowLevelDistance;
 
+	long long int k = 0;
+
+		printf("\nNODE: %u", numberOfNodes);
 
 	reinitializeTMHGraph(graph,sourceNode);
 	highLevelBucketsArray = createHighLevelBucketsDKD(highLevelBucketCount,sourceNode);	/* Lepiej dla algorytmu będzie jak zaczniemy od zera*/
@@ -203,7 +206,7 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 					do {
 
 						currentNode = popTMHNodeDLList(currentLowLevelBucket);
-
+						k+=1;
 						if (isTraceLogEnabled()) {
 							if ( currentNode->predecessor == NULL ) {
 								trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
@@ -293,6 +296,8 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	}
 	cleanUpBuckets(highLevelBucketsArray,highLevelBucketCount);
 	cleanUpBuckets(lowLevelBucketsArray,bucketsRangeMod);
+
+	printf("\nNODE: %llu\n", k);
 }
 
 static TMHNodeData getParameterOrDefaultDKD( const TMHNodeData constant ) {

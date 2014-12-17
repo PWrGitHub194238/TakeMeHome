@@ -185,6 +185,7 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 				}
 
 				while ( (currentNode = popTMHNodeDLList(currentBucket->head)) != NULL ) {
+
 					k+=1;
 					if (isTraceLogEnabled()) {
 						if ( currentNode->predecessor == NULL ) {
@@ -419,6 +420,7 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 	cleanUpBuckets(bucketsArray,numberOfBuckets+1);
 	cleanDKX(bucketsRangeArray,bucketsSizeArray,nodeBucketIDMap,numberOfBuckets);
 	printf("\nNODE: %llu\n", k);
+
 
 }
 

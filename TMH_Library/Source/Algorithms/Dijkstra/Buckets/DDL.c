@@ -129,6 +129,10 @@ void runDDL_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 	TMHNodeData newDistance;
 
 
+	long long int k = 0;
+
+	printf("\nNODE: %u", numberOfNodes);
+
 	reinitializeTMHGraph(graph,sourceNode);
 	bucketsArray = createBucketsDDL(numberOfBuckets,sourceNode);
 
@@ -156,7 +160,7 @@ void runDDL_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 				}
 				do {
 					currentNode = popTMHNodeDLList(currentBucket->head);
-
+					k+=1;
 					if (isTraceLogEnabled()) {
 						if ( currentNode->predecessor == NULL ) {
 							trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
@@ -234,4 +238,6 @@ void runDDL_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyBucket,numberOfBuckets);
 	}
 	cleanUpBuckets(bucketsArray,numberOfBuckets);
+
+	printf("\nNODE: %llu\n", k);
 }

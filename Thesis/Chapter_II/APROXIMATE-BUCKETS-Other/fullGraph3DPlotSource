@@ -1,0 +1,14 @@
+C = 10000;
+nMin = 1000;
+nMax = 10000;
+n = linspace (1000,10000);
+b = linspace (1,C);
+[N,B] = meshgrid (n,b);
+Z = ((N.*(N.-1))/.2).*B + N.*(B.+(C./B));
+surf(N,B,Z);
+xlabel('n');
+ylabel('b');
+title('C = 10000; Full graph.');
+shading interp;
+
+# pdfcrop <inptu> <output>

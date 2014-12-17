@@ -159,7 +159,7 @@ void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMH
 	}
 
 	do {
-		while ( (currentNode = popMinTMHNodeDLList(mainQueue)) != NULL ) {
+		while ( (currentNode = popLastTMHNodeDLList(mainQueue->tail)) != NULL ) {
 			k+= 1;
 			if (isTraceLogEnabled()) {
 				trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
@@ -229,7 +229,7 @@ void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMH
 			}
 		}
 	} while ( (mainQueue = relocateAndUpdateTHR(mainQueue,outQueue,&threshold) ) != NULL );
-	printf("\nNODES: %u\n",k);
+	printf("\nNODES: %llu\n",k);
 
 }
 

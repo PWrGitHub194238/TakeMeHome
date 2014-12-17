@@ -109,8 +109,8 @@ TMHNode* popTMHNodeSLList( TMHNodeSLList* const listHead ) {
 TMHNode* popMinTMHNodeSLList( TMHNodeSLListWrapper* const list ) {
 	TMHNodeSLList* listHead = list->head;
 	TMHNodeSLList* nextElement = listHead->next;
-	TMHNodeSLList* currentElement;
-	TMHNodeSLList* returnedElement;
+	TMHNodeSLList* currentElement = NULL;
+	TMHNodeSLList* returnedElement = NULL;
 	TMHNode* returnedData;
 	TMHNodeData minDistance = distanceLabelInfinity;
 	if (nextElement == NULL ) {
@@ -141,9 +141,13 @@ TMHNode* popMinTMHNodeSLList( TMHNodeSLListWrapper* const list ) {
 		}
 	} while( nextElement->next != NULL);
 
-	returnedData = returnedElement->data;
-	currentElement->next = returnedElement->next;
-	memFree(returnedElement);
-	returnedData->toUpperStruct = NULL;
-	return returnedData;
+	if (returnedElement) {
+		returnedData = returnedElement->data;
+		currentElement->next = returnedElement->next;
+		memFree(returnedElement);
+		returnedData->toUpperStruct = NULL;
+		return returnedData;
+	} else {
+		return NULL;
+	}
 }

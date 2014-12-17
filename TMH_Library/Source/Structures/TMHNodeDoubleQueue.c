@@ -100,7 +100,7 @@ void pushLastTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue, TMHNode* newNo
 	TMHNodeDLList* tail;
 	if ( newNode->toUpperStruct == NULL ) {
 		newNodeElement = memMalloc(1,sizeof(TMHNodeDLList));
-		tail = ((newNode->distanceLabel == distanceLabelInfinity) ? queue->tailLeft : queue->tailRight);
+		tail = ((newNode->distanceLabel == distanceLabelInfinity) ? queue->tailRight : queue->tailLeft);
 		tail->prev->next = newNodeElement;
 		newNodeElement->prev = tail->prev;
 		tail->prev = newNodeElement;
@@ -119,7 +119,9 @@ TMHNode* popTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue ) {
 	TMHNodeDLList* returnedElement = queue->head->next;
 	TMHNode* returnedData;
 	if ( returnedElement->next == queue->tailRight ) {	// na po headerze tylko LT (next) i RT (next->next)
-		warn(MODULE_NAME,warn_TMHNodeDoubleQueue_removeFromEmptyQueue);
+		if (isWarnLogEnabled()) {
+			warn(MODULE_NAME,warn_TMHNodeDoubleQueue_removeFromEmptyQueue);
+		}
 		return NULL;
 	}
 	returnedData = returnedElement->data;

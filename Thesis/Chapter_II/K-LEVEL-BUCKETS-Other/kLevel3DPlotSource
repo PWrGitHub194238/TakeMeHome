@@ -1,0 +1,16 @@
+cMin = 1000;
+cMax = 1000000000;
+c = linspace (cMin,cMax);
+k = linspace (1,4);
+set (gca, 'yscale', 'log');
+[C,K] = meshgrid (c,k);
+set (gca, 'yscale', 'log');
+Z = (K.+ C.^(1./K));
+surf (C, K, Z, Z.^(1/8));
+set (gca, 'xscale', 'log');
+set (gca, 'zscale', 'log');
+xlabel('Max arc cost (C)');
+ylabel('Level (k)');
+shading interp;
+
+# pdfcrop <inptu> <output>

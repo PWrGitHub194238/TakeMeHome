@@ -32,6 +32,10 @@
 % ***************************************************************
 \usepackage[top=25mm, bottom=25mm, left=25mm, right=25mm]{geometry}
 
+\makeatletter
+    \setlength\@fptop{0\p@}
+\makeatother
+
 % ***************************************************************
 % Ustawienia języka												*
 % ***************************************************************
@@ -47,6 +51,13 @@
 
 %\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
 %\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
+
+%\renewcommand\thechapter{\arabic{chapter}.}
+%\renewcommand\thesection{\arabic{chapter}.\arabic{section}.}
+%\renewcommand\thesubsection{\arabic{chapter}.\arabic{section}.\arabic{subsection}.}
+%\renewcommand\thesubsubsection{\arabic{chapter}.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
+
+\usepackage{icomma}
 
 
 % ***************************************************************
@@ -129,6 +140,8 @@
 % ***************************************************************
 % Środowiska													*
 % ***************************************************************
+
+%\newcommand{\myref}[1]{\ref{#1} (p\pageref{#1})} 
 
 \newtheorem{theorem}{Twierdzenie}[section]
 \newtheorem{lemma}{Lemat}[section]

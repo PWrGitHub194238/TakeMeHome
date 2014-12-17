@@ -139,6 +139,13 @@ void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHNode* toNode;
 	TMHNodeData newDistance;
 
+
+	long long int k = 0;
+
+	printf("\nNODE: %u", numberOfNodes);
+
+
+
 	TMHDHeap* heap = createTMHDHeapInstance(graph->nodeArray,graph->numberOfNodes,dHeapParameter);
 
 	reinitializeTMHGraph(graph,sourceNode);
@@ -150,6 +157,7 @@ void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	}
 
 	while( (currentNode = removeMinimumTMHDHeap(heap)) != NULL ) {
+		k +=1;
 		if (isTraceLogEnabled()) {
 			trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
 			if ( currentNode->distanceLabel == distanceLabelInfinity ) {
@@ -209,6 +217,9 @@ void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyDHeap);
 	}
 	destroyTMHDHeapInstance(heap);
+
+	printf("\nNODE: %llu\n", k);
+
 }
 
 static TMHNodeData getParameterOrDefaultDKR( const TMHNodeIdx numberOfArcs, const TMHNodeIdx numberOfNodes ) {
