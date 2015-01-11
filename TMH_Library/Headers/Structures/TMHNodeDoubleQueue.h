@@ -59,6 +59,7 @@ typedef struct TMHNodeDoubleQueue {
 TMHNodeDoubleQueue* createTMHNodeDoubleQueueInstance();
 void destroyTMHNodeDoubleQueueInstance( TMHNodeDoubleQueue* instance, bool withData );
 void pushLastTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue, TMHNode* newNode );
+TMHNode* popMinTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue );
 TMHNode* popTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue );
 
 #endif /* TMHNODEDOUBLEQUEUE_H_ */

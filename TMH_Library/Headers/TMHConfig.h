@@ -87,6 +87,7 @@ typedef struct TMHConfig {
 	bool checkConfig;
 	bool checkGraph;
 	bool allowInterrupt;
+	bool dumpConfig;
 	TMHNodeData* defaultParameter;
 } TMHConfig;
 
@@ -108,7 +109,7 @@ typedef struct TMHConfig {
  * @param algMode
  * @return
  */
-TMHConfig* createTMHConfigInstance( const TMHNodeIdx numberOfSources, const TMHConfigAlgorithmMode algMode );
+TMHConfig* createTMHConfigInstance( const bool config, const TMHNodeIdx numberOfSources, const TMHConfigAlgorithmMode algMode );
 
 bool checkTMHConfig( const TMHConfig* const configuration );
 
@@ -116,5 +117,7 @@ void destroyTMHConfigInstance ( TMHConfig* const configuration );
 
 void addSourceToRest( TMHConfig* const config, const TMHNodeIdx* const fromNodeID, TMHNodeIdx* const numberOfSources );
 void addPointToPoint( TMHConfig* const config, const TMHNodeIdx* const fromNodeID, const TMHNodeIdx* const toNodeID, TMHNodeIdx* const numberOfSources );
+
+void generateDumpConfig( TMHConfig* const config, TMHNodeIdx numberOfNodes );
 
 #endif /* TMHCONFIG_H_ */

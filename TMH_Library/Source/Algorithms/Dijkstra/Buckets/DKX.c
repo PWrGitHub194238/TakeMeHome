@@ -103,6 +103,8 @@ void runDKX_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
+		printf("Source node: %d / %d\n",i+1,sourceNodeArraySize);
+
 		source = graph->nodeArray[sourceNodeArray[i]];
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
@@ -136,10 +138,6 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 	TMHNodeData bucketLowerRange;
 	TMHNodeData bucketMaxRange;
 	bool update = false;
-
-	long long int k = 0;
-
-	printf("\nNODE: %u", numberOfNodes);
 
 	reinitializeTMHGraph(graph,sourceNode);
 	bucketsSizeArray = initBucketsSizeDKX(numberOfBuckets);
@@ -185,8 +183,6 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 				}
 
 				while ( (currentNode = popTMHNodeDLList(currentBucket->head)) != NULL ) {
-
-					k+=1;
 					if (isTraceLogEnabled()) {
 						if ( currentNode->predecessor == NULL ) {
 							trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
@@ -419,13 +415,11 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 	}
 	cleanUpBuckets(bucketsArray,numberOfBuckets+1);
 	cleanDKX(bucketsRangeArray,bucketsSizeArray,nodeBucketIDMap,numberOfBuckets);
-	printf("\nNODE: %llu\n", k);
-
 
 }
 
 static void cleanDKX( TMHBucketRange** bucketsRangeArray, TMHNodeIdx* bucketsSizeArray, TMHNodeIdx* nodeBucketIDMap, TMHArcCost numberOfBuckets ) {
-	for ( --numberOfBuckets; numberOfBuckets > 0; numberOfBuckets -= 1 ) {
+	for ( ; numberOfBuckets > 0; numberOfBuckets -= 1 ) {	// numberOfBuckets = overflow
 		memFree(bucketsRangeArray[numberOfBuckets]);
 	}
 	memFree(bucketsRangeArray[numberOfBuckets]);

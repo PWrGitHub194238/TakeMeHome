@@ -76,8 +76,9 @@ static TMHGraph* getGraphData( FILE* const dataFile );
  *
  */
 
-void* getGraphDataWrapper( const GraphStructAbbreviation graphStruct, const char* const filename ) {
+void* getGraphDataWrapper( TMHConfig* const config, const char* const filename ) {
 	FILE* dataFile = NULL;
+	TMHGraph* graphData = NULL;
 	dataFile = fopen(filename,"r");
 	if ( dataFile == NULL ) {
 		error(MODULE_NAME,err_TMHIOHelper_cannotOpenFile,filename);
@@ -85,12 +86,16 @@ void* getGraphDataWrapper( const GraphStructAbbreviation graphStruct, const char
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHIOHelper_startReadFile,filename);
 		}
-		switch(graphStruct) {
+		switch(config->graphStruct) {
 		case ADJACENCY_LIST:
-			return getGraphData(dataFile);
+			graphData = getGraphData(dataFile);
+			break;
+		}
+		if (config->dumpConfig) {
+			generateDumpConfig(config,graphData->numberOfNodes);
 		}
 	}
-	return NULL;
+	return graphData;
 }
 
 static TMHGraph* getGraphData( FILE* const dataFile ) {
@@ -140,7 +145,7 @@ static TMHGraph* getGraphData( FILE* const dataFile ) {
 	return graph;
 }
 
-TMHConfig* getConfigData( const char* const filename ) {
+TMHConfig* getConfigData( const char* const filename, bool dumpConfig ) {
 	TMHConfig* config = NULL;
 	FILE* dataFile = NULL;
 	char* algMode = NULL;
@@ -171,11 +176,15 @@ TMHConfig* getConfigData( const char* const filename ) {
 								"Shortest Path Problem",algMode,numberOfSources);
 					}
 					if ( !strcmp(algMode,dictionary_TMHConfigAlgorithmModeShortcut[SINGLE_SOURCE]) ) {
-						config = createTMHConfigInstance(numberOfSources,SINGLE_SOURCE);
+						config = createTMHConfigInstance(dumpConfig,numberOfSources,SINGLE_SOURCE);
 					} else if ( strcmp(algMode,dictionary_TMHConfigAlgorithmModeShortcut[POINT_TO_POINT]) ) {
-						config = createTMHConfigInstance(numberOfSources,POINT_TO_POINT);
+						config = createTMHConfigInstance(dumpConfig,numberOfSources,POINT_TO_POINT);
 					}
 					memFree(algMode);
+					if (dumpConfig) {
+						fclose(dataFile);
+						return config;
+					}
 				} else {
 					fatal(MODULE_NAME,fatal_TMHIOHelper_errorReadingFile);
 					return NULL;

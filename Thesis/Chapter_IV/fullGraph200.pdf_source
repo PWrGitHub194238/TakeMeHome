@@ -1,0 +1,1 @@
+bash generatePlot.bash R_Test1_DDL_2.00_out k: DDL R_Test1_DKA_2.00_out r-- DKA R_Test1_DKD_2.00_out g-- DKD R_Test1_DKFb_2.00_out b-- DKF R_Test1_DKM_2.00_out m-- DKM R_Test1_TQQ_2.00_out c-- TQQ R_Test1_DKX_2.00_out k-- DKX

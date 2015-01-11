@@ -115,6 +115,47 @@ void pushLastTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue, TMHNode* newNo
 	}
 }
 
+TMHNode* popMinTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue ) {
+	TMHNodeDLList* listHead = queue->head;
+	TMHNodeDLList* listLeftTail = queue->tailLeft;
+	TMHNodeDLList* listRightTail = queue->tailRight;
+	TMHNodeDLList* nextElement = listHead->next;
+	TMHNodeDLList* returnedElement = NULL;
+	TMHNode* returnedData;
+	TMHNodeData minDistance = distanceLabelInfinity;
+	if (nextElement == listLeftTail ) {
+		nextElement = listLeftTail->next;
+		if (nextElement == listRightTail ) {
+			if (isWarnLogEnabled()) {
+				warn(MODULE_NAME,warn_TMHNodeDLList_removeFromEmptyList);
+			}
+			return NULL;
+		} else {
+			do {
+				if ( nextElement->data->distanceLabel < minDistance ) {
+					minDistance = nextElement->data->distanceLabel;
+					returnedElement = nextElement;
+				}
+			} while((nextElement = nextElement->next) != listRightTail);
+		}
+	} else {
+		do {
+			if ( nextElement->data->distanceLabel < minDistance ) {
+				minDistance = nextElement->data->distanceLabel;
+				returnedElement = nextElement;
+			}
+		} while((nextElement = nextElement->next) != listLeftTail);
+	}
+
+	returnedData = returnedElement->data;
+
+	returnedElement->next->prev = returnedElement->prev;
+	returnedElement->prev->next = returnedElement->next;
+	memFree(returnedElement);
+	returnedData->toUpperStruct = NULL;
+	return returnedData;
+}
+
 TMHNode* popTMHNodeDoubleQueue( TMHNodeDoubleQueue* const queue ) {
 	TMHNodeDLList* returnedElement = queue->head->next;
 	TMHNode* returnedData;

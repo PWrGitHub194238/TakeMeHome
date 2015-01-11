@@ -73,7 +73,6 @@ void destroyTMHFibNodeInstance( TMHFibNode* const instance, bool withData ) {
 	if (instance->data) {
 		instance->data->toUpperStruct = NULL;
 	}
-	error(MODULE_NAME,"Zdeallocotwanie node: %u (dL: %u, d: %u, m: %u).",instance->data->nodeID,instance->data->distanceLabel,instance->degree,instance->mark);
 
 	memFree(instance);
 	if (isDebugLogEnabled()) {

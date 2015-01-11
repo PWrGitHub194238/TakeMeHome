@@ -132,7 +132,7 @@ const char* trace_TMHAlgorithmHelper_nextForLoop = "Query for next element from 
 const char* trace_TMHAlgorithmHelper_nextQueueLoop = "Query for next element from queue.";
 const char* trace_TMHAlgorithmHelper_nextBucketScanLoop = "Rescanning %u buckets.";
 const char* trace_TMHAlgorithmHelper_getInfinityFromQueue = "Queried node is inaccessible from source node with ID: %u. No other node is reachable from source.";
-const char* trace_TMHAlgorithmHelper_popElementNoParent = "Queried node details:\n\tNode ID\t\t:\t%u\n\tDistance\t:\t%u\n\tParent's ID:\t:\tno parent";
+const char* trace_TMHAlgorithmHelper_popElementNoParent = "Queried node details:\n\tNode ID\t\t:\t%u\n\tDistance\t:\t%u\n\tParent's ID\t:\tno parent";
 const char* trace_TMHAlgorithmHelper_popElement = "Queried node details:\n\tNode ID\t\t:\t%u\n\tDistance\t:\t%u\n\tParent's ID:\t:\t%u";
 const char* trace_TMHAlgorithmHelper_noOutgoingEdges = "Queried node with ID: %u has no outgoing arcs.";
 const char* trace_TMHAlgorithmHelper_createBucketWithRange = "Bucket %u of total %u created:\n\tBucket's ID\t:\t%u\n\tRange\t\t:\t[%u\t;\t%u]";
@@ -230,6 +230,7 @@ const char* trace_DKD_createLowLevelBucket = "%u low-level buckets have been cre
 const char* trace_DKD_initBucketWithSource = "Initialize hight-level bucket[0] with source node with ID: %u (distance: %u).";
 const char* trace_DKD_highLevelLoop = "Go to next high-level bucket with ID: %u (%u of total: %u)\n\tRange\t:\t[%u\t;\t%u]";
 const char* trace_DKD_highLevelBucketEmpty = "High-level bucket with ID: %u is empty. Bucket skipped.";
+const char* trace_DKD_allNodesProcessedReturn = "All nodes have been processed in Label Setting Algorithm.";
 const char* trace_DKD_scanningHighLevelBucket = "Scanning non-empty high-level bucket with ID: %u.";
 const char* trace_DKD_populateLowLevelBuckets = "Move node with ID: %u (distance: %u) from high-level bucket with ID: %u to low-level bucket with ID: %u";
 const char* trace_DKD_lowLevelLoop = "Scanning low-level bucket with ID: %u (%u of total: %u) populated from high-level bucket with ID: %u.";
@@ -410,6 +411,10 @@ const char* trace_THR_uselessBackgroundRepin = "Node with ID: %u:\n\tOld distanc
 const char* trace_THR_repinFromBackground = "Node with ID: %u:\n\tOld distance\t:\t%u\n\tNew distance\t:\t%u\nis is now below given threshold level: %u and it will be moved to main queue.";
 const char* trace_THR_uselessMainRepin = "Node with ID: %u:\n\tOld distance\t:\t%u\n\tNew distance\t:\t%u\nis already below given threshold level: %u and it will not be moved.";
 const char* trace_THR_updateThreshold = "Main queue is empty. Updating threshold level:\n\tOld value\t:\t%u\n\tNew value\t:\t%u";
+const char* trace_THR_updateMainThresholdList = "Updating queues...";
+const char* trace_THR_repinAfterThresholdUpdate = "Repin node with ID: %u:\n\tDistance\t:\t%u\n\tParent's ID\t:\t%u\nto main queue.";
+const char* trace_THR_uselessRepinAfterThresholdUpdate = "Node with ID: %u:\n\tDistance\t:\t%u\n\tParent's ID\t:\t%u\nis still above given threshold level: %u and it will not be moved to main queue.";
+
 
 /*	DEBUG	*/
 /*	INFO	*/

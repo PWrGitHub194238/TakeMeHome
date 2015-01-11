@@ -1,10 +1,164 @@
-\chapter{Biblioteka: Take Me Home}
+\chapter{Wyniki eksperymentalne}
 
-%\Blindtext
+Aby podsumować dotychczas omówione zagadnienia, należy sprawdzić czy teoretyczne rozważania na temat algorytmów wyszukiwania najkrótszych ścieżek dają satysfakcjonująco dużo odpowiedzi, wyjaśniających zachowanie się wszystkich, omawianych do tej pory metod rozwiązywania takich problemów, czy też analizy, jakie do tej pory wykonywaliśmy (w wielu przypadkach uciekając się do analizy najgorszego przypadku), jedynie w pewnym stopniu odzwierciedlają faktyczne zachowanie się tych algorytmów w prawdziwym środowisku. Aby się o tym przekonać oraz~--- w miarę możliwości~--- zbadać zachowanie się poszczególnych algorytmów dla jak najbardziej różnorodnych sieci, część eksperymentalna została podzielona na trzy części. W pierwszej z nich przeanalizujemy zachowanie się algorytmów dla prawdziwych sieci drogowych, do czego posłużą nam grafowe reprezentacje sieci dróg poszczególnych obszarów Stanów Zjednoczonych Ameryki. Druga część testów posłuży nam do wydzieleniach tych algorytmów, które dobrze radzą sobie ze stosunkowo rzadkimi grafami oraz tych, których używanie jest zalecane dla grafów o dużo większym stosunku ilości krawędzi do posiadanych węzłów. Na koniec przyjrzymy się algorytmom, które mogą opcjonalnie przyjmować parametry~--- sprawdzimy, czy te, które wyliczyliśmy przy okazji omawiania każdego z nich po kolei, rzeczywiście dadzą najlepsze rezultaty dla zadanych grafów. Wszelkie wykresy, których Czytelnik spodziewałby się podczas całej lektury części teoretycznej zostały zgromadzone w tych trzech podrozdziałach w przekonaniu, że pomoże to zrozumieć istotę wszystkich omawianych algorytmów, nim zaczniemy porównywać je ze sobą nawzajem. Metodykę dla każdej z części testów będziemy omawiać oddzielnie, gdyż różnią się one od siebie.
 
-\section{Opis}
+\subsection{Środowisko testowe}
 
-%\Blindtext
-%\Blindtext
-%\Blindtext
+W celach przeprowadzenia eksperymentów został użyczony serwer Politechniki Wrocławskiej o nazwie \textsc{Otryt}. Wszystkie testy zostały przeprowadzone zdalnie na środowisku \textsc{Linux Debian} w wersji $7.7$, pracującego pod dyktandem $80$ procesorów \textsc{Intel\textsuperscript{\textregistered} Xeon\textsuperscript{\textregistered} CPU E7- 4850  @ 2.00GHz}, zaopatrzonych w $256$ \textsc{GB} pamięci \textsc{RAM} i $6,3$ \textsc{TB} przestrzeni dyskowej. Testy stabilności algorytmów i inne pomniejsze testy zostały zaś wykonane na lokalnej maszynie pod kontrolą sytemu \textsc{Linux Ubuntu} w wersji $14.04$ \textsc{LTS} z $4$ \textsc{GB} pamięci dynamicznej oraz $74$ \textsc{GB} przestrzeni dyskowej pod dyktandem procesora \textsc{Intel\textsuperscript{\textregistered} Core\textsuperscript{\texttrademark} i5 CPU M 540  @ 2.53GHz} i skompilowane przy pomocy \textsc{gcc} w wersji $4.8.2$.
 
+\section{Mapa Ameryki}
+
+Zbiór danych do tej części testowej pochodzi z \textsf{DIMACS Implementation Challenge}, którego dziewiąta edycja skupiała się wokół algorytmów wyszukiwania najkrótszych ścieżek, tworząc jednocześnie pewien standard, jeżeli chodzi o interfejsy algorytmów, które ten problem rozwiązują. W tym rozdziale nas jednak bardziej będą interesować dane źródłowe, które dostarczył organizator, by przetestować możliwości, opracowanych specjalnie na "Dziewiąte Wyzwanie", algorytmów, niż samo wydarzenie, z okazji którego takie dane dostarczono. Wśród danych testowych znalazły się grafowe reprezentacje takich sieci dróg jak mapa New York City (składająca się z ponad 250 tysięcy węzłów), stanu Kalifornia, czy też wreszcie sieć dróg całych Stanów Zjednoczonych Ameryki (których ilość węzłów sięga prawie 24 milionów). Ze względu na ogrom danych, jakie każdy z algorytmów będzie musiał przetworzyć, za cel w tego typu testach (ang. \textit{Stress testing}) zostało obrane odnalezienie najkrótszych ścieżek do wszystkich węzłów z arbitralnie wybranego źródła, osobno dla każdego grafu, których najważniejsze dane przedstawione są w tabeli \ref{tab:USARoad}
+
+\subsection{Metodyka i dane}
+
+Dla zachowania wiarygodności otrzymanych wyników każdy test został powtórzony $t = 40$ razy dla wszystkich algorytmów, które zostały dopuszczone do testów (nie uwzględnimy w testach tych algorytmów, które stanowiły podstawę do implementacji ich sprawniejszych alternatyw, mających kwadratową złożoność w średnim przypadku bądź nie będących algorytmami, przeznaczonymi do pracy z tego typu grafami) i zostały wymienione w tabeli \ref{tab:testAlg}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccccccc}
+\hline
+\multicolumn{2}{c|}{\multirow{2}{*}{Nazwa Testu}} & \multicolumn{2}{c|}{\multirow{2}{*}{Liczba elementów}} & \multicolumn{4}{c}{Budowa sieci} &  \\ \cline{5-9}
+\multicolumn{2}{l|}{} & \multicolumn{2}{c|}{} & \multirow{2}{*}{Gęstość} & \multicolumn{3}{|c}{Statystyki kosztów} &  \\ \cline{1-4} \cline{6-9}
+\multicolumn{1}{l|}{Skrót} & \multicolumn{1}{c|}{Opis} & \multicolumn{1}{c|}{Wierzchołków} & \multicolumn{1}{c|}{Krawędzi} & & \multicolumn{1}{|c}{$\max \left( c_{ij} \right) $} & \multicolumn{1}{|c}{$ avg \left( c_{ij} \right) $} & \multicolumn{1}{|c}{$\sigma \left( c_{ij} \right) $} &  \\
+\hline
+\textbf{NY} & New York City &  264~346 &  733~846 & 2,78 & -- & -- & -- &  \\
+\textbf{BAY} & Zatoka San Francisco &  321~270 &  800~172 & 2,49 & -- & -- & -- &  \\
+\textbf{COL} & Kolorado &  435~666 &  1~057~066 & 2,43 & -- & -- & -- &  \\
+\textbf{FLA} & Floryda &  1~070~376 &  2~712~798 & 2,53 & -- & -- & -- &  \\
+\textbf{NW} & USA (płn.-zach.) & 1~207~945 & 2~840~208 & 2,35 & -- & -- & -- &  \\
+\textbf{NE} & USA (płn.-wsch.) & 1~524~453 & 3~897~636 & 2,56 & -- & -- & -- &  \\
+\textbf{CAL} & Kalifornia i Nevada & 1~890~815 & 4~657~742 & 2,46 & -- & -- & -- &  \\
+\textbf{LKS} & Wielkie Jeziora & 2~758~119 & 6~885~658 & 2,50 & -- & -- & -- &  \\
+\textbf{E} & Wschodnie USA & 3~598~623 & 8~778~114 & 2,44 & -- & -- & -- &  \\
+\textbf{W} & Zachodnie USA & 6~262~104 & 15~248~146 & 2,43 & -- & -- & -- &  \\
+\textbf{CTR} & Centralne USA & 14~081~816 & 34~292~496 & 2,44 & -- & -- & -- &  \\
+\textbf{USA} & Stany Zjednoczone & 23~947~347 & 58~333~344 & 2,44 & -- & -- & -- &  \\
+\hline
+\end{tabular}
+\caption{Dane testowe dla sieci dróg Stanów Zjednoczonych Ameryki}
+\label{tab:USARoad}
+\end{table}
+
+\subsection{Wyniki i wykresy zależności}
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapter_IV/USA-road-d.pdf}
+	\caption{\textbf{ Porównanie algorytmów dla testu \textsc{USA}.}}\label{fig:plotUSA-road-d}
+\end{figure}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{cccc}
+\hline
+\multirow{2}{*}{Skrót} & \multicolumn{2}{|c|}{Charakterystyka} & \multirow{2}{*}{Opis} \\ \cline{2-3}
+& \multicolumn{1}{|c|}{Struktura} & \multicolumn{1}{c|}{Typ} &  \\
+\hline
+\textbf{BFM} & --- & \textsc{LCA} & Podstawowa implementacja algorytmu Bellmana-Forda \\
+\textbf{BFP} & --- & \textsc{LCA} & \textsc{BFM} ze sprawdzaniem rodziców \\
+\textbf{DDL} & Kubełki & \textsc{LSA} & Algorytm Dial (Dijkstra) \\
+\textbf{DKA} & Kubełki & \textsc{LCA} & Algorytm z aproksymacją zakresu (Dijkstra) \\
+\textbf{DKB} & Kubełki & \textsc{LSA} & Podstawowa implementacja (Dijkstra) \\
+\textbf{DKD} & Kubełki & \textsc{LSA} & Algorytm dwupoziomowy (Dijkstra) \\
+\textbf{DKM} & Kubełki & \textsc{LSA} & Algorytm z przepełnieniem (Dijkstra) \\
+\textbf{DKX} & Kubełki & \textsc{LSA} & Podstawowa implementacja \textsf{RadixHeap} (Dijkstra) \\
+\textbf{DKX} & Kubełki & \textsc{LSA} & \textsf{RadixHeap} z przepełnieniem (Dijkstra) \\
+\textbf{DKF} & Kopce & \textsc{LSA} & Algorytm Dijkstry dla kopców Fibonacciego \\
+\textbf{DKF} & Kopce & \textsc{LSA} & Usprawniona implementacja \text{DKF} \\
+\textbf{DKH} & Drzewa & \textsc{LSA} & Algorytm Dijkstry dla $K$-drzew \\
+\textbf{DKR} & Kopce & \textsc{LSA} & Implementacja algorytmu Dijkstry dla $R$-kopców \\
+\textbf{DKQ} & $S$-Listy & \textsc{LSA} & Naiwny algorytm Dijkstry \\
+\textbf{DKQ} & $DL$-Listy & \textsc{LSA} & Naiwny algorytm Dijkstry \\
+\textbf{PAP} & Kolejki & \textsc{LSA} & Algorytm Pape'a \\
+\textbf{TQQ} & Kolejki & \textsc{LSA} & Algorytm Pallottino z dwoma kolejkami \\
+\textbf{GR1} & --- & \textsc{LSA} & Algorytm topologiczny \\
+\textbf{GR2} & --- & \textsc{LSA} & Algorytm topologiczny z uaktualnianiem odległości \\
+\textbf{THR} & $DL$-Listy & \textsc{LCA} & Algorytm progowy \\
+\hline
+\end{tabular}
+\caption{Lista testowanych algorytmów wraz z odrzuconymi implementacjami o zbyt dużej złożoności czasowej lub pamięciowej.}
+\label{tab:testAlg}
+\end{table}
+
+Pierwsze, co najbardziej rzuca się w oczy to potwierdzenie naszych słów, dotyczących algorytmu Dijkstry, który opierał się na kopcach Fibonacciego. Pomimo, że algorytm ten wydawał się najszybszy spośród wszystkich, które zostały przedstawione (poza implementacją \textsc{RadixHeap}, którego złożoność wyniosła $ O \left( m + n \cdot \log \left( C\right) \right)$), dla prawdziwych sieci drogowych, na jakich przyszło nam testować ten algorytm, działa on najwolniej ze wszystkich pozostałych, dla których wykonano te same testy. Co się okazuje, także implementacja algorytmu \textsc{RadixHeap} nie przyniosła w testach oczekiwanych rezultatów, gdyż jej szybkość działania także ustępuje większości z pozostałych algorytmów. Co natomiast się potwierdziło to stwierdzenie, zawarte w~\cite{GIDA}, jakoby najszybszymi implementacjami dla prawdziwych sieci drogowych, były algorytmy Dijkstry, wykorzystującymi kubełki aproksymacyjne (\textsc{DKA}) oraz~--- bez cienia wątpliwości~--- kubełki wielopoziomowe (\textsc{DKD}), których stopień nachylenia do poziomej osi wykresu pozwala sądzić, że wraz ze wzrostem ilości danych algorytm utrzymałby swoją dominację nad pozostałymi. Wszystkie algorytmy w trakcie testów przyjęły parametry domyślne (jeżeli takowe były wymagane tak jak np. w algorytmie \textsc{DKA})~--- optymalne, wyliczone albo przez sam algorytm, w oparciu o metody wyliczania ekstremów na podstawie wzoru, określającego rząd złożoności takiego algorytmu, albo wyliczone zawczasu, których optymalność została udowodniona). Zwrócić warto uwagę, że wszystkie dane testowe, jaki dostarczył \textsf{DIMACS Implementation Challenge}, reprezentują grafy dość rzadkie~--- sieci o większej gęstości próżno szukać w prawdziwych warunkach, chociażby ze względu na dominujące typy skrzyżowań samych dróg, gdzie w takich można wyróżnić od trzech do czterech odnóg, chyba że mamy do czynienia z większym elementem konstrukcyjnym, jakim jest rondo (co w języku grafu przekłada się na kilka węzłów, ułożonych w okręgu, od których odchodzą co najwyżej trzy krawędzie). Z tego też względu w następnym rozdziale zajmiemy się badaniem grafów o nienaturalnie~--- jak na sieci drogowe~--- dużych gęstościach, rozpoczynających się od $m = O \left( n^{1.2} \right)$, a kończących się na $m = O \left( n^{2.0} \right)$.
+
+\section{Gęstość grafu}
+
+W tej części eksperymentów zajmiemy się badaniem bezpośredniego wpływu gęstości grafu na zachowanie się algorytmu. Będziemy do tego korzystać z losowo wygenerowanych grafów, gdyż odnalezienie odpowiednich, rzeczywistych danych testowych byłoby niezwykle trudnym zadaniem, co uzasadniliśmy powyżej. Tak jak widzieliśmy podczas pierwszych eksperymentów, $12$ punktów kontrolnych to bardzo niewiele, a tym razem chcemy uzyskać grafy o jak najbardziej zbliżonej gęstości w znacznie większej liczbie (dla każdego zestawu grafów o zadanej gęstości będziemy chcieli mieć na tyle dużo punktów, by gęsto pokryć nimi jedną z osi wykresu, reprezentującej ilość elementów w grafie testowym). W odróżnieniu od poprzednich testów, tym razem wykorzystamy do nich niewielkie ilości danych, za to będziemy chcieli, aby dla zadanego grafu każdy algorytm wykonał dokładnie $n$ niezależnych iteracji, gdzie $n$ to liczba węzłów w grafie.
+
+\subsection{Metodyka i dane}
+
+Zdając się na pseudolosowość przy generowaniu danych testowych musimy ograniczyć wpływ tego niedeterministycznego elementu na otrzymywane wyniki. Wszystkie testy otrzymujemy poprzez wygenerowanie odpowiedniej ilości wierzchołków, wyliczenie prawdopodobieństwa, z jakim powinny pojawiać się łuki w grafie dla zadanej gęstości oraz utworzenie danej ilości krawędzi, zgodnie z wcześniejszymi rachunkami. Ne mamy przy tym zagwarantowanego, że wszystkie węzły w sieci będą miały jakiekolwiek połączenie~--- im mniejsza gęstość zostanie zadana, tym to prawdopodobieństwo jest mniejsze. Może się więc zdarzyć, że ze źródła, dla którego algorytmy będą wyszukiwały najkrótsze ścieżki do wszystkich pozostałych węzłów w grafie, nie prowadzi żadna ścieżka, bądź też jest ich niewiele. Czas działania takiego algorytmu ulegnie w takim przypadku nienaturalnemu skróceniu, co oczywiście nie jest pożądane. Aby zapobiec takim sytuacjom będziemy chcieli, by dla każdego grafu $ G = \left( V, E \right) $ algorytmy wyszukiwania najkrótszych ścieżek były uruchamiane osobno dla każdego wierzchołka $v \in V$ w charakterze źródła a następnie pod uwagę była brana średnia ich czasu działania, będąca wynikiem podzielenia całkowitego czasu, jaki algorytm potrzebował na wykonanie zadania, przez ilość wierzchołków w grafie, jakie algorytm po kolei przyjmował za węzły startowe. Przykładowe dane testowe przedstawia tabela \ref{tab:denceTest}.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lcccccccc}
+\hline
+\multicolumn{2}{c|}{\multirow{2}{*}{Nazwa Testu}} & \multicolumn{2}{c|}{\multirow{2}{*}{Liczba elementów}} & \multicolumn{4}{c}{Budowa sieci} &  \\ \cline{5-9}
+\multicolumn{2}{l|}{} & \multicolumn{2}{c|}{} & \multirow{2}{*}{Gęstość} & \multicolumn{3}{|c}{Statystyki kosztów} &  \\ \cline{1-4} \cline{6-9}
+\multicolumn{1}{l|}{Numer} & \multicolumn{1}{c|}{Rząd gęstości} & \multicolumn{1}{c|}{Wierzchołków} & \multicolumn{1}{c|}{Krawędzi} & & \multicolumn{1}{|c}{$\max \left( c_{ij} \right) $} & \multicolumn{1}{|c}{$ avg \left( c_{ij} \right) $} & \multicolumn{1}{|c}{$\sigma \left( c_{ij} \right) $} &  \\
+\hline
+\textbf{234} & $ m = O \left( n^{1,4} \right) $ & $7~400$ & $261~170$ & $35,3$ & -- & -- & -- &  \\
+\textbf{235} & $ m = O \left( n^{1,4} \right) $ & $7~500$ & $266~125$ & $35,5$ & -- & -- & -- &  \\
+\textbf{236} & $ m = O \left( n^{1,4} \right) $ & $7~600$ & $271~105$ & $35,7$ & -- & -- & -- &  \\
+\textbf{237} & $ m = O \left( n^{1,4} \right) $ & $7~700$ & $276~113$ & $35,9$ & -- & -- & -- &  \\
+\textbf{238} & $ m = O \left( n^{1,4} \right) $ & $7~800$ & $281~146$ & $36,0$ & -- & -- & -- &  \\
+\textbf{239} & $ m = O \left( n^{1,4} \right) $ & $7~900$ & $286~205$ & $36,2$ & -- & -- & -- &  \\
+\textbf{240} & $ m = O \left( n^{1,4} \right) $ & $8~000$ & $291~290$ & $36,4$ & -- & -- & -- &  \\
+\textbf{...} & $ \cdots $ & $ \cdots $ & $ \cdots $ & $ \cdots $ & $ \cdots $ & $ \cdots $ & $ \cdots $ &  \\
+\textbf{474} & $ m = O \left( n^{1,8} \right) $ & $7~400$ & $9~217~583$ & $1245,6$ & -- & -- & -- &  \\
+\textbf{475} & $ m = O \left( n^{1,8} \right) $ & $7~500$ & $9~443~006$ & $1259,1$ & -- & -- & -- &  \\
+\textbf{476} & $ m = O \left( n^{1,8} \right) $ & $7~600$ & $9~670~845$ & $1272,5$ & -- & -- & -- &  \\
+\textbf{477} & $ m = O \left( n^{1,8} \right) $ & $7~700$ & $9~901~096$ & $1285,9$ & -- & -- & -- &  \\
+\textbf{478} & $ m = O \left( n^{1,8} \right) $ & $7~800$ & $10~133~752$ & $1299,2$ & -- & -- & -- &  \\
+\textbf{479} & $ m = O \left( n^{1,8} \right) $ & $7~900$ & $10~368~806$ & $1312,5$ & -- & -- & -- &  \\
+\textbf{480} & $ m = O \left( n^{1,8} \right) $ & $8~000$ & $10~606~252$ & $1325,9$ & 368855 & 2950.33 & 3876.86 &  \\
+\hline
+\end{tabular}
+\caption{Dane testowe dla różnych gęstości sieci}
+\label{tab:denceTest}
+\end{table}
+
+Możemy wyróżnić $6$ poziomów gęstości grafu, dla których w tym podrozdziale zostały przeprowadzone eksperymenty, gdzie dla każdego z nich ilość krawędzi w grafie jest rzędu $ O \left( n^{2.0-i \cdot 0.2} \right)$ dla $i \in \left\{ 0, \cdots, 5 \right\}$, zaś każdy z nich składa się z $80$ grafów, charakteryzujących się stopniowo zwiększaną ilością wierzchołków. Co oczywiste - w powyższej tabeli nie przedstawiono wszystkich danych testowych, gdyż łącznie jest ich ponad $450$, zaś zasada ich konstrukcji~--- taka sama. Dane te zostały wygenerowane bezpośrednio na serwerze, aby uniknąć konieczności ich wysyłania. Każdy z algorytmów, dla którego zostały przeprowadzone powyższe testy, był uruchamiany równolegle wraz z pozostałymi algorytmami, wykorzystując moc obliczeniową serwera~--- czas, w jakim była mierzona efektywność algorytmów jest czasem, jakie algorytmy łącznie dostały od któregoś z procesorów na wykonywanie zadań, więc takie postępowanie (równoległe uruchomienie testów) nie miało wpływu na otrzymane wyniki. Tym samym w czas trwania algorytmów nie został w pełni poprawnie wliczony czas, jaki każdy z nich potrzebował na wczytanie danych i stworzenie własnych struktur, których~--- jak pokazaliśmy dobitnie w części teoretycznej~--- prawie każdy potrzebuje, a które znacznie potrafią różnić się od siebie wymaganiami i czasem ich tworzenia (np. algorytm oparty na kopcach nie potrzebował tego czasu prawie w ogóle, gdyż do pracy wymagał tworzenia tylko paru pomocniczych zmiennych). Zwłaszcza samo wczytanie danych przez algorytmy zostało pominięte~--- składały się na nie operacje wejścia/wyjścia, które nie są liczone jako czas efektywnie wykorzystywany przez procesor. Aby uwzględnić i tę część działania każdej z implementacji, należałoby powołać się na rzeczywisty upływ czasu~--- wtedy jednak uruchomienie kilku algorytmów równolegle byłoby niedopuszczalne. Poniżej przedstawiono wykresy zależności, jakie zostały otrzymane dla grafów o różnym stopniu gęstości.
+
+\subsection{Wyniki i wykresy zależności}
+
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapter_IV/fullGraph200.pdf}
+	\caption{\textbf{ Porównanie algorytmów dla grafu o gęstości, wyrażonej równością $ m = O \left( n^{2} \right)$.}}\label{fig:plotFullGraph_2.00}
+\end{figure}
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapter_IV/graph180.pdf}
+	\caption{\textbf{ Porównanie algorytmów dla grafu o gęstości, wyrażonej równością $ m = O \left( n^{1.8} \right)$.}}\label{fig:plotFullGraph_1.80}
+\end{figure}
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapter_IV/graph140.pdf}
+	\caption{\textbf{ Porównanie algorytmów dla grafu o gęstości, wyrażonej równością $ m = O \left( n^{1.6} \right)$.}}\label{fig:plotFullGraph_1.60}
+\end{figure}
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapter_IV/graph140.pdf}
+	\caption{\textbf{ Porównanie algorytmów dla grafu o gęstości, wyrażonej równością $ m = O \left( n^{1.4} \right)$.}}\label{fig:plotFullGraph_1.40}
+\end{figure}
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=0.7\textwidth]{Chapter_IV/graph120.pdf}
+	\caption{\textbf{ Porównanie algorytmów dla grafu o gęstości, wyrażonej równością $ m = O \left( n^{1.2} \right)$.}}\label{fig:plotFullGraph_1.20}
+\end{figure}
+
+%\section{Pozostałe testy}
+
+%\subsection{Metodyka}
+
+%\subsection{Dane}
+
+%\subsection{Wyniki i wykresy zależności}

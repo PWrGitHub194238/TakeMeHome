@@ -123,6 +123,7 @@ void runDKA_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
+		printf("Source node: %d / %d\n",i+1,sourceNodeArraySize);
 		source = graph->nodeArray[sourceNodeArray[i]];
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
@@ -149,13 +150,6 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHArc* arc;
 	TMHNode* toNode;
 	TMHNodeData newDistance;
-
-
-	long long int k = 0;
-
-	printf("\nNODE: %u", numberOfNodes);
-
-
 
 	reinitializeTMHGraph(graph,sourceNode);
 	bucketsArray = createBucketsDKA(numberOfBuckets,sourceNode);
@@ -193,7 +187,6 @@ void runDKA_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 				}
 				do {
 					currentNode = popLastTMHNodeDLList(currentBucket->tail);	/* fifo - wrzucamy od strony headera, wyci�gamy z taila */
-k+=1;
 					if (isTraceLogEnabled()) {
 						if ( currentNode->predecessor == NULL ) {
 							trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
@@ -272,11 +265,6 @@ k+=1;
 		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyBucket,numberOfBuckets);
 	}
 	cleanUpBuckets(bucketsArray,numberOfBuckets);
-
-
-
-	printf("\nNODE: %llu\n", k);
-
 }
 
 static TMHNodeData getParameterOrDefaultDKA( const TMHNodeIdx* const numberOfArcs, const TMHNodeIdx* const numberOfNodes, const TMHArcCost* const maxArcCost ) {

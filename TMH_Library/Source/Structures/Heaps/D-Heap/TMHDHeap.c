@@ -47,6 +47,8 @@ static const TMHNodeIdx ROOT_IDX = 1;
  */
 
 static void maxHeapify( TMHNode** const nodeArray, TMHNodeIdx* const heapIDArray, const TMHNodeIdx heapSize, const TMHNodeIdx dHeapParam, TMHNodeIdx heapID );
+static void cleanUpNodeArray( TMHNodeIdx* const heapIDArray, TMHNode** nodeArray, TMHNodeIdx numberOfNodes);
+
 
 /*
  * Definitions
@@ -67,11 +69,11 @@ TMHDHeap* createTMHDHeapInstance( TMHNode** const inputArray, const TMHNodeIdx n
 	for ( noOfNodes--; noOfNodes > 0; noOfNodes-- ) {
 		heapIDArray[noOfNodes] = noOfNodes;
 	}
-
 	return newHeap;
 }
 
 void destroyTMHDHeapInstance( TMHDHeap* const instance ) {
+	cleanUpNodeArray(instance->heapIDArray,instance->nodeArray,instance->arraySize);
 	memFree(instance->heapIDArray);
 	memFree(instance);
 }
@@ -188,5 +190,17 @@ static void maxHeapify( TMHNode** const nodeArray, TMHNodeIdx* const heapIDArray
 		nodeArray[minId] = swap;
 
 		maxHeapify(nodeArray,heapIDArray,heapSize,dHeapParam,minId);
+	}
+}
+
+static void cleanUpNodeArray( TMHNodeIdx* const heapIDArray, TMHNode** nodeArray, TMHNodeIdx numberOfNodes ) {
+	TMHNode* swap = NULL;
+
+	for ( numberOfNodes--; numberOfNodes > 0; numberOfNodes-- ) {
+		swap = nodeArray[numberOfNodes];
+		nodeArray[numberOfNodes] = nodeArray[heapIDArray[numberOfNodes]];
+		nodeArray[heapIDArray[numberOfNodes]] = swap;
+		heapIDArray[swap->nodeID] = heapIDArray[numberOfNodes];
+		heapIDArray[numberOfNodes] = numberOfNodes;
 	}
 }

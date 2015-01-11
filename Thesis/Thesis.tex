@@ -15,6 +15,19 @@
 
 \usepackage{listings} 
 
+\lstdefinestyle{customc}{
+  belowcaptionskip=1\baselineskip,
+  breaklines=true,
+  xleftmargin=\leftmargin,
+  language=C,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+  keywordstyle=\bfseries\color{green!40!black},
+  commentstyle=\itshape\color{purple!40!black},
+  identifierstyle=\color{blue},
+  stringstyle=\color{orange},
+}
+
 \usepackage{color}
 
 \usepackage{theorem}
@@ -23,9 +36,14 @@
 \usepackage{caption}
 \usepackage{subcaption}
 
-\usepackage{blindtext}
 
 \usepackage{footnote} % przypisy w tabelach były niepoprawnie obsługiwane
+
+\usepackage{dirtree} % struktury katalogów
+\usepackage{xcolor}
+\definecolor{lgray}{HTML}{CCCCCC}
+
+\usepackage{multirow}
 
 % ***************************************************************
 % Marginesy											*
@@ -40,7 +58,7 @@
 % Ustawienia języka												*
 % ***************************************************************
 
-\usepackage[T1]{fontenc}
+%\usepackage[T1]{fontenc}
 \frenchspacing				% polskie formatowanie typograficzne
 \usepackage{indentfirst}	% polskie wcięcia akapitów
 \usepackage[polish]{babel}
@@ -59,6 +77,21 @@
 
 \usepackage{icomma}
 
+\lstset{literate=
+	{ż}{{\.{z}}}1 {ź}{{\'{z}}}1 {ć}{{\'{c}}}1 {ń}{{\'{n}}}1 {ą}{{\c a}}1
+	{ś}{{\'{s}}}1 {ł}{{\l}}1 {ę}{{\c{e}}}1 {ó}{{\'{o}}}1
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ù}{{\`u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\'e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ò}{{\`o}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ò}{{\`O}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1
+}	% specjalne znaki nie są obsłógiwane w środowisku listing
 
 % ***************************************************************
 % Styl										*
@@ -66,8 +99,6 @@
 
 \usepackage{fancyhdr}
 \usepackage{titlesec}
- 
-\pagestyle{fancy}
 
 \fancyhead{} % clear all header fields
 \fancyhead[LO]{\leftmark}
@@ -174,6 +205,8 @@
 % Dokument																							*
 % ***************************************************************************************************
 
+\pagestyle{plain}
+
 \makeindex
 
 \begin{document}
@@ -188,7 +221,7 @@
   \put( -60,320){\Huge  \bf \textsc{wyznaczania najkrótszych ścieżek}}
   \put( -80,280){\Huge  \bf \textsc{w rzeczywistych sieciach drogowych}}
   \put(100,240){\makebox(0,0)[l]{\large     \textsc{Tomasz Strzałka}}}
-  \put(200, 100){\makebox(0,0)[l]{\large  {Praca magisterska napisana}}}
+  \put(200, 100){\makebox(0,0)[l]{\large  {Praca inżynierska napisana}}}
   \put(200, 80){\makebox(0,0)[l]{\large  {pod kierunkiem}}}
   \put(200, 60){\makebox(0,0)[l]{\large  {dr hab. Pawła Zielińskiego, prof. PWr}}}
 
@@ -204,6 +237,7 @@
 
 \tableofcontents
 
+\pagestyle{fancy}
 % ***************************************************************
 % Wstęp															*
 % ***************************************************************
@@ -211,7 +245,7 @@
 
 
 \clearpage
-%\input{Preface}
+\input{Preface}
 \clearpage
 
 % ***************************************************************
@@ -238,29 +272,6 @@
 \input{Chapter_V}
 \clearpage
 
-
-\clearpage
-%\input{example}
-\clearpage
-
-\appendix
-
-\clearpage
-\input{Appendix_I}
-\clearpage
-
-\clearpage
-\input{Appendix_II}
-\clearpage
-
-\clearpage
-\input{Appendix_III}
-\clearpage
-
-\clearpage
-%\input{Appendixexample}
-\clearpage
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAFIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -268,5 +279,16 @@
 \bibliographystyle{plain}
 
 \bibliography{P2P}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DODATKI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+\clearpage
+\input{Appendix_I}
+\clearpage
+
 
 \end{document}

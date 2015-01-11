@@ -1,6 +1,38 @@
 #!/bin/bash
 
-function execute {
+function useage() {
+	echo -e "bash generatePlot.bash <file name> <octave line style> <function label> [...]\n\n"
+}
+
+echo '----------------------------------------------------'
+
+
+inputArray=( "$@" )
+dataArray=()
+styleArray=()
+legendArray=()
+
+
+if [ $# != 0 -a $(($#%3)) = 0 ];
+then
+	#fillArrays
+
+	for (( i=0; i<$#; ))
+		do
+		dataArray+=(${inputArray[$i]})
+		echo "Add to dataArray: " ${inputArray[$i]}
+		i=$(($i+1))
+
+		styleArray+=(${inputArray[$i]})
+		echo "Add to styleArray: " ${inputArray[$i]}
+		i=$(($i+1))
+
+		legendArray+=(${inputArray[$i]})
+		echo "Add to legendArray: " ${inputArray[$i]}
+		i=$(($i+1))
+	done
+	
+	#runScript
 
 	read -p "Enter path to generatePlot Octave's function or leave empty (./octave):" OCTAVEPATH
 	if [ -z "$OCTAVEPATH" ] 
@@ -67,26 +99,47 @@ function execute {
 	read -p 'Do you want to create this plot? (y/n): ' createPlot
 	if [ $createPlot == "y" ] 
 	then
-		octave --eval "
-		addpath(\"$OCTAVEPATH\")
-		dataArray = {
-			\"$DATAPATH/BFP\",
-			\"$DATAPATH/DKQd\"
-		}
-	 	styleArray = {
-			\"b-\",
-			\"r--\"
-		}
-	 	legendArray = {
-			\"Bellman-Ford-More with parent checking\",
-			\"Naive Dijkstra Impl. with D-L lists\"
-		}
-	 	generatePlot(\"$title\",\"$xLabelName\",\"$yLabelName\",dataArray,styleArray,legendArray,\"$OUTPATH/$outputFileName\",\"$outputFileExtension\",2)
-		"
+		#generateOctaveString
+			
+		octaveString="addpath(\"$OCTAVEPATH\")"
+
+		octaveString="$octaveString; dataArray = {"
+		for (( i=0; i<$((${#dataArray[@]}-1)); i+=1 ))
+		do
+			octaveString="$octaveString \"$DATAPATH/${dataArray[$i]}\","
+			echo "CHECK dataArray: " ${dataArray[$i]}
+		done
+		octaveString="$octaveString \"$DATAPATH/${dataArray[$i]}\""
+		octaveString="$octaveString}"
+
+		octaveString="$octaveString; styleArray = {"
+		for (( i=0; i<$((${#styleArray[@]}-1)); i+=1 ))
+		do
+			octaveString="$octaveString \"${styleArray[$i]}\","
+			echo "CHECK styleArray: " ${styleArray[$i]}
+		done
+		octaveString="$octaveString \"${styleArray[$i]}\""
+		octaveString="$octaveString}"
+
+		octaveString="$octaveString; legendArray = {"
+		for (( i=0; i<$((${#legendArray[@]}-1)); i+=1 ))
+		do
+			octaveString="$octaveString \"${legendArray[$i]}\","
+			echo "CHECK legendArray: " ${legendArray[$i]}
+		done
+		octaveString="$octaveString \"${legendArray[$i]}\""
+		octaveString="$octaveString}"
+
+		octaveString="$octaveString; generatePlot(\"$title\",\"$xLabelName\",\"$yLabelName\",dataArray,styleArray,legendArray,\"$OUTPATH/$outputFileName\",\"$outputFileExtension\",$(($#/3)))"
+
+		echo -e "$octaveString"
+		octave --eval "$octaveString"
 		echo -e "Plot has been saved to: \"$OUTPATH\" as \"$outputFileName.$outputFileExtension\"\n"
 	fi
 
-}
+else
+	useage
+fi
 
-echo '----------------------------------------------------'
-execute
+
+

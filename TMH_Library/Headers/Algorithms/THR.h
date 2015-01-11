@@ -82,7 +82,7 @@ inline TMHNodeData computeThreshold( const TMHGraph* const graphData, const TMHN
 	TMHArcList* adjacencyList = NULL;
 	TMHNodeIdx i;
 	TMHNodeData averageArcCost = 0;
-	double minDense = 50;
+	double minDense = thresholdParam;
 	double dense;
 
 	for ( i = 1; i <= numberOfNodes; i++ ) {					/* dla takiej TMHGraph trzeba przeglądnąć wszystkie nody*/

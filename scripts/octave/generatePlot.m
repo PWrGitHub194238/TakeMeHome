@@ -19,7 +19,7 @@ function generatePlot(plotTitle,xlabelName,ylabelName,dataFileNameArray,styleArr
 % 	dataArray = {"dataA","dataB"}
 % 	styleArray = {"b-","r--"}
 % 	legendArray = {"f(x) = x","f(x) = x/2"}
-% 	generatePlot('Example','x','y',dataArray,styleArray,legendArray,'out','eps')
+% 	generatePlot('Example','x','y',dataArray,styleArray,legendArray,'out','eps',2)
 
 %
 % Tomasz Strzałka, 19 listopada 2014.

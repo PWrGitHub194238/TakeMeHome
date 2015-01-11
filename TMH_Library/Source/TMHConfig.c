@@ -62,7 +62,7 @@ static bool checkTargetNodeIdxArray( const TMHNodeIdx numberOfNodes, TMHNodeIdx 
  *
  */
 
-TMHConfig* createTMHConfigInstance( const TMHNodeIdx numberOfSources, const TMHConfigAlgorithmMode algMode ) {
+TMHConfig* createTMHConfigInstance( const bool dumpConfig, const TMHNodeIdx numberOfSources, const TMHConfigAlgorithmMode algMode ) {
 	TMHConfig* newConfig = memMalloc(1,sizeof(TMHConfig));
 	newConfig->graphStruct = ADJACENCY_LIST;
 	newConfig->graphOrder = NONE;
@@ -71,13 +71,23 @@ TMHConfig* createTMHConfigInstance( const TMHNodeIdx numberOfSources, const TMHC
 	newConfig->mode = algMode;
 	newConfig->numberOfSources = numberOfSources;
 
-	newConfig->sourceNodeIdxArray = memMalloc(numberOfSources,sizeof(TMHNodeIdx));
+	newConfig->dumpConfig = dumpConfig;
 
-	if ( algMode == POINT_TO_POINT ) {
-		newConfig->targetNodeIdxArray = memMalloc(numberOfSources,sizeof(TMHNodeIdx));
+	if (!dumpConfig) {
+		newConfig->sourceNodeIdxArray = memMalloc(numberOfSources,sizeof(TMHNodeIdx));
+
+		if ( algMode == POINT_TO_POINT ) {
+			newConfig->targetNodeIdxArray = memMalloc(numberOfSources,sizeof(TMHNodeIdx));
+		} else {
+			newConfig->targetNodeIdxArray = NULL;
+		}
+
+		newConfig->checkConfig = true;
+	} else {
+		newConfig->sourceNodeIdxArray = NULL;
+		newConfig->targetNodeIdxArray = NULL;
+		newConfig->checkConfig = false;
 	}
-
-	newConfig->checkConfig = true;
 	newConfig->allowInterrupt = false;
 
 	return newConfig;
@@ -166,4 +176,14 @@ void addSourceToRest( TMHConfig* const config, const TMHNodeIdx* const fromNodeI
 void addPointToPoint( TMHConfig* const config, const TMHNodeIdx* const fromNodeID, const TMHNodeIdx* const toNodeID, TMHNodeIdx* const numberOfSources ) {
 	config->sourceNodeIdxArray[--(*(numberOfSources))] = *(fromNodeID);
 	config->targetNodeIdxArray[*(numberOfSources)] = *(toNodeID);
+}
+
+void generateDumpConfig( TMHConfig* const config, TMHNodeIdx numberOfNodes ) {
+	if ( config->mode == SINGLE_SOURCE ) {
+		config->numberOfSources = numberOfNodes;
+		config->sourceNodeIdxArray = memMalloc(numberOfNodes,sizeof(TMHNodeIdx));
+		for ( ; numberOfNodes > 0; numberOfNodes-- ) {
+			config->sourceNodeIdxArray[numberOfNodes-1] = numberOfNodes;
+		}
+	}
 }

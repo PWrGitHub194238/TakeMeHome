@@ -119,6 +119,8 @@ void runDKD_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
+		printf("Source node: %d / %d\n",i+1,sourceNodeArraySize);
+
 		source = graph->nodeArray[sourceNodeArray[i]];
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
@@ -147,9 +149,7 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHNodeData oldLowLevelDistance;
 	TMHNodeData newLowLevelDistance;
 
-	long long int k = 0;
-
-		printf("\nNODE: %u", numberOfNodes);
+	TMHNodeData nodeProcessedCounter = 0;
 
 	reinitializeTMHGraph(graph,sourceNode);
 	highLevelBucketsArray = createHighLevelBucketsDKD(highLevelBucketCount,sourceNode);	/* Lepiej dla algorytmu będzie jak zaczniemy od zera*/
@@ -172,6 +172,15 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 		if ( currentHighLevelBucket->next == NULL ) {	// is empty
 			if (isTraceLogEnabled()) {
 				trace(MODULE_NAME,trace_DKD_highLevelBucketEmpty,i);
+			}
+			if ( nodeProcessedCounter == numberOfNodes ) {
+				if (isTraceLogEnabled()) {
+					trace(MODULE_NAME,trace_DKD_allNodesProcessedReturn);
+					info(MODULE_NAME,info_DKD_destroyBuckets,highLevelBucketCount,bucketsRangeMod);
+				}
+				cleanUpBuckets(highLevelBucketsArray,highLevelBucketCount);
+				cleanUpBuckets(lowLevelBucketsArray,bucketsRangeMod);
+				return;
 			}
 			mapToLowLevelIdx += bucketsRangeMod;
 			continue;
@@ -206,7 +215,7 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 					do {
 
 						currentNode = popTMHNodeDLList(currentLowLevelBucket);
-						k+=1;
+						nodeProcessedCounter += 1;
 						if (isTraceLogEnabled()) {
 							if ( currentNode->predecessor == NULL ) {
 								trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
@@ -296,8 +305,6 @@ void runDKD_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	}
 	cleanUpBuckets(highLevelBucketsArray,highLevelBucketCount);
 	cleanUpBuckets(lowLevelBucketsArray,bucketsRangeMod);
-
-	printf("\nNODE: %llu\n", k);
 }
 
 static TMHNodeData getParameterOrDefaultDKD( const TMHNodeData constant ) {

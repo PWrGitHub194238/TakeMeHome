@@ -53,7 +53,7 @@
  */
 
 
-TMHConfig* createTMHConfig( const char* const configDataFilePath );
+TMHConfig* createTMHConfig( const char* const configDataFilePath, bool dumpConfig );
 
 void setGraphStruct( TMHConfig* config, const GraphStructAbbreviation graphStruct );
 void setGraphOrder( TMHConfig* config, const GraphOrder graphOrder );

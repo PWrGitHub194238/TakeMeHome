@@ -33,7 +33,7 @@ function execute {
 	if [ -f "$LIBPATH/Debug/libTMH_Library.so" ] 
 	then
 		buildSample
-		sudo cp $LIBPATH/Debug/libTMH_Library.so /usr/lib/
+		cp $LIBPATH/Debug/libTMH_Library.so $SOPATH
 	else
 		echo "Library build failure."
 	fi
@@ -63,6 +63,7 @@ function buildSample {
 	make -B all
 	cp TMH_Examples ../../run
 	cd ../../
+	mv run $EXECNAME
 }
 
 echo '----------------------------------------------------'

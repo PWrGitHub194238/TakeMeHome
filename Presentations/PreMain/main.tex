@@ -1,0 +1,761 @@
+\documentclass[12pt]{beamer}
+\usepackage[T1]{polski}
+\usepackage[cp1250]{inputenc}
+\usepackage{lipsum}
+\usepackage{multimedia}
+
+\usepackage[ruled,vlined]{algorithm2e}
+%\usepackage[a4paper]{geometry}
+%\usepackage{graphicx}
+%\usepackage[]{hyperref}
+%
+
+\usepackage{epstopdf}
+
+\def\Put(#1,#2)#3{\leavevmode\makebox(0,0){\put(#1,#2){#3}}}
+%
+\author{Autor: Tomasz Strza³ka \\ Promotor: dr hab. Paw³e³ Zieliñski, prof. PWr}
+\title{Algorytmy \\ wyznaczania najkrótszych œcie¿ek}
+ \subtitle{w rzeczywistych sieciach drogowych}
+ \date{\today}
+ \institute{Wydzia³ Podstawowych Problemów Techniki}
+ \subject{Logotyp Politechniki Wroc³awskiej}
+ \keywords{logotyp, Politechnika Wroc³awska, LaTeX}
+
+\setbeamersize{text margin left=0mm,text margin right=2.5mm}
+%\setbeamersize{sidebar width left=0mm,sidebar width right=0cm}
+\usetheme[lang=pl,pasek=pasek1]{pwr}
+
+\setbeamercovered{transparent=25}
+
+\newtheorem{pwrblock}{Definicja}
+\newenvironment<>{pwrblock}[1][]{%
+	\setbeamertemplate{blocks}[rounded][shadow=true]
+	\setbeamercolor{block title}{fg=white,bg=red!75!black}%
+	\begin{block}#2{#1}}{\end{block}}
+
+
+\transdissolve[duration=0.2]
+\logo{\includegraphics[height=7mm]{poziom-pl-pantone}}
+\logo{\includegraphics[height=7.05mm]{logopwrpl}}
+
+\begin{document}
+\begin{frame}[plain,t]
+ \maketitle
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 1
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Problem najkrótszych œcie¿ek}
+	
+	\begin{pwrblock}[Œcie¿ka]<1->
+		\begin{equation}
+			P = \left \langle v_{p}, v_{1}, \cdots, v_{k} \right \rangle 
+		\end{equation}
+		\begin{equation}
+			v_{s} \overset{k}\leadsto v_{i}
+		\end{equation}
+	\end{pwrblock}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=\textwidth]{frame1/1}
+	\end{figure}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 2
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Problem najkrótszych œcie¿ek}
+	
+	\begin{pwrblock}[Najkrótsza œcie¿ka]<1->
+		\begin{equation}
+		\sum_{e_{ij} \in P^{'}} c_{ij} = minimum : e_{ij} \in P^{'} \Leftrightarrow v_{i},v_{j} \in P \: \wedge \: v_{i} \leadsto v_{j} = e_{ij} \ni E.
+		\end{equation}
+	\end{pwrblock}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=\textwidth]{frame2/1}
+	\end{figure}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 3
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Problem najkrótszych œcie¿ek}
+	
+	\begin{pwrblock}[Najkrótsza œcie¿ka]<1->
+		\begin{equation}
+			d \left ( i \right ) = 
+			\begin{cases}
+			\min \left\{ c \left( s,i \right ) : v_{s} \overset{*}\leadsto v_{i} \right\} & \text{ jeœli } \exists v_{s} \overset{*}\leadsto v_{i} \\ 
+			\infty & \text{ w przeciwnym przypadku }
+			\end{cases}
+		\end{equation}
+		gdzie:	
+		\begin{equation}
+			c \left( p,k \right ) = \sum_{e_{ij} \in P} c_{ij} \; : \; P = \left \langle v_{p}, v_{1}, \cdots, v_{k} \right \rangle 
+		\end{equation}
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 4
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Dijkstry}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.6\textwidth]{frame4/1}
+	\end{figure}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 5
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Dijkstry}
+	
+	\begin{itemize}
+		\item 21:46:48 | INFO | [DKQD] PreExecution summary: \\
+		Running algorithm	:	Dijkstra's Naive\\ Implementation with double-linked lists\\
+		Selected mode		:	Single Source\\
+		Source node's ID	:	1\\
+		
+		\item 21:46:48 | TRACE | [DKQD] Initialize double-linked list with source node with ID: 1 (distance: 0).
+		
+		\item 21:46:48 | TRACE | [DKQD] Query for next element from queue.
+	\end{itemize}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 6
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Dijkstry}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.6\textwidth]{frame6/1}
+	\end{figure}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 7
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Dijkstry}
+	
+	\begin{itemize}
+		\item 21:46:48 | TRACE | [DKQD] Queried node details:\\
+		Node ID		:	1\\
+		Distance	:	0\\
+		Parent's ID:	:	no parent\\
+		
+			\item 21:46:48 | TRACE | [DKQD] Executing relaxation. Changing nodes' linkage from:\\
+		No parents found for node with ID: 3 (4294967295)
+		to:\\
+		1 (0)	---(6)--->	3 (6)\\
+		
+		\item 21:46:48 | TRACE | [DKQD] Executing relaxation. Changing nodes' linkage from:\\
+		No parents found for node with ID: 2 (4294967295)
+		to:\\
+		1 (0)	---(2)--->	2 (2)\\
+		
+		21:46:48 | TRACE | [DKQD] Query for next element	
+	\end{itemize}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 8
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Dijkstry}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.6\textwidth]{frame8/1}
+	\end{figure}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 9
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Dijkstry}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.6\textwidth]{frame9/1}
+	\end{figure}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 10
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Dijkstry}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.6\textwidth]{frame10/1}
+	\end{figure}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 11
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Dijkstry}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.6\textwidth]{frame11/1}
+	\end{figure}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 12
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Algorytm Dijkstry}
+	
+	\small
+	\begin{algorithm}[H]
+		\DontPrintSemicolon
+		\Begin{
+			$G = $ ustaw $ d \left( i \right) = \infty$ oraz $Pred \left( i \right) = NULL$ dla ka¿dego wêz³a o $id = i$. Dodatkowo dla Ÿród³a $ d \left( i \right) = 0$.\;
+			$S = \emptyset$\;
+			$Q = G.V$\;
+			\While{$Q \neq \emptyset$}{\label{InRes1}
+				usuñ z $Q$ element o najni¿szym $ d \left( i \right)$ i dodaj go do $S$ \;\label{InResR}
+				\For{ka¿dy wierzcho³ek $v \in A \left( i \right)$}{
+					wykonaj relaksacjê
+				}
+			}
+		}
+		\caption{$DIJKSTRA \left( G, w, s \right) $\label{IR}}
+	\end{algorithm}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 13
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Wp³yw struktury}
+	\framesubtitle{na efektywnoœæ algorytmu}
+	
+	\begin{pwrblock}[Z³o¿onoœæ (generyczny algorytm Dijkstry)]
+		\begin{itemize}
+			\item inicjalizujemy $ \left| V \right| $ wierzcho³ków,
+			\item usuwamy ³¹cznie $ \left| V \right| $ wierzcho³ków,
+			\item wykonujemy relaksacjê dla $ \left| E \right| $ krawêdzi (ka¿dy wierzcho³ek odwiedzamy tylko raz),
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Zatem:]<2->
+		\begin{itemize}
+			\item $ \left| V \right| \cdot O \left( INIT \left( ? \right) \right)$,
+			\item[+]<3-> $ \left| V \right| \cdot O \left(EXTRACT\_MIN \left( Q \right) \right)$,
+			\item[+]<4-> $ \left| E \right| \cdot O \left(UPDATE \left( ? \right) \right)$
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 14
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{INIT, UPDATE, EXTRACT}
+	
+	\begin{pwrblock}[Implementacje Q]
+		\begin{itemize}
+			\item<1-> Drzewa
+			\item<2-> Kopce
+			\item<3-> Listy
+			\item<4-> Tablice
+			\item<5-> Kube³ki
+			\item<6-> Stosy
+			\item<7-> £¹czenie struktur	
+		\end{itemize}
+	\end{pwrblock}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 15
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Tablice, listy, stosy, kolejki, kube³ki...}
+	\framesubtitle{sposoby podejœcia do problemu SSSP}
+	
+	\begin{pwrblock}[Z³o¿onoœæ (generyczny algorytm Dijkstry)]
+		\small
+		$ \left| V \right| \cdot \left[ O \left( INSERT \left( Struct, Node \right) \right) + O \left(EXTRACT\_MIN \left( Struct \right) \right) \right] + \left| E \right| \cdot O \left(UPDATE\_STRUCT \left( Struct, Node \right) \right)$
+	\end{pwrblock}
+	
+	\begin{tabular}{cccccc}
+		\hline
+		& Tablica & Lista & Stos & k. R-arny & k. Fibonacciego \\
+		\hline
+		I & $O \left( n \right)$ & $O \left( 1 \right)$ & $O \left( 1 \right)$ & $O \left( \log_{R} \left( n \right) \right)$ & $O \left( 1 \right)$ \\
+		E & $O \left( n \right)$ & $O \left( 1 \right)$ & $O \left( 1 \right)$ & $O \left( R \cdot \log_{R} \left( n \right) \right)$ & $O \left( \log \left( n \right) \right)$  \\
+		U & $O \left( n \right)$ & $O \left( n \right)$ & $O \left( n \right)$ & $O \left( \log_{R} \left( n \right) \right)$ & $O \left( 1 \right)$  \\
+		\hline
+	\end{tabular}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 16
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Iluzja matematyczna}
+	
+	\begin{pwrblock}[Z³o¿onoœæ algorytmu Dijkstry - kopce R-arne]
+		\small
+		$ \left| V \right| \cdot \left[ \log_{R} \left( n \right) + R \cdot \log_{R} \left( n \right) \right] + \left| E \right| \cdot \log_{R} \left( n \right)$
+	\end{pwrblock}
+	
+	\begin{tabular}{cccccc}
+		\hline
+		& Tablica & Lista & Stos & k. R-arny & k. Fibonacciego \\
+		\hline
+		I & $O \left( n \right)$ & $O \left( 1 \right)$ & $O \left( 1 \right)$ & $O \left( \log_{R} \left( n \right) \right)$ & $O \left( 1 \right)$ \\
+		E & $O \left( n \right)$ & $O \left( 1 \right)$ & $O \left( 1 \right)$ & $O \left( R \cdot \log_{R} \left( n \right) \right)$ & $O \left( \log \left( n \right) \right)$  \\
+		U & $O \left( n \right)$ & $O \left( n \right)$ & $O \left( n \right)$ & $O \left( \log_{R} \left( n \right) \right)$ & $O \left( 1 \right)$  \\
+		\hline
+	\end{tabular}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 17
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Iluzja matematyczna}
+	
+	\begin{pwrblock}[Z³o¿onoœæ algorytmu Dijkstry - kopce R-arne]
+		\small
+		$ \left| V \right| \cdot \left[ \log_{R} \left( n \right) + R \cdot \log_{R} \left( n \right) \right] + \left| E \right| \cdot \log_{R} \left( n \right)$
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Bardzo gêsty graf]
+		\small
+		\begin{equation}
+		 \left| E \right| = \Omega \left( \left| V \right| ^{1+\epsilon} \right)
+		\end{equation}
+		\begin{equation}
+		R = \left| E \right| / \left| V \right| > 1
+		\end{equation}
+		\begin{equation}
+		  \left| E \right| \cdot \log_{R} \left( n \right) = \left| E \right| \cdot \log \left( \left| V \right| \right) / \log \left( R\right) = \left| E \right| \cdot \log \left( \left| V \right| \right) / \log \left( \left| E \right| / \left| V \right| \right) 
+		\end{equation}
+	\end{pwrblock}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 18
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Iluzja matematyczna}
+	
+	\begin{pwrblock}[Z³o¿onoœæ algorytmu Dijkstry - kopce R-arne]
+		\small
+		$ \left| V \right| \cdot \left[ \log_{R} \left( n \right) + R \cdot \log_{R} \left( n \right) \right] + \left| E \right| \cdot \log_{R} \left( n \right)$
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Bardzo gêsty graf]
+		\small
+		\begin{equation}
+		\left| E \right| = \Omega \left( \left| V \right| ^{1+\epsilon} \right)
+		\end{equation}
+		\begin{equation}
+		 \left| E \right| \cdot \log \left( \left| V \right| \right) / \log \left( \left| E \right| / \left| V \right| \right) =  \left| E \right| \cdot \log \left( \left| V \right| \right) / \log \left( \left( \left| V \right| ^{1+\epsilon} \right) / \left| V \right| \right) 
+		\end{equation}
+		\begin{equation}
+		=  \left| E \right| \cdot \log \left( \left| V \right| \right) / \log \left( \left| V \right| ^{\epsilon}| \right) =  \left| E \right| \cdot \log \left( \left| V \right| \right) / \left( \epsilon \log \left( \left| V \right|| \right) \right) 
+		\end{equation}
+		\begin{equation}
+		=  \left| E \right| / \left( \epsilon \right) = \left| E \right| = m
+		\end{equation}
+	\end{pwrblock}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 19
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Struktura sieci}
+	
+	\begin{pwrblock}[Reprezentacje]
+		\begin{itemize}
+			\item<2-> Macierz incydencji
+			\begin{itemize}
+				\item<3-> wêze³-wêze³
+				\item<4-> wêze³-krawêdŸ
+			\end{itemize}
+			\item<5-> listy s¹siedztwa
+			\begin{itemize}
+				\item<6-> poœrednie
+				\item<7-> bezpoœrednie
+			\end{itemize}
+			\item<8-> Star Representation
+			\begin{itemize}
+				\item<9-> forward
+				\item<10-> reverse
+			\end{itemize}
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 20
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Reprezentacje grafu}
+	
+	\begin{center}
+		\begin{tabular}{ccccc}
+			\hline
+			& \multicolumn{2}{c}{Macierze} \\
+			& Incydencji & S¹siedztwa \\
+			\hline
+			Potrzebna pamiêæ & $ O \left( \left| V \right| \cdot \left| E \right| \right) $  & $ O \left( \left| V \right| ^{2} \right)$ \\
+			\hline
+			Przegl¹d $v \in A \left( i \right) $ & $O \left( \left| E \right| + \left| A \left( i \right) \right| \cdot \left| V \right| \right)$ & $O \left( \left| V \right| \right) $  \\
+			\hline
+			Dodawanie krawêdzi & $O \left( 1 \right)$ & $O \left( 1 \right) $\\
+			Dodawanie nowej krawêdzi & $ O \left( \left| V \right| \cdot \left| E \right| \right) $ & $ O \left( 1 \right) $  \\
+			Usuwanie krawêdzi  & $O \left( \left| V \right| \right)$ & $O \left( \left| V \right| \right) $ \\
+			Trwa³e usuwanie krawêdzi & $ O \left( \left| V \right| \cdot \left| E \right| \right) $ & $ O \left( \left| V \right| \cdot \left| E \right| \right) $  \\
+			Stopieñ wierzcho³ka & $O \left( \left| E \right| \right)$ & $O \left( \left| V \right| \right) $  \\
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 21
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Reprezentacje grafu}
+	\begin{center}
+		\begin{tabular}{ccccc}
+			\hline
+			 & Listy & Pêki \\
+			&  S¹siedztwa & Wejœcia-wyjœcia \\
+			\hline
+			Potrzebna pamiêæ & $ O \left( \left| V \right| + \left| E \right| \right)$ & $ O \left( \left| V \right| + \left| E \right| \right)$ \\
+			\hline
+			Przegl¹d $v \in A \left( i \right) $ & $O \left( \left| A \left( i \right) \right| \right) $ & $O \left( \left| A \left( i \right) \right| \right) $ \\
+			\hline
+			Dodawanie krawêdzi  & $O \left( 1 \right) $ & $O \left( \left| V \right| + \left| E \right| \right) $ \\
+			Dodawanie nowej krawêdzi & $O \left( 1 \right) $ & $O \left( \left| V \right| + \left| E \right| \right) $ \\
+			Usuwanie krawêdzi   & $O \left( \left| E \right| \right) $ & $O \left( \left| V \right| + \left| E \right| \right)$ \\
+			Trwa³e usuwanie krawêdzi & $O \left( \left| E \right| \right) $ & $O \left( \left| V \right| + \left| E \right| \right)$ \\
+			Stopieñ wierzcho³ka & $O \left( \left| A \left( i \right) \right| \right) $ & $O \left( 1 \right) $ \\
+		\end{tabular}
+	\end{center}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 22
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Listy s¹siedztwa}
+	
+	\includegraphics[width=0.6\textwidth]{frame22/1}
+	\includegraphics[width=0.4\textwidth]{frame22/2}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 23
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{FSR}	
+	
+	\includegraphics[width=0.5\textwidth]{frame23/1}
+	\includegraphics[width=0.5\textwidth]{frame23/2}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 24
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{FRSR}
+	
+	\includegraphics[width=0.5\textwidth]{frame24/1}
+	\includegraphics[width=0.5\textwidth]{frame24/2}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 25
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Szybkoœæ}
+	
+	\centering
+	\includegraphics[width=0.8\textwidth]{frame25/1}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 26
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}
+	
+	\Put(200,-300){\includegraphics[height=3cm]{frame26/1}}
+	
+	\Put(0,100){\includegraphics[height=2cm]{frame26/2}}
+	
+	\Put(-10,-300){\includegraphics[height=2cm]{frame26/3}}
+	
+	\Put(100,100){\includegraphics[height=3cm]{frame26/4}}
+	
+	\Put(50,-140){\includegraphics[height=2cm]{frame26/5}}
+	
+	\Put(220,180){\includegraphics[height=3cm]{frame26/6}}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 27
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Biblioteka Take Me Home}
+	\framesubtitle{API}
+	
+	\begin{pwrblock}[Wymagania:]
+		\begin{itemize}
+			\item pliki z danymi zgodne z formatem narzuconym podczas 9th DIMACS Implementation Challenge
+			\item wierzcho³ki numerowane od 1
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{pwrblock}[Podstawowe API]
+		\begin{itemize}
+			\item logi oparte na idei biblioteki Log4j
+			\item podstawowe struktury:
+			\begin{itemize}
+				\item TMHConfig - konfiguracja algorytmów
+				\item TMH - konfiguracja biblioteki
+			\end{itemize}
+			\item pseudo-obiektowoœæ
+		\end{itemize}
+	\end{pwrblock}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 28
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Biblioteka Take Me Home}
+	\framesubtitle{API}
+	
+	\begin{pwrblock}[TMHConfig]
+		\begin{itemize}
+			\item createTMHConfig( œcie¿ka do pliku z poleceniami )
+			\begin{itemize}
+				\item createTMHConfig(USA-road-d.USA.ss);
+			\end{itemize}
+			\item setAllowInterrupt(config,false);
+			\item setCheckConfig(config,false);
+			\item setGraphOrder(config,NONE);
+			\begin{itemize}
+				\item NONE - z typu wyliczeniowego GraphOrder
+			\end{itemize}
+			\item setGraphStruct(config,ADJACENCY\_LIST);
+			\begin{itemize}
+				\item ADJACENCY\_LISTNE - z typu wyliczeniowego GraphStructAbbreviation
+			\end{itemize}
+		\end{itemize}
+	\end{pwrblock}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 29
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Biblioteka Take Me Home}
+	\framesubtitle{API}
+	
+	\begin{pwrblock}[TMHConfig]
+		\begin{itemize}
+			\item setAlgorithm(config,BFM);
+			\begin{itemize}
+				\item BFM - z typu wyliczeniowego AlgorithmAbbreviation
+			\end{itemize}
+		\end{itemize}
+	\end{pwrblock}
+	
+	\begin{pwrblock}[TMH\_API]
+		\begin{itemize}
+			\item ins = createTMHAlgorithmInstance(config,"*.gr");
+			\item runTMHAlgorithm(config->algorithm,ins);
+			\item destroyTMHAlgorithmInstancje(alg,ins,false);
+			\begin{itemize}
+				\item false - czy zresetowaæ kofiguracjê
+			\end{itemize}
+		\end{itemize}
+	\end{pwrblock}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 30
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Ups}
+
+	\centering
+	\includegraphics[width=\textwidth]{frame30/1}	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 31
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Bibliografia}
+	\small
+	\begin{thebibliography}{10}    
+		\beamertemplatebookbibitems
+		\bibitem{Ravindra K. Ahuja, Thomas L. Magnanti, and James B. Orlin}
+		James B. Orlin
+		\newblock {\em Network Flows: Theory, Algorithms, and Applications}.
+		\newblock 4. SHORTEST PATHS: LABEL-SETTING ALG.
+		
+		\beamertemplatebookbibitems
+		\bibitem{Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein}
+		Thomas H. Cormen
+		\newblock {\em Wprowadzenie do algorytmów}.
+		\newblock 24. Najkrótsze œcie¿ki z jednym Ÿród³em
+		
+		
+		\beamertemplatearticlebibitems
+		\bibitem{F. Benjamin Zhan}
+		F. Benjamin Zhan
+		\newblock {\em Three Fastest Shortest Path Algorithms on Real Road \\
+		Networks: Data Structures and Procedures}.
+		\newblock Journal of Geographic Information and Decision Analysis, vol.1, no.1, pp. 70-82, 1997
+	\end{thebibliography}
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 32
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\begin{frame}%[allowframebreaks=.7]
+	\frametitle{Bibliografia}
+	\small
+	
+	\begin{thebibliography}{10}    
+		\beamertemplatearticlebibitems
+		\bibitem{Warren B. Powell}
+		Warren B. Powell
+		\newblock {\em A Generalized Threshold Algorithm for the SPP}.
+		\newblock Department of Civil Engineering and Operations Research
+	\end{thebibliography}
+	
+	\begin{thebibliography}{10}    
+		\beamertemplatearticlebibitems
+		\bibitem{Nishtha Kesswani}
+		Nishtha Kesswani
+		\newblock {\em Design and Impl. of Multi-Parameter Dijkstra's Algorithm:\\ A Shortest Path Alg. for Real-Road Networks}.
+		\newblock International Journal of Advances in Engineering Research
+	\end{thebibliography}
+\end{frame}
+\end{document}

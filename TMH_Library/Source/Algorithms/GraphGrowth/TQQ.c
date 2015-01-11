@@ -102,6 +102,8 @@ void runTQQ_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
+		printf("Source node: %d / %d\n",i+1,sourceNodeArraySize);
+
 		source = graph->nodeArray[sourceNodeArray[i]];
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
@@ -121,12 +123,6 @@ void runTQQ_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 	TMHNode* toNode;
 	TMHNodeData newDistance;
 
-
-	long long int k = 0;
-
-	printf("\nNODE: %u", numberOfNodes);
-
-
 	TMHNodeDoubleQueue* queue = createTMHNodeDoubleQueueInstance();
 
 	reinitializeTMHGraph(graph,sourceNode);
@@ -137,8 +133,7 @@ void runTQQ_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 		trace(MODULE_NAME,trace_TQQ_initQueueWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
 	}
 
-	while ( (currentNode = popTMHNodeDoubleQueue(queue)) != NULL ) {
-		k+=1;
+	while ( (currentNode = popMinTMHNodeDoubleQueue(queue)) != NULL ) {
 		if (isTraceLogEnabled()) {
 			trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
 		}
@@ -178,18 +173,14 @@ void runTQQ_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 					}
 				}
 
+				pushLastTMHNodeDoubleQueue(queue,toNode);
+
 				toNode->distanceLabel = newDistance;
 				toNode->predecessor = currentNode;
-
-				pushLastTMHNodeDoubleQueue(queue,toNode);	/* nie priorytetowa, a potrzeba starej odleg�o�ci*/
-
 			}
 			adjacencyList = adjacencyList->nextElement;
 		}
 	}
-
-
-
-	printf("\nNODE: %llu\n", k);
+	destroyTMHNodeDoubleQueueInstance(queue,false);
 }
 

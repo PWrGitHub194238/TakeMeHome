@@ -70,8 +70,8 @@
  *
  */
 
-TMHConfig* createTMHConfig( const char* const configDataFilePath ) {
-	return getConfigData(configDataFilePath);
+TMHConfig* createTMHConfig( const char* const configDataFilePath, bool dumpConfig ) {
+	return getConfigData(configDataFilePath,dumpConfig);
 }
 
 void setGraphStruct( TMHConfig* config, const GraphStructAbbreviation graphStruct ) {
@@ -104,7 +104,7 @@ void* createTMHAlgorithmInstance( TMHConfig* const config, const char* const gra
 		}
 	}
 
-	newGraph = getGraphDataWrapper(config->graphStruct,graphDataFilePath);
+	newGraph = getGraphDataWrapper(config,graphDataFilePath);
 
 	switch (config->algorithm) {
 	case BFM:

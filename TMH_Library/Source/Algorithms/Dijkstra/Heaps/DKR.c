@@ -66,7 +66,6 @@ static const char* ASK_FOR_WIDTH_OF_HEAP = "Interrupt!\nHeap-based implementatio
 
 static TMHNodeData getParameterOrDefaultDKR( const TMHNodeIdx numberOfArcs, const TMHNodeIdx numberOfNodes );
 static TMHNodeData findBestParameter( TMHNodeIdx const numberOfArcs, TMHNodeIdx const numberOfNodes );
-static long long int worstCaseTimeKDR( TMHNodeIdx const numberOfArcs, TMHNodeIdx const numberOfNodes, const TMHNodeIdx dHeapParam );
 
 /*
  * Definitions
@@ -120,6 +119,8 @@ void runDKR_SingleSourceWrapper( TMHGraph* const graph, const TMHNodeIdx* const 
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
+		printf("Source node: %d / %d\n",i+1,sourceNodeArraySize);
+
 		source = graph->nodeArray[sourceNodeArray[i]];
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
@@ -139,13 +140,6 @@ void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHNode* toNode;
 	TMHNodeData newDistance;
 
-
-	long long int k = 0;
-
-	printf("\nNODE: %u", numberOfNodes);
-
-
-
 	TMHDHeap* heap = createTMHDHeapInstance(graph->nodeArray,graph->numberOfNodes,dHeapParameter);
 
 	reinitializeTMHGraph(graph,sourceNode);
@@ -157,7 +151,6 @@ void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	}
 
 	while( (currentNode = removeMinimumTMHDHeap(heap)) != NULL ) {
-		k +=1;
 		if (isTraceLogEnabled()) {
 			trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
 			if ( currentNode->distanceLabel == distanceLabelInfinity ) {
@@ -217,9 +210,6 @@ void runDKR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyDHeap);
 	}
 	destroyTMHDHeapInstance(heap);
-
-	printf("\nNODE: %llu\n", k);
-
 }
 
 static TMHNodeData getParameterOrDefaultDKR( const TMHNodeIdx numberOfArcs, const TMHNodeIdx numberOfNodes ) {
@@ -235,27 +225,10 @@ static TMHNodeData getParameterOrDefaultDKR( const TMHNodeIdx numberOfArcs, cons
 	}
 }
 
-/**
- * takes O(nI+mD+nE) time where I, D, E is the time for insert, decrease-key, extract-min
- * insert, dec O(log_d(n)), extract O(dlog_d(n))
- * @param numberOfArcs
- * @param numberOfNodes
- * @param maxArcCost
- * @return
- */
 static TMHNodeData findBestParameter( TMHNodeIdx const numberOfArcs, TMHNodeIdx const numberOfNodes ) {
-	long long int i = worstCaseTimeKDR(numberOfArcs,numberOfNodes,2);
-	TMHNodeData j = 3;
-	if ( i >= 0 ) {
-		return 2;
-	} else {
-		do {
-			i = worstCaseTimeKDR(numberOfArcs,numberOfNodes,j++);
-		} while ( i < 0 );
-		return j;
+	TMHNodeData r = numberOfArcs / numberOfNodes;
+	if (r < 2) {
+		r = 2;
 	}
-}
-
-static long long int worstCaseTimeKDR( TMHNodeIdx const numberOfArcs, TMHNodeIdx const numberOfNodes, const TMHNodeIdx dHeapParam ) {
-	return (long long int) (-((numberOfArcs+numberOfNodes+dHeapParam*numberOfNodes*(1-log(dHeapParam)))*log(numberOfNodes))/(dHeapParam *log(dHeapParam)*log(dHeapParam)));
+	return r;
 }

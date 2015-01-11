@@ -113,8 +113,7 @@ static void destroyAuxiliaryArray( TMHFibNode** const auxiliaryArray, TMHNodeIdx
 	for ( maxDegree--; maxDegree > 0; maxDegree-- ) {
 		memFree(auxiliaryArray[maxDegree]);
 	}
-	memFree(auxiliaryArray[maxDegree]);
-	memFree(auxiliaryArray);
+	memFree(auxiliaryArray);	// aA[0]
 }
 
 static void destroyTMHFibBHeap( TMHFibNode* rootListNode ) {
@@ -180,9 +179,11 @@ static TMHFibNode* concatenateTMHFibBHeap( TMHFibNode* Hmin, TMHFibNode* x ) {
 
 TMHNode* extractMinTMHFibBHeap( TMHFibHeap* H ) {
 	TMHFibNode* z = H->minNode;
+	TMHNode* data = NULL;
 	if ( z != NULL ) {
 		TMHFibNode* begin = z->childList;
 		TMHFibNode* x = begin;
+		data = z->data;
 
 		if ( begin != NULL ) {
 			do {
@@ -206,13 +207,14 @@ TMHNode* extractMinTMHFibBHeap( TMHFibHeap* H ) {
 	/*	printf("%u Extracted  %u (dl: %u, d: %u)\n",H->numberOfNodes,z->data->nodeID,z->data->distanceLabel,z->degree);
 				printFib(H->minNode,0);
 				printf("\n-------------------------------------------------------\n");*/
-		return z->data;
+		destroyTMHFibNodeInstance(z,false);
+		return data;
 	}
 	/*printf("%u Extracted and empty  %u (dl: %u, d: %u)\n",H->numberOfNodes,z->data->nodeID,z->data->distanceLabel,z->degree);
 					printFib(H->minNode,0);
 					printf("\n-------------------------------------------------------\n");*/
 	H->numberOfNodes = 0;
-	return NULL;
+	return data;
 }
 
 

@@ -80,7 +80,7 @@ TMH_THR* createTMHTHRInstance( TMHGraph* const graphData, TMHConfig* configurati
 
 	if ( configuration->allowInterrupt ) {
 		printf("%s\n",ASK_FOR_PARAM);
-		newInstance->thresholdParam = getParameterOrDefaultTHR(DEFAULT_PARAM);
+		newInstance->thresholdParam = getParameterOrDefaultTHR(computeThreshold(graphData,DEFAULT_PARAM));
 		newInstance->threshold = computeThreshold(graphData,newInstance->thresholdParam);
 	} else if ( configuration->defaultParameter == NULL ) {
 		newInstance->threshold = computeThreshold(graphData,DEFAULT_PARAM);
@@ -122,6 +122,8 @@ void runTHR_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
+		printf("Source node: %d / %d\n",i+1,sourceNodeArraySize);
+
 		source = graph->nodeArray[sourceNodeArray[i]];
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
@@ -141,12 +143,6 @@ void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMH
 	TMHNode* toNode;
 	TMHNodeData newDistance;
 
-	long long int k = 0;
-
-	printf("\nTHRESH: %u\n",threshold);
-
-	printf("\nNODES: %u\n",numberOfNodes);
-
 	TMHNodeDLListWrapper* mainQueue = createTMHNodeDLListInstance();
 	TMHNodeDLListWrapper* outQueue = createTMHNodeDLListInstance();
 
@@ -160,7 +156,6 @@ void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMH
 
 	do {
 		while ( (currentNode = popLastTMHNodeDLList(mainQueue->tail)) != NULL ) {
-			k+= 1;
 			if (isTraceLogEnabled()) {
 				trace(MODULE_NAME,trace_TMHAlgorithmHelper_nextQueueLoop);
 			}
@@ -229,8 +224,6 @@ void runTHR_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, TMH
 			}
 		}
 	} while ( (mainQueue = relocateAndUpdateTHR(mainQueue,outQueue,&threshold) ) != NULL );
-	printf("\nNODES: %llu\n",k);
-
 }
 
 static TMHNodeData getParameterOrDefaultTHR( const TMHNodeData constant ) {
@@ -251,11 +244,11 @@ static TMHNodeDLListWrapper* relocateAndUpdateTHR( TMHNodeDLListWrapper* const m
 	TMHNodeDLList* tail = outQueue->tail;
 	TMHNode* repinNode;
 	TMHNodeData currentNodeDistance;
-	TMHNodeData newThreshold = *(threshold);
+	TMHNodeData newThreshold = distanceLabelInfinity;
 
 	while ( list != tail ) {
 		currentNodeDistance = list->data->distanceLabel;
-		if ( newThreshold < currentNodeDistance ) {
+		if ( newThreshold > currentNodeDistance ) {
 			newThreshold = currentNodeDistance;
 		}
 		list = list->next;
@@ -265,7 +258,8 @@ static TMHNodeDLListWrapper* relocateAndUpdateTHR( TMHNodeDLListWrapper* const m
 	newThreshold += *(threshold);
 
 	if (isTraceLogEnabled()) {
-		trace(MODULE_NAME,trace_THR_updateThreshold,threshold,newThreshold);
+		trace(MODULE_NAME,trace_THR_updateThreshold,*threshold,newThreshold);
+		trace(MODULE_NAME,trace_THR_updateMainThresholdList);
 	}
 
 	while ( list != tail ) {
@@ -273,7 +267,13 @@ static TMHNodeDLListWrapper* relocateAndUpdateTHR( TMHNodeDLListWrapper* const m
 		currentNodeDistance = repinNode->distanceLabel;
 		list = list->next;
 		if ( currentNodeDistance < newThreshold ) {
+			if (isTraceLogEnabled()) {
+				trace(MODULE_NAME,trace_THR_repinAfterThresholdUpdate,repinNode->nodeID,currentNodeDistance,repinNode->predecessor->nodeID);
+			}
 			repinTMHNodeDLList(mainQueue->head,repinNode);
+		}
+		if (isTraceLogEnabled() && currentNodeDistance >= newThreshold) {
+			trace(MODULE_NAME,trace_THR_uselessRepinAfterThresholdUpdate,repinNode->nodeID,currentNodeDistance,repinNode->predecessor->nodeID,threshold);
 		}
 	}
 

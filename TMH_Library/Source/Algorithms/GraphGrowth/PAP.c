@@ -178,11 +178,10 @@ void runPAP_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode  ) {
 					}
 				}
 
-				toNode->distanceLabel = newDistance;
-				toNode->predecessor = currentNode;
-
 				pushTMHNodeStackQueue(queue,toNode);	/* nie priorytetowa, a potrzeba starej odleg�o�ci*/
 
+				toNode->distanceLabel = newDistance;
+				toNode->predecessor = currentNode;
 
 			}
 			adjacencyList = adjacencyList->nextElement;

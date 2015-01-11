@@ -245,6 +245,7 @@ extern const char* trace_DKD_createLowLevelBucket;
 extern const char* trace_DKD_initBucketWithSource;
 extern const char* trace_DKD_highLevelLoop;
 extern const char* trace_DKD_highLevelBucketEmpty;
+extern const char* trace_DKD_allNodesProcessedReturn;
 extern const char* trace_DKD_scanningHighLevelBucket;
 extern const char* trace_DKD_populateLowLevelBuckets;
 extern const char* trace_DKD_lowLevelLoop;
@@ -426,6 +427,9 @@ extern const char* trace_THR_uselessBackgroundRepin;
 extern const char* trace_THR_repinFromBackground;
 extern const char* trace_THR_uselessMainRepin;
 extern const char* trace_THR_updateThreshold;
+extern const char* trace_THR_updateMainThresholdList;
+extern const char* trace_THR_repinAfterThresholdUpdate;
+extern const char* trace_THR_uselessRepinAfterThresholdUpdate;
 
 /*	DEBUG	*/
 /*	INFO	*/

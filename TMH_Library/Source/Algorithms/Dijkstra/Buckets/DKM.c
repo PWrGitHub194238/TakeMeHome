@@ -117,6 +117,8 @@ void runDKM_SingleSourceWrapper ( TMHGraph* const graph, const TMHNodeIdx* const
 	TMHNode* source = NULL;
 	TMHNodeIdx i;
 	for ( i = 0; i < sourceNodeArraySize; i++ ) {
+		printf("Source node: %d / %d\n",i+1,sourceNodeArraySize);
+
 		source = graph->nodeArray[sourceNodeArray[i]];
 		if (isInfoLogEnabled()) {
 			info(MODULE_NAME,info_TMHAlgorithmHelper_SSSummaryBeforeExecution,
@@ -141,12 +143,6 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 	TMHArc* arc;
 	TMHNode* toNode;
 	TMHNodeData newDistance;
-
-
-	long long int k = 0;
-
-		printf("\nNODE: %u", numberOfNodes);
-
 
 	reinitializeTMHGraph(graph,sourceNode);
 	bucketsArray = createBucketsDKM(numberOfBuckets,sourceNode);
@@ -175,7 +171,6 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 				}
 				do {
 					currentNode = popTMHNodeDLList(currentBucket);
-					k+=1;
 					if (isTraceLogEnabled()) {
 						if ( currentNode->predecessor == NULL ) {
 							trace(MODULE_NAME,trace_TMHAlgorithmHelper_popElementNoParent,currentNode->nodeID,currentNode->distanceLabel);
@@ -239,7 +234,7 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 								} else {
 									repinTMHNodeDLList(bucketsArray[newDistance]->head,toNode);
 								}
-							} else if ( toNode->toUpperStruct == NULL ) {	// TODO
+							} else if ( toNode->toUpperStruct == NULL ) {	// Do overflowu, jeśli nowy
 								pushTMHNodeDLList(bucketsArray[numberOfBuckets]->head,toNode);
 							}
 						}
@@ -297,8 +292,6 @@ void runDKM_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode, con
 		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyBucket,numberOfBuckets+1);	/* + Overflow bag */
 	}
 	cleanUpBuckets(bucketsArray,numberOfBuckets+1);
-
-	printf("\nNODE: %llu\n", k);
 }
 
 static TMHNodeData getParameterOrDefaultDKM( const TMHNodeData* const constant ) {
