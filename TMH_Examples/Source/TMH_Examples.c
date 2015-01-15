@@ -30,55 +30,54 @@ static long long int getSumOfArcAndNodes( char* path );
 const int REPEAT = 1;
 
 const int TESTSNO = 12;
-
 const char* TESTPATHS[12] = {
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.NY.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.BAY.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.COL.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.FLA.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.NW.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.NE.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.CAL.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.LKS.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.E.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.W.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.CTR.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/USATest50/50xUSA-road-d.USA.gr"
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.NY.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.BAY.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.COL.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.FLA.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.NW.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.NE.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.CAL.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.LKS.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.E.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.W.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.CTR.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/USA-road-d/USA-road-d.USA.gr"
 };
 
-const int TESTSNO1 = 1;
+const int TESTSNO1 = 30;
 
 const char* TESTPATHS1[30] = {
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_100_p_1.20_M_251.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_200_p_1.20_M_577.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_300_p_1.20_M_938.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_400_p_1.20_M_1325.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_500_p_1.20_M_1732.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_600_p_1.20_M_2156.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_700_p_1.20_M_2594.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_800_p_1.20_M_3045.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_900_p_1.20_M_3508.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1000_p_1.20_M_3981.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1100_p_1.20_M_4463.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1200_p_1.20_M_4954.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1300_p_1.20_M_5454.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1400_p_1.20_M_5961.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1500_p_1.20_M_6476.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1600_p_1.20_M_6997.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1700_p_1.20_M_7525.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1800_p_1.20_M_8059.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1900_p_1.20_M_8600.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2000_p_1.20_M_9146.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2100_p_1.20_M_9697.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2200_p_1.20_M_10254.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2300_p_1.20_M_10816.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2400_p_1.20_M_11382.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2500_p_1.20_M_11954.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2600_p_1.20_M_12530.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2700_p_1.20_M_13111.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2800_p_1.20_M_13695.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2900_p_1.20_M_14284.gr",
-		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_3000_p_1.20_M_14878.gr"
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_100_p_1.60_M_1584.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_200_p_1.60_M_4804.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_300_p_1.60_M_9191.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_400_p_1.60_M_14564.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_500_p_1.60_M_20813.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_600_p_1.60_M_27863.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_700_p_1.60_M_35657.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_800_p_1.60_M_44151.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_900_p_1.60_M_53307.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1000_p_1.60_M_63095.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1100_p_1.60_M_73490.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1200_p_1.60_M_84467.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1300_p_1.60_M_96008.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1400_p_1.60_M_108094.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1500_p_1.60_M_120710.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1600_p_1.60_M_133841.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1700_p_1.60_M_147474.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1800_p_1.60_M_161598.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_1900_p_1.60_M_176199.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2000_p_1.60_M_191270.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2100_p_1.60_M_206800.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2200_p_1.60_M_222780.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2300_p_1.60_M_239201.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2400_p_1.60_M_256057.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2500_p_1.60_M_273340.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2600_p_1.60_M_291043.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2700_p_1.60_M_309159.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2800_p_1.60_M_327682.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_2900_p_1.60_M_346606.gr",
+		"/home/s194238/TMH/TMH_Tests/gr/Test1/N_3000_p_1.60_M_365926.gr"
 };
 
 const char* SAVEPATH = "/home/s194238/TMH/TMH_Tests/out/USATest2";
@@ -104,15 +103,15 @@ int main(void) {
 	//finalTest(TESTPATHS,TESTSNO,"USATest",PAP,NULL,"PAP");
 	//finalTest(TESTPATHS,TESTSNO,"USATest",DKXb,NULL,"DKXb");
 
-	//finalTest(TESTPATHS,TESTSNO,"USATestx50",DKA,NULL,"DKA");
-	//finalTest(TESTPATHS,TESTSNO,"USATestx50",TQQ,NULL,"TQQ");
-	//finalTest(TESTPATHS,TESTSNO,"USATestx50",DDL,NULL,"DDL");
-	//finalTest(TESTPATHS,TESTSNO,"USATestx50",DKD,NULL,"DKD");
-	//finalTest(TESTPATHS,TESTSNO,"USATestx50",DKM,NULL,"DKM");
-	//finalTest(TESTPATHS,TESTSNO,"USATestx50",DKX,NULL,"DKX");
-	//finalTest(TESTPATHS,TESTSNO,"USATestx50",DKFb,NULL,"DKFb");
-	//finalTest(TESTPATHS,TESTSNO,"USATestx50",DKR,NULL,"DKR");
-	finalTest(TESTPATHS,TESTSNO,"USATestx50",DKR,NULL,"THR");
+	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKA,NULL,"DKA");
+	//finalTest(TESTPATHS1,TESTSNO1,"Test1",TQQ,NULL,"TQQ");
+	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DDL,NULL,"DDL");
+	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKD,NULL,"DKD");
+	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKM,NULL,"DKM");
+	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKX,NULL,"DKX");
+	finalTest(TESTPATHS1,TESTSNO1,"Test1",DKFb,NULL,"DKFb");
+	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKR,NULL,"DKR");
+	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKR,NULL,"THR");
 
 	return EXIT_SUCCESS;
 }
@@ -122,6 +121,8 @@ void finalTest( char** paths, int noOfTests, char* testName, const AlgorithmAbbr
 	clock_t sC[REPEAT],sR[REPEAT],sD[REPEAT],eC[REPEAT],eR[REPEAT],eD[REPEAT];
 	double AC,AR,AD;
 	char cBuf[100],rBuf[200],dBuf[200];
+
+
 	//char  pcBuf[200],prBuf[200],pdBuf[200];
 	//FILE* cFile = NULL;
 	FILE* rFile = NULL;
@@ -134,8 +135,8 @@ void finalTest( char** paths, int noOfTests, char* testName, const AlgorithmAbbr
 	int i,j;
 	char* path;
 	long long int numOfVE;
-	TMHConfig* config = createTMHConfig("/home/s194238/TMH/TMH_Tests/ss/USATest3.ss",false);
-	setAllowInterrupt(config,false,param);
+	TMHConfig* config = createTMHConfig("/home/s194238/TMH/TMH_Tests/ss/USATest3.ss",true);
+
 	setCheckConfig(config,false);
 	setGraphOrder(config,NONE);
 	setGraphStruct(config,ADJACENCY_LIST);
@@ -143,10 +144,13 @@ void finalTest( char** paths, int noOfTests, char* testName, const AlgorithmAbbr
 	setAlgorithm(config,alg);
 
 	//sprintf (cBuf, "%s/C_%s_%s_100Nodes",SAVEPATH,testName,algName);
-	sprintf (rBuf, "%s/R_%s_%s_500Nodesx50",SAVEPATH,testName,algName);
+	sprintf (rBuf, "%s/R_%s_%s_1.60RETEST",SAVEPATH,testName,algName);
 	//sprintf (dBuf, "%s/D_%s_%s_100Nodes",SAVEPATH,testName,algName);
 
 	for ( i = 0; i < noOfTests; i += 1) {
+
+		setAllowInterrupt(config,false,param);
+
 
 		//cFile = fopen(cBuf,"a");
 		rFile = fopen(rBuf,"a");

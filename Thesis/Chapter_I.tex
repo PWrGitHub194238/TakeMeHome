@@ -74,7 +74,7 @@ Operacje, jakie będziemy chcieli~---  jak się później okaże~---  wykonywać
 Dla pierwszego podejścia:
 
 \begin{myitemize}
-	\item koszt identyfikacji wszystkich łuków jest ściśle powiązany z~ilością krawędzi w~grafie~---  wystarczy, że dla wierzchołka $v_{i}$ przejrzymy wiersz o~indeksie $i$, aby odnaleźć identyfikatory wszystkich krawędzi, bezpośrednio wychodzących z~danego wierzchołka (wszystkie komórki o~wartości mniejszej od zera). Możemy ograniczyć ilość potrzebnych skanowań poprzez wprowadzenie licznika krawędzi wychodzących, lecz w~najgorszym możliwym przypadku takie skanowanie wciąż będzie wymagało $O \left( m \right)$ porównań, gdzie $m$ to oczywiście liczba krawędzi w~grafie.
+	\item koszt identyfikacji wszystkich łuków jest ściśle powiązany z~liczbą krawędzi w~grafie~---  wystarczy, że dla wierzchołka $v_{i}$ przejrzymy wiersz o~indeksie $i$, aby odnaleźć identyfikatory wszystkich krawędzi, bezpośrednio wychodzących z~danego wierzchołka (wszystkie komórki o~wartości mniejszej od zera). Możemy ograniczyć liczbę potrzebnych skanowań poprzez wprowadzenie licznika krawędzi wychodzących, lecz w~najgorszym możliwym przypadku takie skanowanie wciąż będzie wymagało $O \left( m \right)$ porównań, gdzie $m$ to oczywiście liczba krawędzi w~grafie.
 	\item Koszt wyszukania wszystkich następników węzła $v_{i}$ obejmuje koszt odnalezienia wszystkich łuków, prowadzących do takich wierzchołków, oraz ustalenia ich identyfikatorów~---  co dla każdego znalezionego łuku $e_{j}$ zmusza nas do przeszukania wszystkich elementów macierzy, znajdujących się w~tej samej, $j$-tej kolumnie. Takich kolumn~---  jak wspomnieliśmy wcześniej~---  będzie $ \left| A \left( i \right) \right| $, zaś przeszukanie każdej z~nich wymagać będzie (w~najgorszym przypadku) $n-1$ porównań dla każdej z~nich. Ostatecznie otrzymujemy $O \left( \left| A \left( i \right) \right| \cdot n \right)$ dla wyszukiwania wszystkich następników węzła $v_{i}$ (wraz z~wyszukiwaniem łuków~---  $O \left( m + \left| A \left( i \right) \right| \cdot n \right)$).
 \end{myitemize}
 
@@ -97,12 +97,11 @@ O~ile z~powyższej reprezentacji grafu jesteśmy w~stanie uzyskać informacje o~
 	\begin{equation}
 		b_{ij}= \left\{ 
 		\begin{array}{ll}
-		$ d ( i, j ) > 0 $ & \textrm{jeżeli istnieje ścieżka z wierzchołka $v_{i}$ do $v_{j}$,}\\
-		0 & \textrm{w przeciwnym wypadku}
+		 d \left( i, j \right) > 0  & \textrm{jeżeli istnieje ścieżka z wierzchołka $v_{i}$ do $v_{j}$,}\\
+		0 & \textrm{w przeciwnym wypadku,}
 		\end{array} \right.
 	\end{equation}
 \end{savenotes}
-
 gdzie przez $ d \left( i,j \right) $ zwykle będziemy oznaczać długość ścieżki (odległość między wierzchołkami, które łączy). Takie podejście pozwala nam nie tworzyć dodatkowych struktur, przechowujących informacje o~krawędziach. Jeżeli chcielibyśmy wzbogacić naszą strukturę krawędzi, możemy zamiast wartości $d \left( i,j \right)$ w~danych komórkach $b_{ij}$ wstawić numer identyfikatora danej krawędzi. Zapewni nam to dodatkowo jednoznaczność w~przypadku chęci ich identyfikacji (zwróćmy uwagę, że oba łuki wchodzące do węzła $v_{4}$ mają ten sam koszt $ d \left( 2, 4 \right) = d \left( 5, 4 \right) = 2$, co uniemożliwia nam ich rozróżnienie po tych danych).
 
 \begin{figure}[!htbp]
@@ -159,7 +158,7 @@ Taką strukturę będziemy dalej nazywać zamiennie listą sąsiedztwa lub \text
 
 Na podobnym pomyśle, co listy sąsiedztwa, bazuje rozwiązanie z~użyciem tzw. pęków. Tutaj także dla każdego węzła tworzyć będziemy ,,listę'' węzłów, które są jego bezpośrednimi następnikami, z~tą różnicą że te informacje będziemy zapisywać w~jednej tablicy, nie zaś na osobnych listach.
 
-W niniejszym podrozdziale omówimy najbogatszą wersję reprezentacji z~jednoczesnym wykorzystaniem \textbf{pęków wyjściowych} jak i~\textbf{ wejściowych} (ang. \textit{Forward and Reverse Star Representation}), koncentrując się po kolei na pierwsze i~drugiej części, które równie dobrze mogą stanowić samodzielne reprezentacje grafów.
+W niniejszym podrozdziale omówimy najbogatszą wersję reprezentacji z~jednoczesnym wykorzystaniem \textbf{pęków wyjściowych} jak i~\textbf{ wejściowych} (ang. \textit{Forward and Reverse Star Representation}), koncentrując się po kolei na pierwszej i~drugiej części, które równie dobrze mogą stanowić samodzielne reprezentacje grafów.
 
 \subsubsection{Pęki wyjściowe}
 
@@ -183,11 +182,11 @@ Załóżmy, że nasza reprezentacja grafu zawiera tablicę indeksowaną od $1$ d
 	\caption{\textbf{Pęki wyjściowe} \textbf{(a)} Graf skierowany $G = \left( V, E \right)$ z~identyfikatorami węzłów $1$--$6$. \textbf{(b)} Pęki łuków dla grafu $G$. Dla każdego węzła $v_{i} \in vtab$ element $ vtab \left[ i \right] $ zawiera indeks pierwszej wychodzącej krawędzi z~węzła $v_{i}$ w~tablicy $atab$. Elementy w~$atab$ są z~kolei wskazaniami na odpowiednie krawędzie grafu.}\label{fig:forwardStarRepresentation}
 \end{figure}
 
-Na początku musimy stworzyć obie tablice: pierwszą ($vtab$) zainicjować samymi jedynkami (numer pierwszego indeksu węzła), zaś drugą pozostawić pustą~---  będziemy ją wypełniać w~trakcie działania algorytmu. Następnie, iterując po tablicy z~wierzchołkami $vtab$, odnajdujemy wszystkie łuki wychodzące z~danego wierzchołka i~wstawiamy dane takiej krawędzi (załóżmy, że są nimi identyfikatory łuków) do kolejnych elementów tablicy $atab$, jednocześnie zwiększając licznik $aIdx$. Gdy przeglądniemy wszystkie łuki, wychodzące z~pierwszego wierzchołka $v_{vIdx}$, wstawiamy do następnego elementu z~tablicy $vtab$ ($vtab \left[ vIdx+1 \right] $) wartość licznika $aIdx$~---  jest to najmniejszy indeks w~tablicy $atab$, dla którego element $atab \left[ aIdx \right] $ będzie zawierał identyfikator łuku, wychodzącego z~wierzchołka $v_{vIdx+1}$, dzięki czemu łatwo będziemy mogli policzyć, który element w~tablicy zawiera ostatni łuk, wychodzący z~wierzchołka poprzedniego (o indeksie $vIdx$). Algorytm kontynuujemy, dopóki nie przeglądniemy wszystkich elementów w~tablicy $vtab$. W efekcie otrzymamy tablicę $atab$, której elementy będą posortowane rosnąco względem identyfikatorów wierzchołków, z~których wychodzą, a~każda para elementów $ \left( vtab \left[ i \right] , vtab \left[ i+1 \right] \right) $ będzie zawierać indeksy, dla których od $atab \left[ vtab \left[ i \right] \right] $ do $atab \left[ vtab \left[ i+1 \right] -1 \right] $ znajdują się łuki, wychodzące z~wierzchołka o~indeksie $i$.
+Na początku musimy stworzyć obie tablice: pierwszą ($vtab$) zainicjować samymi jedynkami (numer pierwszego indeksu węzła), zaś drugą pozostawić pustą~---  będziemy ją wypełniać w~trakcie działania algorytmu (zob. pseudokod \ref{alg:createForwardStarRep}). Następnie, iterując po tablicy z~wierzchołkami $vtab$, odnajdujemy wszystkie łuki wychodzące z~danego wierzchołka i~wstawiamy dane takiej krawędzi (załóżmy, że są nimi identyfikatory łuków) do kolejnych elementów tablicy $atab$, jednocześnie zwiększając licznik $aIdx$. Gdy przeglądniemy wszystkie łuki, wychodzące z~pierwszego wierzchołka $v_{vIdx}$, wstawiamy do następnego elementu z~tablicy $vtab$ ($vtab \left[ vIdx+1 \right] $) wartość licznika $aIdx$~---  jest to najmniejszy indeks w~tablicy $atab$, dla którego element $atab \left[ aIdx \right] $ będzie zawierał identyfikator łuku, wychodzącego z~wierzchołka $v_{vIdx+1}$, dzięki czemu łatwo będziemy mogli policzyć, który element w~tablicy zawiera ostatni łuk, wychodzący z~wierzchołka poprzedniego (o indeksie $vIdx$). Algorytm kontynuujemy, dopóki nie przeglądniemy wszystkich elementów w~tablicy $vtab$. W efekcie otrzymamy tablicę $atab$, której elementy będą posortowane rosnąco względem identyfikatorów wierzchołków, z~których wychodzą, a~każda para elementów $ \left( vtab \left[ i \right] , vtab \left[ i+1 \right] \right) $ będzie zawierać indeksy, dla których od $atab \left[ vtab \left[ i \right] \right] $ do $atab \left[ vtab \left[ i+1 \right] -1 \right] $ znajdują się łuki, wychodzące z~wierzchołka o~indeksie $i$.
 
 Jeżeli okaże się, że jakiś wierzchołek $v_{i}$ nie ma żadnych krawędzi wychodzących, wtedy $vtab \left[ i \right] = vtab \left[ i+1 \right] $. W szczególności pierwszy element tablicy wierzchołków $vtab \left[ 1 \right] = 1$.
 
-\begin{algorithm}[!htbp]
+\begin{pseudokod}[!htbp]
 \DontPrintSemicolon
 \KwData{$G= \left( V, E \right) $}
 \KwResult{$atab \left[ 1 \ldots \left| E \right| \right] $}
@@ -203,7 +202,8 @@ Jeżeli okaże się, że jakiś wierzchołek $v_{i}$ nie ma żadnych krawędzi w
 	}
 }
 \caption{CREATE-FORWARD-STAR-REPRESENTATION\label{alg:cfsr}}
-\end{algorithm}
+\label{alg:createForwardStarRep}
+\end{pseudokod}
 
 
 \subsubsection{Pęki wejściowe}
@@ -248,11 +248,11 @@ Druga z~nich~---  $mtab$~---  jest tablicą wejściową dla metody, opisanej w~s
 	\caption{\textbf{Pęki wejścia-wyjścia} \textbf{(a)} Reprezentacja grafu $G = \left( V, E \right)$ z~oznaczonymi następnikami węzła $v_{2}$. \textbf{(b)} Ten sam graf skierowany z~oznaczonymi poprzednikami węzła $v_{2}$. \textbf{(c)} Graf przedstawiony w~formie tablic.}\label{fig:forwardReverseStarRepresentation}
 \end{figure}
 
-Oczywiście taki sposób reprezentacji danych jest bardzo wrażliwy na wszelkie zmiany w~strukturze sieci~\cite{eCOMPASS_TR_005}~---  każde usunięcie czy dodanie krawędzi powoduje konieczność aktualizacji wszystkich tablic, co jest bardzo pracochłonne w~porównaniu z~reprezentacjami macierzowymi (gdzie taka operacja mogła być wykonana w~czasie stałym) czy przy wykorzystaniu list sąsiedztwa (gdzie koszt dodawania krawędzi jest także stały, zaś koszt jej usunięcia to czas rzędu $ O \left( \left| E \right| \right) $). Taka reprezentacja natomiast pozwala nam na błyskawiczne~---  bo polegające na odjęciu wartości $vtab \left[ i \right] $ od $vtab \left[ i+1 \right] $~---  policzenie \textbf{stopnia} wierzchołka $v_{i}$, a~także na uzyskanie dostępu do wszystkich elementów $ v \in A \left( i \right) $ dla dowolnego wierzchołka $v_{i}$ w~tym samym liniowym (zależnym od ilości elementów w~$A \left( i \right) $) czasie, jednocześnie przy zachowaniu stosunkowo małego~---  bo także liniowego~---  zapotrzebowania na pamięć (rys. \ref{fig:forwardReverseStarRepresentation}).
+Oczywiście taki sposób reprezentacji danych jest bardzo wrażliwy na wszelkie zmiany w~strukturze sieci~\cite{eCOMPASS_TR_005}~---  każde usunięcie czy dodanie krawędzi powoduje konieczność aktualizacji wszystkich tablic, co jest bardzo pracochłonne w~porównaniu z~reprezentacjami macierzowymi (gdzie taka operacja mogła być wykonana w~czasie stałym) czy przy wykorzystaniu list sąsiedztwa (gdzie koszt dodawania krawędzi jest także stały, zaś koszt jej usunięcia to czas rzędu $ O \left( \left| E \right| \right) $). Taka reprezentacja natomiast pozwala nam na błyskawiczne~---  bo polegające na odjęciu wartości $vtab \left[ i \right] $ od $vtab \left[ i+1 \right] $~---  policzenie \textbf{stopnia} wierzchołka $v_{i}$, a~także na uzyskanie dostępu do wszystkich elementów $ v \in A \left( i \right) $ dla dowolnego wierzchołka $v_{i}$ w~tym samym liniowym (zależnym od liczby elementów w~$A \left( i \right) $) czasie, jednocześnie przy zachowaniu stosunkowo małego~---  bo także liniowego~---  zapotrzebowania na pamięć (rys. \ref{fig:forwardReverseStarRepresentation}).
 
 \subsection{Złożoność pamięciowa i~czasowa}
 
-Innym kryterium wyboru najodpowiedniejszego sposobu przedstawienia grafu jest ilość pamięci, jakiej wymagają implementacje poszczególnych rozwiązań. Dla obu implementacji macierzowych będą to wymagania rzędu $O \left( \left| V \right| \ldots \left| E \right| \right)$ lub $O \left( \left| V \right| \ldots \left| V \right| \right)$, odpowiednio dla macierzy incydencji i~sąsiedztwa. Ile tak naprawdę z~tej pamięci jest przez nas marnowanej najlepiej widać w~przypadku, gdy mamy do czynienia z~\textbf{grafem rzadkim} \footnote{Graf, którego stosunek posiadanych krawędzi do ilości węzłów w~danym grafie jest niewielki np. $m = O \left( n \right)$.}, gdzie w~takiej sytuacji większość macierzy jest wypełniona zerami (macierz rzadka). Stosując odpowiednie kodowanie, możemy wpłynąć na tą niepożądaną własność np. macierz incydencji, której elementy $a_{ij}$ posiadają tylko trzy wartości: $-1, 0, 1$ możemy przedstawić za pomocą dwóch macierzy, z~której jedna~---  nazwijmy ją macierzą wyjścia~---  będzie zawierać jedynki na tych samych pozycjach, co poprzednia macierz, lecz w~miejscach wystąpienia wartości ujemnej będzie miała wartość równą zero. Dla macierzy wejścia z~kolei będziemy wstawiać jedynki w~miejscach, gdzie uprzednio znajdowały się wartości przeciwne.
+Innym kryterium wyboru najodpowiedniejszego sposobu przedstawienia grafu jest ilość pamięci, jakiej wymagają implementacje poszczególnych rozwiązań. Dla obu implementacji macierzowych będą to wymagania rzędu $O \left( \left| V \right| \cdot \left| E \right| \right)$ lub $O \left( \left| V \right| \cdot \left| V \right| \right)$, odpowiednio dla macierzy incydencji i~sąsiedztwa. Ile tak naprawdę z~tej pamięci jest przez nas marnowanej najlepiej widać w~przypadku, gdy mamy do czynienia z~\textbf{grafem rzadkim} \footnote{Graf, którego stosunek posiadanych krawędzi do liczby węzłów w~danym grafie jest niewielki np. $m = O \left( n \right)$.}, gdzie w~takiej sytuacji większość macierzy jest wypełniona zerami (macierz rzadka). Stosując odpowiednie kodowanie, możemy wpłynąć na tą niepożądaną własność np. macierz incydencji, której elementy $a_{ij}$ posiadają tylko trzy wartości: $-1, 0, 1$ możemy przedstawić za pomocą dwóch macierzy, z~której jedna~---  nazwijmy ją macierzą wyjścia~---  będzie zawierać jedynki na tych samych pozycjach, co poprzednia macierz, lecz w~miejscach wystąpienia wartości ujemnej będzie miała wartość równą zero. Dla macierzy wejścia z~kolei będziemy wstawiać jedynki w~miejscach, gdzie uprzednio znajdowały się wartości przeciwne (tak jak to wyraziliśmy wzorami \ref{eq:matrixIN} i \ref{eq:matrixOUT}).
 
 \begin{equation}
 	a^{IN}_{ij}= \left\{ 
@@ -260,6 +260,7 @@ Innym kryterium wyboru najodpowiedniejszego sposobu przedstawienia grafu jest il
 	1 & \textrm{jeżeli $a_{ij} = -1$,}\\
 	0 & \textrm{w przeciwnym wypadku}
 	\end{array} \right.
+	\label{eq:matrixIN}
 \end{equation}
 
 \begin{equation}
@@ -268,6 +269,7 @@ Innym kryterium wyboru najodpowiedniejszego sposobu przedstawienia grafu jest il
 	1 & \textrm{jeżeli $a_{ij} = 1$,}\\
 	0 & \textrm{w przeciwnym wypadku}
 	\end{array} \right.
+	\label{eq:matrixOUT}
 \end{equation}
 
 Następnie zamieniamy każdą macierz na ciągi binarne długości $ \left| V \right| \cdot \left| E \right| $ każdy. Jest to prosta metoda na zgromadzenie potrzebnych nam informacji na jak najmniejszym fragmencie pamięci (jedna informacja~---  1 bit), dodatkowo umożliwiająca nam bardzo szybkie przeszukiwanie takiej macierzy za pomocą operacji bitowych, a~wykonanie kopii tak zgromadzonych danych to już nie koszt skopiowania wartości każdego elementu macierzy, a~przepisanie jednej (potencjalnie olbrzymiej) liczby. Jednakże taka metoda wpływa tylko na obniżenie stałej i~asymptotycznie nie daje żadnych widocznych różnic, jeżeli mówimy o~złożoności pamięciowej, gdyż nadal pamiętamy $\left| V \right| \cdot \left| E \right|$ elementów.
@@ -320,7 +322,7 @@ Jak widać rozdzieliliśmy operacje dodawania i~usuwania elementów grafu, wyró
 
 ~
 
-Poza takimi operacjami jak: dodawanie, usuwanie krawędzi grafu, wyznaczanie stopnia wierzchołka, jego następników możemy także chcieć na bieżąco modyfikować ilość węzłów, jakie znajdują się w~grafie. Powyżej przedstawiono zestawienie czasów trwania wymienionych operacji dla wszystkich omówionych sposobów reprezentacji grafu. Podobnie jak w~poprzednim przypadku, dla macierzy incydencji potrafimy wykonać operację ,,usuwania'' węzła bez faktycznej zmiany rozmiarów tych macierzy, jednak w~tym wypadku zysk z~takiego postępowania jest niewielki, by wręcz nie powiedzieć: asymptotycznie żaden~---  podstawowym pomysłem na wymazanie informacji o~danym węźle jest usunięcie wszystkich danych o~łukach, które do niego prowadzą tak, aby węzeł przestał być osiągalny, lecz (jak pokazaliśmy wyżej) każdorazowa operacja samego wymazania informacji o~pojedynczej krawędzi już kosztuje nas $O \left( \left| V \right| \right) $. W najgorszym przypadku musielibyśmy usunąć wszystkie krawędzie w~grafie, co daje nam łącznie złożoność operacji tymczasowego usuwania węzła $O \left( \left| V \right| \cdot  \left| E \right| \right) $. 
+Poza takimi operacjami jak: dodawanie, usuwanie krawędzi grafu, wyznaczanie stopnia wierzchołka, jego następników możemy także chcieć na bieżąco modyfikować liczbę węzłów, jakie znajdują się w~grafie. Powyżej przedstawiono zestawienie czasów trwania wymienionych operacji dla wszystkich omówionych sposobów reprezentacji grafu. Podobnie jak w~poprzednim przypadku, dla macierzy incydencji potrafimy wykonać operację ,,usuwania'' węzła bez faktycznej zmiany rozmiarów tych macierzy, jednak w~tym wypadku zysk z~takiego postępowania jest niewielki, by wręcz nie powiedzieć: asymptotycznie żaden~---  podstawowym pomysłem na wymazanie informacji o~danym węźle jest usunięcie wszystkich danych o~łukach, które do niego prowadzą tak, aby węzeł przestał być osiągalny, lecz (jak pokazaliśmy wyżej) każdorazowa operacja samego wymazania informacji o~pojedynczej krawędzi już kosztuje nas $O \left( \left| V \right| \right) $. W najgorszym przypadku musielibyśmy usunąć wszystkie krawędzie w~grafie, co daje nam łącznie złożoność operacji tymczasowego usuwania węzła $O \left( \left| V \right| \cdot  \left| E \right| \right) $. 
 
 Nieco lepsze rezultaty jesteśmy w~stanie osiągnąć z~macierzami sąsiedztwa, gdyż w~tym przypadku odnalezienie wiersza/kolumny z~danym węzłem, który chcemy usunąć, jest równoznaczne z~odnalezieniem wszystkich łuków, które do niego prowadzą i, gdybyśmy zignorowali konieczność zmiany rozmiaru całej macierzy (chcieli tylko ukryć jej elementy), to otrzymalibyśmy górne ograniczenie na złożoność tej operacji na poziomie $ O \left( \left| V \right| \right)$.
 
@@ -397,10 +399,10 @@ Omówiliśmy sposoby w~jaki efektywnie możemy reprezentować dane, potrzebne na
 \item \textbf{Najkrótszą ścieżką} ze \textbf{źródła} $v_{p}$ do węzła $v_{k}$ nazywać będziemy takim zbiorem $P = \left \langle v_{p}, \ldots, v_{k} \right \rangle $, że suma kosztów $c_{ij}$ ścieżek jest najmniejsza:
 
 \begin{equation}
-\sum_{e_{ij} \in P_{E}} c_{ij} = min : e_{ij} \in P_{E} \Leftrightarrow v_{i},v_{j} \in P \: \wedge \: v_{i} \leadsto v_{j} = e_{ij} \ni E \wedge \: v_{p} \overset{*}\leadsto v_{k}\textrm{,}
+\min \left( \sum_{e_{ij} \in P_{E}} c_{ij} \right) \: \: \wedge \: \: e_{ij} \in P_{E} \Leftrightarrow v_{i},v_{j} \in P \wedge v_{i} \leadsto v_{j} = e_{ij} \ni E \wedge v_{p} \overset{*}\leadsto v_{k}\textrm{,}
 \end{equation}
 
-gdzie przez $v_{i} \leadsto v_{j}$ będziemy oznaczać pojedynczą ścieżkę z~węzła $v_{i}$ do węzła $v_{j}$. Wprowadzimy także zapis $v_{i} \overset{k}\leadsto v_{k}$, przez który będziemy rozumieć drogę złożoną z~$k$ ścieżek, prowadzących od punktu $v_{i}$ do $v_{k}$ (użyty symbol ,,$*$''~ zamiast liczby ścieżek oznacza, że nie interesuje nas konkretna ich ilość, tylko fakt istnienia ścieżki o~zadanych właściwościach~---  z~danym punktem początkowym i~końcowym). 
+gdzie przez $v_{i} \leadsto v_{j}$ będziemy oznaczać pojedynczą ścieżkę z~węzła $v_{i}$ do węzła $v_{j}$. Wprowadzimy także zapis $v_{i} \overset{k}\leadsto v_{k}$, przez który będziemy rozumieć drogę złożoną z~$k$ ścieżek, prowadzących od punktu $v_{i}$ do $v_{k}$ (użyty symbol ,,$*$''~ zamiast liczby ścieżek oznacza, że nie interesuje nas konkretna ich liczba, tylko fakt istnienia ścieżki o~zadanych właściwościach~---  z~danym punktem początkowym i~końcowym). 
 
 \item \textbf{Źródłem} $v_{s}$ będziemy nazywać węzeł, z~którego rozpoczynamy wyszukiwanie najkrótszych ścieżek do wszystkich pozostałych węzłów w~grafie. Będzie to naszym podstawowym celem przy konstruowaniu wszystkich algorytmów, rozwiązujących problem najkrótszych ścieżek.
 
@@ -471,7 +473,7 @@ Omówimy teraz podstawowe operacje, z~których będziemy bardzo często korzysta
 
 Jedną z~takich operacji jest niewątpliwie procedura inicjalizująca graf, na którym dany algorytm będzie pracować. Jak wspomnieliśmy w~poprzednich rozdziałach~--- w~przypadkach, gdy nie istnieje najkrótsza ścieżka, bądź nie mamy informacji o~takiej, która by prowadziła do danego węzła $i$, wtedy wartość parametru tego węzła $d \left( i \right) = \infty$. Przed rozpoczęciem działania algorytmu o~ścieżkach nie wiemy nic, zatem każdy wierzchołek inicjalizujemy w~ten sposób, dodatkowo upewniając się, że żaden z~nich nie posiada informacji o~swoim rodzicu (jako, że takie informacje posłużą nam później do odtworzenia znalezionych, najkrótszych ścieżek). Źródło $v_{s}$~---  wierzchołek w~grafie, od którego zaczniemy poszukiwania najkrótszych ścieżek~---  będzie miało ustawiony dystans ($d \left( S \right)$) na wartość równą zeru (założyliśmy brak ujemnych cykli oraz brak jakichkolwiek krawędzi o~takim koszcie, więc ,,najkrótszą ścieżką'' do węzła $v_{s}$ z~węzła $v_{s}$ jest ścieżka długości zero).
 
-\begin{algorithm}[!htbp]
+\begin{pseudokod}[!htbp]
 \DontPrintSemicolon
 \Begin{
 	\For(\tcc*[f]{Dla każdego węzła w~$vtab$}){$vIdx\in \left\{ 1, \ldots, \left| V \right| \right\} $}{
@@ -481,7 +483,7 @@ Jedną z~takich operacji jest niewątpliwie procedura inicjalizująca graf, na k
 	$vtab \left[ s \right].d \longleftarrow 0$\; 
 }
 \caption{INIT-GRAPH $\left( G, s \right)$\label{alg:init-graph}}
-\end{algorithm}
+\end{pseudokod}
 
 Dwa rozdziały temu wprowadziliśmy kilka nowych oznaczeń dla atrybutów węzłów, z~których od tamtej pory mieliśmy korzystać. Mówiliśmy, że dla każdego węzła $v_{i}$ jego wartość $d \left( i \right) $ przyjmuje zawsze koszt równy najmniejszemu znanemu kosztowi ścieżki, prowadzącej ze źródła do danego węzła , co formalnie możemy w~skróconej formie zapisać jako:
 
@@ -509,9 +511,9 @@ W czasie działania wszystkich algorytmów wyszukiwania najkrótszych ścieżek 
 	\caption{\textbf{Relaksacja krawędzi} \textbf{(a)} Sytuacja przed dodaniem wierzchołka $v_{j}$ do zbioru wierzchołków o~optymalnych wartościach $d \left( i \right) $, gdzie $i \in \left\{ i^{'} : v_{i^{'}} \in S \right\} $. \textbf{(b)} Dodanie do zbioru $S$ wierzchołka $v_{j}$ spowodowało powstanie nowej ścieżki $v_{s} \overset{*}\leadsto v_{k}$, której koszt jest mniejszy od dotychczasowej $v_{s} \leadsto v_{o} \leadsto v_{k}$, czego bezpośrednim następstwem jest konieczność reorganizacji najkrótszej ścieżki węzła $v_{k}$. Etykieta $ d \left( k \right)$ uległa zmniejszeniu, a~$v_{k}.\Pi$ wskazuje teraz na węzeł $v_{j}$ (poprzednio $v_{o}$).}\label{fig:relaxEdges}
 \end{figure}
 
-Na rysunku \ref{fig:relaxEdges} przedstawiona jest sytuacja w~trakcie działania pewnego algorytmu wyszukiwania najkrótszych ścieżek, gdzie wyszarzono wszystkie wierzchołki (oraz powiązane z~nimi krawędzie), o~których algorytm jeszcze nic nie wie (przyjmijmy, że zbiór tych wierzchołków będziemy oznaczać krótko jako $S^{'}$~---  rys. \ref{fig:relaxEdges:a}), gdyż zaczął je przeglądać od węzła $v_{s}$~---  źródła. W tej chwili wszystkie atrybuty $d \left( i \right)$ węzłów, które nie należą do zbioru $S^{'}$ (nazwijmy go zbiorem $S$), mają wartości, odpowiadające kosztom najkrótszych ścieżek od źródła do każdego z~nich (są optymalne) i~jest to sytuacja, którą chcemy utrzymać. Przyjmijmy teraz, że do zbioru wierzchołków $S$ dołączamy wierzchołek $v_{j} \in S^{'}$ (jednocześnie go stamtąd usuwając~---  rys. \ref{fig:relaxEdges:b}). Po dodaniu wierzchołka $v_{j}$ widzimy, że do $v_{k}$ da się dojść krótszą ścieżką, niż to było przedstawione na rysunku \ref{fig:relaxEdges:a}, a~zatem $d \left( k \right)$ nie jest już długością najkrótszej ścieżki dla tego węzła. Podobnie węzeł $v_{o} = v_{k}^{\Pi}$ nie należy już do zbioru węzłów, leżących na najkrótszej ścieżce $v_{s} \overset{*}\leadsto v_{k}$. Łatwo zauważyć, że jedyną możliwą alternatywą dla najkrótszej ścieżki do węzła $v_{k}$ jest przed chwilą powstała ścieżka, tak więc nowa wartość parametru $d \left( k \right) = min \left\{ d \left( o \right) + c_{ok}, d \left( k \right) \right\} $ \footnote{O tym, że tak jest w~istcie przekonamy się w~następnym rozdziale.}.
+Na rysunku \ref{fig:relaxEdges} przedstawiona jest sytuacja w~trakcie działania pewnego algorytmu wyszukiwania najkrótszych ścieżek, gdzie wyszarzono wszystkie wierzchołki (oraz powiązane z~nimi krawędzie), o~których algorytm jeszcze nic nie wie (przyjmijmy, że zbiór tych wierzchołków będziemy oznaczać krótko jako $S^{'}$~---  rys. \ref{fig:relaxEdges:a}), gdyż zaczął je przeglądać od węzła $v_{s}$~---  źródła. W tej chwili wszystkie atrybuty $d \left( i \right)$ węzłów, które nie należą do zbioru $S^{'}$ (nazwijmy go zbiorem $S$), mają wartości, odpowiadające kosztom najkrótszych ścieżek od źródła do każdego z~nich (są optymalne) i~jest to sytuacja, którą chcemy utrzymać. Przyjmijmy teraz, że do zbioru wierzchołków $S$ dołączamy wierzchołek $v_{j} \in S^{'}$ (jednocześnie go stamtąd usuwając~---  rys. \ref{fig:relaxEdges:b}). Po dodaniu wierzchołka $v_{j}$ widzimy, że do $v_{k}$ da się dojść krótszą ścieżką, niż to było przedstawione na rysunku \ref{fig:relaxEdges:a}, a~zatem $d \left( k \right)$ nie jest już długością najkrótszej ścieżki dla tego węzła. Podobnie węzeł $v_{o} = v_{k}^{\Pi}$ nie należy już do zbioru węzłów, leżących na najkrótszej ścieżce $v_{s} \overset{*}\leadsto v_{k}$. Łatwo zauważyć, że jedyną możliwą alternatywą dla najkrótszej ścieżki do węzła $v_{k}$ jest przed chwilą powstała ścieżka, tak więc nowa wartość parametru $d \left( k \right) = min \left\{ d \left( o \right) + c_{ok}, d \left( k \right) \right\} $ \footnote{O tym, że tak jest w~istocie przekonamy się w~następnym rozdziale.}.
 
-\begin{algorithm}[!htbp]
+\begin{pseudokod}[!htbp]
 \DontPrintSemicolon
 \Begin(\tcc*[f]{Oznaczenia węzłów zachowane z~rysunku \ref{fig:relaxEdges}}){
 	\If(\tcc*[f]{$d \left( j, k, \ldots \right)$~---  funkcja wagi}){$ k.d > j.d + d \left( j, k \right)$} {
@@ -520,13 +522,13 @@ Na rysunku \ref{fig:relaxEdges} przedstawiona jest sytuacja w~trakcie działania
 	}
 }
 \caption{RELAX $\left( j, k, d \right)$ \label{alg:relax}}
-\end{algorithm}
+\end{pseudokod}
 
 Algorytm relaksacji wierzchołków sprawdza, czy nowo dodany wierzchołek zaburza, interesującą nas, własność grafu. Jeżeli nie, to następne kroki są pomijane. W przeciwnym przypadku aktualizowane jest wskazanie na rodzica $\Pi$ oraz wartość $d \left( i \right)$  dla wierzchołka, który tego wymaga. Metoda relaksacji przyjmuje trzy parametry, z~którego dwa są wierzchołkami, a~trzecim~--- funkcja wagowa krawędzi, którą zdefiniowaliśmy w~podrozdziale \ref{sec:shortestPathProblem}.
 
 Ostatnią operacją, którą chcielibyśmy móc wykonywać, jest operacja przeglądania wierzchołków, które znajdują się na dowolnej najkrótszej ścieżce w~grafie $G = \left( V, E \right)$, jako że sama informacja o~długości takiej ścieżki nie zawsze okazuje się wystarczająca. Przy omawianiu dwóch poprzednich algorytmów, na równi z~operowaniem na atrybutach węzłów (w tamtym przypadku $d \left( i \right)$), pozwalaliśmy sobie zmieniać także atrybut, odpowiadający wskazaniu na rodzica danego węzła ($\Pi$), doprowadzając zawsze do sytuacji, w~której rodzicem danego węzła, leżącego na najkrótszej ścieżce, zawsze był węzeł, który także na niej się znajdował, będąc jednocześnie o~jedną krawędź bliżej źródła, od którego dana ścieżka się rozpoczynała. Innymi słowy dbaliśmy o~to, by dla każdej najkrótszej ścieżki $ P = \left \langle v_{0}, v_{1}, \ldots, v_{k} \right \rangle$ dla każdego $v_{i} : i \in \left\{ 1, \ldots, k \right\}$ zachodziła prawidłowość: $v_{i}.\Pi = v_{i-1}$ (dla $i = 0$ w~oczywisty sposób $v_{0}.\Pi = \KwNull$), a~zatem nasz algorytm, pozwalający nam na wypisanie po kolei węzłów na danej, najkrótszej ścieżce $v_{s} \overset{*} \leadsto v_{k}$, wyglądać mógłby dla przykładu tak:
 
-\begin{algorithm}[!htbp]
+\begin{pseudokod}[!htbp]
 \DontPrintSemicolon
 \KwResult{Ścieżka, wypisane w~kolejności od węzła docelowego do źródła.}
 \Begin{
@@ -537,7 +539,7 @@ Ostatnią operacją, którą chcielibyśmy móc wykonywać, jest operacja przegl
 	Wypisz $v$ \;
 }
 \caption{WRITE-PATH $\left( v \right)$ \label{alg:writePAth}}
-\end{algorithm}
+\end{pseudokod}
 
 Algorytm na wejście przyjmuje węzeł, do którego ścieżkę chcemy wypisać, pamiętając, że będzie to ścieżka wypisana w~odwrotnej kolejności i~że nie jesteśmy w~stanie wypisać najkrótszych ścieżek innych, niż te, które swój początek mają w~źródle (zbiór wszystkich takich ścieżek tworzy swego rodzaju drzewo \cite[$24.5$]{Cormen}, którego korzeniem jest właśnie ten węzeł~---  rys. \ref{fig:shortestPathTree}).
 
@@ -596,9 +598,9 @@ Jeśli dla każdego węzła $v_{i}$ w~grafie $G = \left( V, E \right)$ zachodzi 
 
 \subsection{Algorytm Bellmana-Forda}
 
-Ostatnim naszym krokiem w~tym rozdziale będzie przedstawienie prostego algorytmu, wykorzystującego całą naszą, dotychczas zdobytą, wiedzę do wyznaczenia najkrótszych ścieżek w~zadanym skierowanym grafie acyklicznym $G = \left( V, E \right)$ z~nieujemnymi wagami na krawędziach. Algorytm, o~którym będziemy mówić w~tym rozdziale, jest oparty na właściwościach najkrótszych ścieżek, które wymieniliśmy powyżej i~bezpośrednio z~nich wynika dowód jego poprawności, który także przytoczymy. Bardzo prostą ideą omawianego algorytmu jest wykonanie operacji relaksacji krawędzi w~rundach aż ,,do skutku''. Pod pojęciem rundy będziemy rozumieli przeprowadzenie takiej operacji dla każdej krawędzi w~grafie dokładnie jeden raz, zaś wykonywanie rund będziemy powtarzać do momentu, w~którym wartości $ d \left( i \right) $ dla każdego wierzchołka $v_{i} \in V$ będą równe rzeczywistym wagom najkrótszych ścieżek $v_{s} \overset{*}\leadsto v_{i}$~--- $\delta \left( s,i \right)$. Naszym celem zatem staje się już tylko znalezienie takiej minimalnej ilości rund, po których dla każdego wierzchołka $ v_{i} \in G $ zachodzi równość $ d \left( i \right) = \delta \left( s, i \right) $ (dla źródła $ s $). W tym momencie warto przypomnieć sobie, że w~naszym modelu rzeczywistych sieci drogowych przyjęliśmy brak krawędzi, których koszt byłby mniejszy lub równy $ 0 $, a~co za tym idzie~--- najkrótsze ścieżki, które będziemy chcieli odnaleźć, nie będą składać się z~więcej niż $ \left| V \right| - 1 $ wierzchołków (zwróciliśmy już uwagę na tę własność najkrótszych ścieżek pod koniec podrozdziału \ref{sub:problemRepresentation}).
+Ostatnim naszym krokiem w~tym rozdziale będzie przedstawienie prostego algorytmu, wykorzystującego całą naszą, dotychczas zdobytą, wiedzę do wyznaczenia najkrótszych ścieżek w~zadanym skierowanym grafie acyklicznym $G = \left( V, E \right)$ z~nieujemnymi wagami na krawędziach. Algorytm, o~którym będziemy mówić w~tym rozdziale, jest oparty na właściwościach najkrótszych ścieżek, które wymieniliśmy powyżej i~bezpośrednio z~nich wynika dowód jego poprawności, który także przytoczymy. Bardzo prostą ideą omawianego algorytmu jest wykonanie operacji relaksacji krawędzi w~rundach aż ,,do skutku''. Pod pojęciem rundy będziemy rozumieli przeprowadzenie takiej operacji dla każdej krawędzi w~grafie dokładnie jeden raz, zaś wykonywanie rund będziemy powtarzać do momentu, w~którym wartości $ d \left( i \right) $ dla każdego wierzchołka $v_{i} \in V$ będą równe rzeczywistym wagom najkrótszych ścieżek $v_{s} \overset{*}\leadsto v_{i}$~--- $\delta \left( s,i \right)$. Naszym celem zatem staje się już tylko znalezienie takiej minimalnej liczbie rund, po których dla każdego wierzchołka $ v_{i} \in G $ zachodzi równość $ d \left( i \right) = \delta \left( s, i \right) $ (dla źródła $ s $). W tym momencie warto przypomnieć sobie, że w~naszym modelu rzeczywistych sieci drogowych przyjęliśmy brak krawędzi, których koszt byłby mniejszy lub równy $ 0 $, a~co za tym idzie~--- najkrótsze ścieżki, które będziemy chcieli odnaleźć, nie będą składać się z~więcej niż $ \left| V \right| - 1 $ wierzchołków (zwróciliśmy już uwagę na tę własność najkrótszych ścieżek pod koniec podrozdziału \ref{sub:problemRepresentation}).
 
-\begin{algorithm}[!htbp]
+\begin{pseudokod}[!htbp]
 \DontPrintSemicolon
 \Begin{
 	\For{$i = 1$ \emph{\KwTo} $ \left| V \right| - 1$}{
@@ -614,9 +616,9 @@ Ostatnim naszym krokiem w~tym rozdziale będzie przedstawienie prostego algorytm
 	\Return \KwTrue \;
 }
 \caption{ BELLMAN-FORD $\left( G, s \right)$\label{alg:BellmanFord}}
-\end{algorithm}
+\end{pseudokod}
 
-Powyżej została przedstawiona podstawowa wersja algorytmu Bellmana-Forda, której pesymistyczna złożoność, jeżeli chodzi o~ilość wykonywanych operacji, da się w~oczywisty sposób oszacować przez $ O \left( \left| V \right| \cdot \left| E \right| \right) $~---  wykonujemy $ O \left( \left| V \right| \right) $ razy instrukcje $2$--$4$, gdzie każda z~nich wykonuje dokładnie $ \left| E \right| $ operacji \textsf{RELAX}. Druga pętla, którą widzimy, przegląda raz jeszcze wszystkie krawędzie w~grafie, upewniając się, że nie można wykonać na którejkolwiek z~nich dodatkowej relaksacji~--- czy nasz algorytm zakończył swoje działanie i~dał poprawny wynik. Jeżeli po wykonaniu pierwszej z~pętli znajdziemy taką krawędź $ \left( u, v \right) \in E $, że spełniony będzie warunek $ v.d > u.d + c_{uv}$ to niechybny znak, że w~gafie, w~którym szukaliśmy najkrótszych ścieżek od źródła $s$ do wszystkich pozostałych węzłów, występuje cykl o~ujemnej długości. Do takiego wniosku dojdziemy, wykonując proste rozumowanie:
+Powyżej została przedstawiona podstawowa wersja algorytmu Bellmana-Forda, której pesymistyczna złożoność, jeżeli chodzi o~liczbę wykonywanych operacji, da się w~oczywisty sposób oszacować przez $ O \left( \left| V \right| \cdot \left| E \right| \right) $~---  wykonujemy $ O \left( \left| V \right| \right) $ razy instrukcje $2$--$4$, gdzie każda z~nich wykonuje dokładnie $ \left| E \right| $ operacji \textsf{RELAX}. Druga pętla, którą widzimy, przegląda raz jeszcze wszystkie krawędzie w~grafie, upewniając się, że nie można wykonać na którejkolwiek z~nich dodatkowej relaksacji~--- czy nasz algorytm zakończył swoje działanie i~dał poprawny wynik. Jeżeli po wykonaniu pierwszej z~pętli znajdziemy taką krawędź $ \left( u, v \right) \in E $, że spełniony będzie warunek $ v.d > u.d + c_{uv}$ to niechybny znak, że w~gafie, w~którym szukaliśmy najkrótszych ścieżek od źródła $s$ do wszystkich pozostałych węzłów, występuje cykl o~ujemnej długości. Do takiego wniosku dojdziemy, wykonując proste rozumowanie:
 
 Załóżmy, że mamy w~grafie cykl $C = \left \langle v_{0}, v_{1}, \ldots, v_{k} \right \rangle $, gdzie $ v_{0} = v_{k}$, a~ponadto, że~---  mimo jego występowania~---  algorytm po wykonaniu drugiej pętli zwróci nam wartość pozytywną \textsf{\KwTrue} (czyli, że dla każdej krawędzi $ \left( u, v \right) \in E $ zaszła nierówność $ v.d \leqslant u.d + c_{uv}$, w~tym i~dla wszystkich krawędzi, należących do cyklu). Jak wspomnieliśmy w~podrozdziale \ref{sub:problemRepresentation}, cyklem ujemnym nazywamy taką zamkniętą ścieżkę, po której jesteśmy w~stanie przejść, a~całkowity koszt przejścia po wszystkich krawędziach tego cyklu wynosi $ c \left( v_{0}, v_{k} \right) < 0 $ (nierówność \ref{eq:sumCost}). Dokładniej:
 

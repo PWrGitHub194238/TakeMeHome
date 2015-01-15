@@ -4,6 +4,12 @@
 \usepackage{amssymb}
 
 \usepackage[ruled,vlined,linesnumbered,longend]{algorithm2e}
+
+\newenvironment{pseudokod}[1][htb]{
+	\renewcommand{\algorithmcfname}{Pseudokod}% Update algorithm name
+	\begin{algorithm}[#1]%
+	}{\end{algorithm}}
+  
 \SetKwBlock{Begin}{begin}{end}
 \SetKwBlock{bBegin}{begin}{}
 \SetKwBlock{eBegin}{}{end}
@@ -35,7 +41,6 @@
 \usepackage{graphicx}
 \usepackage{caption}
 \usepackage{subcaption}
-
 
 \usepackage{footnote} % przypisy w tabelach były niepoprawnie obsługiwane
 
@@ -100,16 +105,13 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 
-\fancyhead{} % clear all header fields
-\fancyhead[LO]{\leftmark}
-\fancyhead[LE]{\rightmark}
-\fancyfoot{} % clear all footer fields
-\fancyfoot[RE,LO]{\thepage}
-\renewcommand{\footrulewidth}{0.4pt}
+\pagestyle{fancy}
+\usepackage{tocloft}
 
-\fancypagestyle{plain}{%
+\fancypagestyle{custom}{%
 \fancyhf{} % clear all header and footer fields
-\fancyhead[RE,LO]{\large Rozdział \thechapter \hspace{16pt} \hrulefill}
+\fancyhead[LO]{\large Rozdział \thechapter \hspace{16pt} \hrulefill}
+\fancyhead[RE]{\hrulefill \hspace{16pt} \large Rozdział \thechapter }
 \fancyfoot[RE,LO]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0.2pt}}
@@ -205,11 +207,10 @@
 % Dokument																							*
 % ***************************************************************************************************
 
-\pagestyle{plain}
-
 \makeindex
 
 \begin{document}
+\pagestyle{empty}
 
 \begin{titlepage}
 \vspace*{\fill}
@@ -217,27 +218,47 @@
 \begin{picture}(300,510)
   \put( 10,520){\makebox(0,0)[l]{\large \bf \textsc{Wydział Podstawowych Problemów Techniki}}}
   \put( 10,500){\makebox(0,0)[l]{\large \bf \textsc{Politechniki Wrocławskiej}}}
-  \put( 70,360){\Huge  \bf \textsc{Algorytmy}}
-  \put( -60,320){\Huge  \bf \textsc{wyznaczania najkrótszych ścieżek}}
-  \put( -80,280){\Huge  \bf \textsc{w rzeczywistych sieciach drogowych}}
-  \put(100,240){\makebox(0,0)[l]{\large     \textsc{Tomasz Strzałka}}}
+  \put( 85,360){\Huge  \bf \textsc{Algorytmy}}
+  \put( -55,320){\Huge  \bf \textsc{wyznaczania najkrótszych ścieżek}}
+  \put( -69,280){\Huge  \bf \textsc{w rzeczywistych sieciach drogowych}}
+  \put(95,240){\makebox(0,0)[l]{\large     \textsc{Tomasz Strzałka}}}
   \put(200, 100){\makebox(0,0)[l]{\large  {Praca inżynierska napisana}}}
   \put(200, 80){\makebox(0,0)[l]{\large  {pod kierunkiem}}}
   \put(200, 60){\makebox(0,0)[l]{\large  {dr hab. Pawła Zielińskiego, prof. PWr}}}
 
-\put(120,-70){\includegraphics[width=0.15\textwidth]{pwr}}
-  \put(100,-80){\makebox(0,0)[bl]{\large \bf \textsc{Wrocław 2014}}}
+\put(113,-70){\includegraphics[width=0.15\textwidth]{pwr}}
+  \put(108,-80){\makebox(0,0)[bl]{\large \bf \textsc{Wrocław 2014}}}
 \end{picture}
 \end{center}
 
 \vspace*{\fill}
 \end{titlepage}
 
-\thispagestyle{empty}
+\newpage
 
-\tableofcontents
+\vspace*{\fill}
+\begin{center}
+\begin{picture}(300,510)
+	 \put(100, 130){\makebox(0,0)[l]{Podziękowania chciałbym skierować do mojego promotora}}
+	 \put(100, 115){\makebox(0,0)[l]{dr hab. Pawła Zielińskiego, prof. nadzw. Politechniki Wrocławskiej}}
+	 \put(100, 100){\makebox(0,0)[l]{za nakład włożonej pracy w~korektę tekstu,}}
+	 \put(100, 85){\makebox(0,0)[l]{poświęcony na konsultacjach czas oraz zaangażowanie,}}
+	 \put(100, 70){\makebox(0,0)[l]{płynące z~chęci pomocy w~przygotowaniu jak najlepszej pracy.}}
+	 \put(100, 45){\makebox(0,0)[l]{Na koniec chciałbym podziękować Ani Centkowskiej,}}
+	 \put(100, 30){\makebox(0,0)[l]{która była dla mnie niewyczerpanym źródłem wsparcia}}
+	 \put(100, 15){\makebox(0,0)[l]{i~motywacji w~trakcie pisania poniższej pracy,}}
+	 \put(100, 0){\makebox(0,0)[l]{jak i~wszystkim, którzy mnie w~tym wspierali.}}
+\put(-90,-100){\includegraphics[width=0.1\textwidth]{pwr}}
+\end{picture}
+\end{center}
 
-\pagestyle{fancy}
+\vspace*{\fill}
+
+{\pagestyle{plain}
+	\tableofcontents
+\cleardoublepage}
+
+\pagestyle{custom}
 % ***************************************************************
 % Wstęp															*
 % ***************************************************************

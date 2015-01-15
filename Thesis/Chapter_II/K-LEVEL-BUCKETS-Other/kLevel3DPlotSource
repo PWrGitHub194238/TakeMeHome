@@ -9,8 +9,9 @@ Z = (K.+ C.^(1./K));
 surf (C, K, Z, Z.^(1/8));
 set (gca, 'xscale', 'log');
 set (gca, 'zscale', 'log');
-xlabel('Max arc cost (C)');
-ylabel('Level (k)');
+xlabel('(C)');
+ylabel('(k)');
 shading interp;
 
+# print -depsc foo.eps
 # pdfcrop <inptu> <output>

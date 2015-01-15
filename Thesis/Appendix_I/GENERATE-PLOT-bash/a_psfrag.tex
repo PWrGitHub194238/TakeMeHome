@@ -1,0 +1,26 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+\usepackage{psfrag}
+\begin{document}
+
+\pagestyle{empty}
+\psfrag{Plot's title}{
+\begin{picture}(0,0)
+	\put(-100, 0){Przykładowo wygenerowany wykres dwóch funkcji}
+	\end{picture}
+}
+\psfrag{Y}{
+\begin{picture}(0,0)
+	\put(-30, 0){Etykieta osi $Y$}
+	\end{picture}
+}
+\psfrag{X}{
+\begin{picture}(0,0)
+	\put(-20, -5){Etykieta osi $X$}
+	\end{picture}
+}
+\includegraphics[width=\textwidth]{foo.eps}
+
+\end{document}

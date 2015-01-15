@@ -11,4 +11,5 @@ ylabel('b');
 title('C = 10000; Sprase graph.');
 shading interp;
 
+# print -depsc foo.eps
 # pdfcrop <inptu> <output>

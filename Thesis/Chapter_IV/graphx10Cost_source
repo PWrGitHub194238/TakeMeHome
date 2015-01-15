@@ -1,0 +1,2 @@
+bash generatePlot.bash R_USATestx10_DDL_500Nodesx10_out k- DDL R_USATestx10_DKFb_500Nodesx10_out b- DKF R_USATestx10_DKA_500Nodesx10_out r- DKA R_USATestx10_DKM_500Nodesx10_out m- DKM R_USATestx10_DKD_500Nodesx10_out g- DKD R_USATestx10_DKX_500Nodesx10_out b-- DKX
+

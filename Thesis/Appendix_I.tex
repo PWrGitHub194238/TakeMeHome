@@ -175,7 +175,7 @@ pcname@user:/Scripts$ bash generatePlot.bash
 	...
 \end{lstlisting}
 
-Skrypt może przyjąć dowolną ilość parametrów pod warunkiem, że będzie to wielokrotność liczby $3$. Każdy trójelementowy zbiór parametrów zostanie odzwierciedlony na końcowym wykresie. Dodatkowo, po wywołaniu skryptu, poprosi on o podanie dodatkowych parametrów, opisujących generowany wykres oraz o miejsce, w którym znajdują się podane pliki z danymi. Tak samo jak dla skryptu \textsc{compileProject.bash}, w przypadku nie podania któregoś z żądanych, zostanie przyjęta jego wartość domyślna, podana w nawiasie dla każdego z nich osobno:
+Skrypt może przyjąć dowolną liczbę parametrów pod warunkiem, że będzie to wielokrotność liczby $3$. Każdy trójelementowy zbiór parametrów zostanie odzwierciedlony na końcowym wykresie. Dodatkowo, po wywołaniu skryptu, poprosi on o podanie dodatkowych parametrów, opisujących generowany wykres oraz o miejsce, w którym znajdują się podane pliki z danymi. Tak samo jak dla skryptu \textsc{compileProject.bash}, w przypadku nie podania któregoś z żądanych, zostanie przyjęta jego wartość domyślna, podana w nawiasie dla każdego z nich osobno:
 
 \small
 \begin{lstlisting}[language=bash]
@@ -222,7 +222,7 @@ wygeneruje wykres, na którym znajdą się dwie funkcje, dla których dane zosta
 
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=\textwidth]{Appendix_I/GENERATE-PLOT-bash/a.eps}
+	\includegraphics[width=0.9\textwidth]{Appendix_I/GENERATE-PLOT-bash/a_psfrag.pdf}
 	\caption{Wygenerowany wykres dwóch funkcji dla przykładowego wywołania skryptu \textsc{generatePlot.bash}.}
 \end{figure}
 
@@ -352,7 +352,7 @@ destroyTMHConfigInstance(config);
 
 \subsection{Dziennik zdarzeń}
 
-Dziennik zdarzeń jest to mechanizm, pozwalający użytkownikowi na śledzenie działań każdego z algorytmów i dostosowanie ilości wyświetlanych informacji o takim działaniu. Do obsługi dziennika zdarzeń interfejs biblioteki udostępnia trzy metody:
+Dziennik zdarzeń jest to mechanizm, pozwalający użytkownikowi na śledzenie działań każdego z algorytmów i dostosowanie liczby wyświetlanych informacji o takim działaniu. Do obsługi dziennika zdarzeń interfejs biblioteki udostępnia trzy metody:
 \begin{lstlisting}[style=customc]
 enableLog(TRACE,false);
 disableLog();
@@ -461,4 +461,3 @@ to:
 22:16:21 | TRACE | [DKQD] Queried node with ID: 4 has no outgoing arcs.
 \end{lstlisting}
 \normalsize
-%\Blindtext

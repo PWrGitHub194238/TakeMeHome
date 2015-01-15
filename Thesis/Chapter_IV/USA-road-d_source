@@ -1,2 +1,2 @@
-bash generatePlot.bash R_USATest_DDL k: DDL R_USATest_DKA r-- DKA R_USATest_DKD g-- DKD R_USATest_DKFb b-- DKF R_USATest_DKM m-- DKM R_USATest_DKR c-- DKR R_USATest_DKX k-- DKX
+bash generatePlot.bash R_USATest_DDL k: DDL R_USATest_DKA r- DKA R_USATest_DKD g- DKD R_USATest_DKFb b- DKF R_USATest_DKM m- DKM R_USATest_DKR c- DKR R_USATest_DKX k- DKX
 
