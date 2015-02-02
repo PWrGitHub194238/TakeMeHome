@@ -78,3 +78,8 @@ http://www.cse.psu.edu/~madduri/software/GTgraph/
 
 K drzewa:
 http://ro.uow.edu.au/cgi/viewcontent.cgi?article=1002&context=compsciwp
+
+
+http://kmim.wm.pwr.edu.pl/myszka/projekty/szablon-prezentacji-zgodny-z-ksiega-logotypu/instalacja-fontu-trebuchet-ms-i-innych-z-pakietu-ms-core-fonts/
+http://kmim.wm.pwr.edu.pl/myszka/projekty/szablon-prezentacji-zgodny-z-ksiega-logotypu/
+http://www.immt.pwr.wroc.pl/component/option,com_mamblog/Itemid,144/task,show/action,view/id,345/Itemid,144/
