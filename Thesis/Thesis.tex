@@ -3,164 +3,270 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 
+
+% ***************************************************************
+% Kolory														*
+% ***************************************************************
+
+
+\usepackage{xcolor}
+
+\definecolor{lgray}{HTML}{CCCCCC}
+\colorlet{blueC}{green!40!black}
+\colorlet{greenC}{purple!40!black}
+
+
+% ***************************************************************
+% Algorytmy														*
+% ***************************************************************
+
+
 \usepackage[ruled,vlined,linesnumbered,longend]{algorithm2e}
+% ruled				- poziome kreski na początku i końcu algorytmu, podpis na górze oddzielony również kreską poziomą
+% vlined			- pionowe kreski łączące początek polecenia z jego końcem
+% linesnumbered		- numerowanie kolejnych wierszy algorytmu
+% longend			- długie końcówki np. ifend, forend itd.
 
+% Zamiana nazwy środowiska z domyślnej "Algorithm X" na "Pseudokod X"
 \newenvironment{pseudokod}[1][htb]{
-	\renewcommand{\algorithmcfname}{Pseudokod}% Update algorithm name
+	\renewcommand{\algorithmcfname}{Pseudokod}
 	\begin{algorithm}[#1]%
-	}{\end{algorithm}}
-  
-\SetKwBlock{Begin}{begin}{end}
-\SetKwBlock{bBegin}{begin}{}
-\SetKwBlock{eBegin}{}{end}
-\newcommand\KwTrue[0]{\emph{\textbf{TRUE}}}
-\newcommand\KwFalse[0]{\emph{\textbf{FALSE}}}
-\newcommand\KwNull[0]{\emph{\textbf{NULL}}}
-\newcommand\algcomment[1]{\footnotesize{#1}}
-\SetCommentSty{algcomment}
-
-\usepackage{listings} 
-
-\lstdefinestyle{customc}{
-  belowcaptionskip=1\baselineskip,
-  breaklines=true,
-  xleftmargin=\leftmargin,
-  language=C,
-  showstringspaces=false,
-  basicstyle=\footnotesize\ttfamily,
-  keywordstyle=\bfseries\color{green!40!black},
-  commentstyle=\itshape\color{purple!40!black},
-  identifierstyle=\color{blue},
-  stringstyle=\color{orange},
+}{
+	\end{algorithm}
 }
 
-\usepackage{color}
+% Zdefiniowanie słów kluczowych
+\newcommand\KwTrue[0]{
+	\emph{\textbf{TRUE}}
+}
+\newcommand\KwFalse[0]{
+	\emph{\textbf{FALSE}}
+}
+\newcommand\KwNull[0]{
+	\emph{\textbf{NULL}}
+}
 
-\usepackage{theorem}
+% Zmiana rozmiaru komentarzy
+\newcommand\algcomment[1]{
+	\footnotesize{#1}
+}
+\SetCommentSty{algcomment}
 
-\usepackage{graphicx}
-\usepackage{caption}
-\usepackage{subcaption}
+% Listowanie kodów źródłowych (C, bash, perl)
+\usepackage{listings} 
 
-\usepackage{footnote} % przypisy w tabelach były niepoprawnie obsługiwane
+% Styl wyświetlania listingów dla języka C
+\lstdefinestyle{customc}{
+	breaklines		=	true,					% Automatyczne łamanie linii
+	xleftmargin		=	\leftmargin,			% Wyrównanie listingu do marginesu
+	language		=	C,						% Język kodu źródłowego
+	showstringspaces=	false,					% Pokazywanie białych znaków
+	basicstyle		=	\footnotesize\ttfamily,	% Rozmiar czcionki
+	keywordstyle	=	\bfseries\color{blueC},	% Definicje kolorów
+	commentstyle	=	\itshape\color{greenC},
+	identifierstyle	=	\color{blue},
+	stringstyle		=	\color{orange}
+}
 
-\usepackage{dirtree} % struktury katalogów
-\usepackage{xcolor}
-\definecolor{lgray}{HTML}{CCCCCC}
-
-\usepackage{multirow}
 
 % ***************************************************************
-% Marginesy											*
+% Marginesy														*
 % ***************************************************************
-\usepackage[top=25mm, bottom=25mm, left=25mm, right=25mm]{geometry}
+
+
+\usepackage[headheight=14pt, top=25mm, bottom=25mm, left=25mm, right=25mm]{geometry}
+% headheight -	wysokość tytułów
+% top -			margines górny
+% bottom -		margines dolny
+% left -		margines lewy
+% right -		margines prawy
 
 \makeatletter
-    \setlength\@fptop{0\p@}
+	\setlength\@fptop{0\p@}		% Usunięcie górnego marginesu dla środowisk
 \makeatother
+
 
 % ***************************************************************
 % Ustawienia języka												*
 % ***************************************************************
 
-%\usepackage[T1]{fontenc}
+
 \frenchspacing				% polskie formatowanie typograficzne
+\usepackage{lmodern}		% Dowolny rozmiar czcionek, kodowanie znaków
 \usepackage{indentfirst}	% polskie wcięcia akapitów
 \usepackage[polish]{babel}
 \usepackage[utf8]{inputenc}	
 \usepackage{polski}			% polskie łamanie wyrazów
-\usepackage{makeidx}
 \selectlanguage{polish}
 
-%\vfuzz2pt % Don't report over-full v-boxes if over-edge is small
-%\hfuzz2pt % Don't report over-full h-boxes if over-edge is small
-
-%\renewcommand\thechapter{\arabic{chapter}.}
-%\renewcommand\thesection{\arabic{chapter}.\arabic{section}.}
-%\renewcommand\thesubsection{\arabic{chapter}.\arabic{section}.\arabic{subsection}.}
-%\renewcommand\thesubsubsection{\arabic{chapter}.\arabic{section}.\arabic{subsection}.\arabic{subsubsection}.}
-
-\usepackage{icomma}
+\usepackage{icomma}			% przecinek w wyrażeniach matematycznych
 
 \lstset{literate=
 	{ż}{{\.{z}}}1 {ź}{{\'{z}}}1 {ć}{{\'{c}}}1 {ń}{{\'{n}}}1 {ą}{{\c a}}1
 	{ś}{{\'{s}}}1 {ł}{{\l}}1 {ę}{{\c{e}}}1 {ó}{{\'{o}}}1
-  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ù}{{\`u}}1
-  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
-  {à}{{\`a}}1 {è}{{\'e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ò}{{\`o}}1
-  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ò}{{\`O}}1
-  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
-  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
-  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
-  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
-  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
-  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
-  {€}{{\EUR}}1 {£}{{\pounds}}1
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ù}{{\`u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{à}{{\`a}}1 {è}{{\'e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ò}{{\`o}}1
+	{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ò}{{\`O}}1
+	{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+	{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+	{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+	{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+	{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+	{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+	{€}{{\EUR}}1 {£}{{\pounds}}1
 }	% specjalne znaki nie są obsłógiwane w środowisku listing
 
+
 % ***************************************************************
-% Styl										*
+% Styl															*
 % ***************************************************************
 
-\usepackage{fancyhdr}
-\usepackage{titlesec}
+\usepackage{sidecap}
 
-\pagestyle{fancy}
-\usepackage{tocloft}
+\usepackage{titling}	% Strony tytułowe
 
-\fancypagestyle{custom}{%
-\fancyhf{} % clear all header and footer fields
-\fancyhead[LO]{\large Rozdział \thechapter \hspace{16pt} \hrulefill}
-\fancyhead[RE]{\hrulefill \hspace{16pt} \large Rozdział \thechapter }
-\fancyfoot[RE,LO]{\thepage}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0.2pt}}
+\usepackage{tocloft}	% Zmiana stylu w ToC
 
-\titleformat
-{\chapter} % command
-[hang] % shape
+\tocloftpagestyle{tableOfContentStyle}
+
+\usepackage{fancyhdr}	% Styl nagłówków i stopek
+
+\fancypagestyle{custom}{% Domyślny styl dla pracy
+	\fancyhf{}			% wyczyść stopki i nagłówki
+	\fancyhead[RO]{		% Prawy, nieparzysty nagłówek
+		\large Rozdział \thechapter \hspace{16pt} \hrulefill
+	}
+	\fancyhead[LE]{		% Lewy, parzysty nagłówek
+		\hrulefill \hspace{16pt} \large Rozdział \thechapter
+	}
+	\fancyfoot[LE,RO]{	% Stopki
+		\thepage
+	}
+	\renewcommand{\headrulewidth}{0pt}	% Grubość linii w nagłówku
+	\renewcommand{\footrulewidth}{0.2pt}% Grubość linii w stopce
+}
+
+\fancypagestyle{appendixStyle}{% Domyślny styl dla dodatków
+	\fancyhf{}			% wyczyść stopki i nagłówki
+	\fancyhead[RO]{		% Lewy, nieparzysty nagłówek
+		\large Dodatek \thechapter \hspace{16pt} \hrulefill
+	}
+	\fancyhead[LE]{		% Prawy, parzysty nagłówek
+		\hrulefill \hspace{16pt} \large Dodatek \thechapter
+	}
+	\fancyfoot[LE,RO]{	% Stopki
+		\thepage
+	}
+	\renewcommand{\headrulewidth}{0pt}	% Grubość linii w nagłówku
+	\renewcommand{\footrulewidth}{0.2pt}% Grubość linii w stopce
+}
+
+\fancypagestyle{chapterBeginStyle}{% Osobny styl dla stron zaczynających rozdział/spis treści itd. (domyślnie formatowane jako "plain")
+	\fancyhf{}%
+	\fancyfoot[LE,RO]{
+		\thepage
+	}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0.2pt}
+}
+
+\fancypagestyle{tableOfContentStyle}{% Styl dla pozostałych stron spisu treści
+	\fancyhf{}%
+	\fancyfoot[LE,RO]{
+		\thepage
+	}
+	\renewcommand{\headrulewidth}{0pt}
+	\renewcommand{\footrulewidth}{0.2pt}
+}
+
+\usepackage{titlesec}	% Formatowanie tytułów
+
+\titleformat{\chapter}[hang] % kształt
 {
 	\vspace{-10ex}
 	\Huge
 	\bfseries
 } % format
-{} % label
-{0pt} % sep
+{} % etykieta
+{0pt} % odstęp
 {
 	\Huge
 	\bfseries
-} % before-code
+} % Formatowanie przed
 [
 	\vspace{2ex}
 	\rule{\textwidth}{0.4pt}
 	\vspace{-4ex}
-] % after-code
+] % Formatowanie za
 
-\titleformat
-{\section} % command
-[hang] % shape
-{\vspace{2ex}\titlerule\vspace{1ex}\Large\bfseries} % format
-{\thesection} % label
-{0pt} % sep
-{
+\titleformat{\section}[hang]{
+	\vspace{2ex}
+	\titlerule\vspace{1ex}
+	\Large\bfseries
+}{
+\thesection
+}{
+	0pt
+}{
 	\Large
 	\bfseries
-} % before-code
+}
 
 % ***************************************************************
-% Listy											*
+% Linki															*
 % ***************************************************************
 
-\usepackage{enumitem}
+\usepackage[draft]{hyperref}	% Wyłączenie linków (pewna wersja do druku)
+%\usepackage{hyperref}			% Aktywuje linki
+
+\hypersetup{
+	ocgcolorlinks	=	true,	% Wyłącza kolorowanie linków w czasie druku (eksperymentalnie).
+	colorlinks		=	true,	% Koloruje tekst zamiast tworzyć ramki.
+	linkcolor		=	blue,	% Kolory: referencji,
+	filecolor		=	magenta,% łączy do plików,
+	urlcolor		=	cyan	% hiperlinków.
+}
+ 
+\urlstyle{same}
+
+
+% ***************************************************************
+% Listy															*
+% ***************************************************************
+
+
+\usepackage{enumitem}	% Styl dla wyliczeń
 
 \newlist{myitemize}{itemize}{3}
-\setlist[myitemize,1]{label=\textbullet,leftmargin=5mm}
-\setlist[myitemize,2]{label=$\rightarrow$,leftmargin=15mm}
-\setlist[myitemize,3]{label=$\diamond$,,leftmargin=25mm}
+\setlist[myitemize,1]{
+	label		=	\textbullet,
+	leftmargin	=	4mm}
+\setlist[myitemize,2]{label=$\diamond$,leftmargin=8mm}
+\setlist[myitemize,3]{label=$\diamond$,leftmargin=12mm}
+
+
+% ***************************************************************
+% Inne pakiety													*
+% ***************************************************************
+
+
+\usepackage{graphicx}	% Dołączanie rysunków
+
+\usepackage{caption}	% Figury i przypisy
+\usepackage{subcaption}
+
+\usepackage{footnote}	% przypisy wewnątrz środowisk
+
+\usepackage{dirtree}	% struktury katalogów
+
+\usepackage{multirow}	% Konfiguracja komórek tabel
+
 
 % ***************************************************************
 % Matematyczne skróty											*
 % ***************************************************************
+
 
 \newcommand{\RR}{\mathbb{R}}
 \newcommand{\NN}{\mathbb{N}}
@@ -170,11 +276,11 @@
 \newcommand{\IFF}{\leftrightarrow}
 \newcommand{\IMP}{\rightarrow}
 
+
 % ***************************************************************
 % Środowiska													*
 % ***************************************************************
 
-%\newcommand{\myref}[1]{\ref{#1} (p\pageref{#1})} 
 
 \newtheorem{theorem}{Twierdzenie}[section]
 \newtheorem{lemma}{Lemat}[section]
@@ -183,15 +289,27 @@
 \newtheorem{definition}{Definicja}[section]
 
 
-\newenvironment{proof}{\par\noindent {\bf Dowód.}}
-{\begin{flushright} \vspace*{-6mm}\mbox{$\blacklozenge$} \end{flushright}}
+\newenvironment{proof}{
+	\par\noindent \textbf{Dowód.}
+}{
+	\begin{flushright}
+		\vspace*{-6mm}\mbox{$\blacklozenge$}
+	\end{flushright}
+}
 
-\newenvironment{remark}{\bigskip \par\noindent\begin{small}{\bf Uwaga.}}
-                       {\vspace*{4mm}\end{small}}
+\newenvironment{remark}{
+	\bigskip \par\noindent \small \textbf{Uwaga.}
+}{
+	\begin{small}
+		\vspace*{4mm}
+	\end{small}
+}
+
 
 % ***************************************************************
 % Słownik														*
 % ***************************************************************
+
 
 \hyphenation{wszy-stkich ko-lu-mnę każ-da od-leg-łość
    dzie-dzi-ny dzie-dzi-na rów-nych rów-ny
@@ -203,113 +321,148 @@
    prze-ka-za-nym skoń-czo-nym moż-esz na-tu-ral-na cią-gu tab-li-cy
    prze-ka-za-nej od-po-wied-nio}
 
+
+
 % ***************************************************************************************************
 % Dokument																							*
 % ***************************************************************************************************
 
-\makeindex
+
+
+\frontmatter
 
 \begin{document}
-\pagestyle{empty}
 
-\begin{titlepage}
-\vspace*{\fill}
-\begin{center}
-\begin{picture}(300,510)
-  \put( 10,520){\makebox(0,0)[l]{\large \bf \textsc{Wydział Podstawowych Problemów Techniki}}}
-  \put( 10,500){\makebox(0,0)[l]{\large \bf \textsc{Politechniki Wrocławskiej}}}
-  \put( 85,360){\Huge  \bf \textsc{Algorytmy}}
-  \put( -55,320){\Huge  \bf \textsc{wyznaczania najkrótszych ścieżek}}
-  \put( -69,280){\Huge  \bf \textsc{w rzeczywistych sieciach drogowych}}
-  \put(95,240){\makebox(0,0)[l]{\large     \textsc{Tomasz Strzałka}}}
-  \put(200, 100){\makebox(0,0)[l]{\large  {Praca inżynierska napisana}}}
-  \put(200, 80){\makebox(0,0)[l]{\large  {pod kierunkiem}}}
-  \put(200, 60){\makebox(0,0)[l]{\large  {dr hab. Pawła Zielińskiego, prof. PWr}}}
-
-\put(113,-70){\includegraphics[width=0.15\textwidth]{pwr}}
-  \put(108,-80){\makebox(0,0)[bl]{\large \bf \textsc{Wrocław 2014}}}
-\end{picture}
-\end{center}
-
-\vspace*{\fill}
-\end{titlepage}
-
-\newpage
-
-\vspace*{\fill}
-\begin{center}
-\begin{picture}(300,510)
-	 \put(100, 130){\makebox(0,0)[l]{Podziękowania chciałbym skierować do mojego promotora}}
-	 \put(100, 115){\makebox(0,0)[l]{dr hab. Pawła Zielińskiego, prof. nadzw. Politechniki Wrocławskiej}}
-	 \put(100, 100){\makebox(0,0)[l]{za nakład włożonej pracy w~korektę tekstu,}}
-	 \put(100, 85){\makebox(0,0)[l]{poświęcony na konsultacjach czas oraz zaangażowanie,}}
-	 \put(100, 70){\makebox(0,0)[l]{płynące z~chęci pomocy w~przygotowaniu jak najlepszej pracy.}}
-	 \put(100, 45){\makebox(0,0)[l]{Na koniec chciałbym podziękować Ani Centkowskiej,}}
-	 \put(100, 30){\makebox(0,0)[l]{która była dla mnie niewyczerpanym źródłem wsparcia}}
-	 \put(100, 15){\makebox(0,0)[l]{i~motywacji w~trakcie pisania poniższej pracy,}}
-	 \put(100, 0){\makebox(0,0)[l]{jak i~wszystkim, którzy mnie w~tym wspierali.}}
-\put(-90,-100){\includegraphics[width=0.1\textwidth]{pwr}}
-\end{picture}
-\end{center}
-
-\vspace*{\fill}
-
-{\pagestyle{plain}
+	\begin{titlingpage}
+		\vspace*{\fill}
+		\begin{center}
+			\begin{picture}(300,510)
+				\put(10,520){\makebox(0,0)[l]{\large \textsc{Wydział Podstawowych Problemów Techniki}}}
+				\put(10,500){\makebox(0,0)[l]{\large \textsc{Politechniki Wrocławskiej}}}
+				\put(85,360){\Huge \textsc{Algorytmy}}
+				\put(-55,320){\Huge \textsc{wyznaczania najkrótszych ścieżek}}
+				\put(-74,280){\Huge \textsc{w rzeczywistych sieciach drogowych}}
+				\put(95,240){\makebox(0,0)[l]{\large \textsc{Tomasz Strzałka}}}
+				\put(200,100){\makebox(0,0)[l]{\large Praca inżynierska napisana}}
+				\put(200,80){\makebox(0,0)[l]{\large pod kierunkiem}}
+				\put(200,60){\makebox(0,0)[l]{\large dr hab. Pawła Zielińskiego, prof. PWr}}
+				
+				\put(113,-70){\includegraphics[width=0.15\textwidth]{pwr}}
+				\put(105,-80){\makebox(0,0)[bl]{\large \textsc{Wrocław 2015}}}
+			\end{picture}
+		\end{center}	
+		\vspace*{\fill}
+	\end{titlingpage}
+	
+	\mbox{}
+	\thispagestyle{empty}
+	\newpage
+	
+	\begin{titlingpage}
+		\vspace*{\fill}
+		\begin{center}
+			\begin{picture}(300,510)
+				\put(100, 130){\makebox(0,0)[l]{Podziękowania chciałbym skierować do mojego promotora,}}
+				\put(100, 115){\makebox(0,0)[l]{dr hab. Pawła Zielińskiego, prof. nadzw. Politechniki Wrocławskiej,}}
+				\put(100, 100){\makebox(0,0)[l]{za nakład włożonej pracy w~korektę tekstu,}}
+				\put(100, 85){\makebox(0,0)[l]{poświęcony na konsultacjach czas oraz zaangażowanie,}}
+				\put(100, 70){\makebox(0,0)[l]{płynące z~chęci pomocy w~przygotowaniu jak najlepszej pracy.}}
+				\put(100, 45){\makebox(0,0)[l]{Chciałbym też podziękować Ani Centkowskiej,}}
+				\put(100, 30){\makebox(0,0)[l]{która była dla mnie niewyczerpanym źródłem wsparcia}}
+				\put(100, 15){\makebox(0,0)[l]{i~motywacji w~trakcie pisania poniższej pracy,}}
+				\put(100, 0){\makebox(0,0)[l]{jak i~wszystkim, którzy mnie w~tym wspierali.}}
+				\put(-90,-100){\includegraphics[width=0.1\textwidth]{pwr}}
+			\end{picture}
+		\end{center}
+		\vspace*{\fill}
+	\end{titlingpage}
+	
+	\mbox{}
+	\thispagestyle{empty}
+	\newpage
+	
+	\pagenumbering{Roman}
+	\pagestyle{tableOfContentStyle}
 	\tableofcontents
-\cleardoublepage}
+	\cleardoublepage
+	
+	\mbox{}
+	\thispagestyle{empty}
+	\newpage
+	
+	\mbox{}
+	\thispagestyle{empty}
+	\newpage
+	
+	
+	% ***************************************************************
+	% Wstęp															*
+	% ***************************************************************
+	
+	
+	\pagestyle{custom}
+	\mainmatter
+	
+	\clearpage
+	\input{Preface}
+	\clearpage
+	
+	
+	% ***************************************************************
+	% Rodziały														*
+	% ***************************************************************
+	
+	
+	\clearpage
+	\input{Chapter_I}
+	\clearpage
+	
+	\clearpage
+	\input{Chapter_II}
+	\clearpage
+	
+	\clearpage
+	\input{Chapter_III}
+	\clearpage
+	
+	\mbox{}
+	\newpage
+	
+	\clearpage
+	\input{Chapter_IV}
+	\clearpage
+	
+	\mbox{}
+	\newpage
+		
+	\clearpage
+	\input{Chapter_V}
+	\clearpage
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAFIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\pagestyle{custom}
-% ***************************************************************
-% Wstęp															*
-% ***************************************************************
+	\bibliographystyle{plain}
+	\bibliography{P2P}
+	\thispagestyle{chapterBeginStyle}
 
+	\clearpage
+	
+	\mbox{}
+	\thispagestyle{chapterBeginStyle}
+	\newpage
 
-
-\clearpage
-\input{Preface}
-\clearpage
-
-% ***************************************************************
-% Rodziały														*
-% ***************************************************************
-
-\clearpage
-\input{Chapter_I}
-\clearpage
-
-\clearpage
-\input{Chapter_II}
-\clearpage
-
-\clearpage
-\input{Chapter_III}
-\clearpage
-
-\clearpage
-\input{Chapter_IV}
-\clearpage
-
-\clearpage
-\input{Chapter_V}
-\clearpage
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BIBLIOGRAFIA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\bibliographystyle{plain}
-
-\bibliography{P2P}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DODATKI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\appendix
-
-\clearpage
-\input{Appendix_I}
-\clearpage
-
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DODATKI %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\appendix
+	\pagestyle{appendixStyle}
+	
+	\clearpage
+	\input{Appendix_I}
+	\clearpage
 
 \end{document}

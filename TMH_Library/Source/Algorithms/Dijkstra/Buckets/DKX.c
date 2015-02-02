@@ -129,7 +129,7 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 	TMHNodeDLList* currentBucketIt;
 	TMHNodeDLList* currentBucketTail;
 	TMHArcCost maxCost = graph->maxArcCost;
-	TMHArcCost numberOfBuckets = (TMHArcCost) ceil(log2(maxCost+1)) + 1;	// + extra overflow bag
+	TMHArcCost maxBucketIdx = (TMHArcCost) ceil(log2(maxCost+1)) + 1;	// + extra overflow bag
 	TMHNode* currentNode;
 	TMHArcList* adjacencyList;
 	TMHArc* arc;
@@ -140,21 +140,21 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 	bool update = false;
 
 	reinitializeTMHGraph(graph,sourceNode);
-	bucketsSizeArray = initBucketsSizeDKX(numberOfBuckets);
-	bucketsRangeArray = initBucketsRangeDKX(numberOfBuckets,bucketsSizeArray);
-	bucketsArray = createBucketsDKX(numberOfBuckets,sourceNode);
-	nodeBucketIDMap = initNodeBucketMapDKX(graph->nodeArray,numberOfNodes,numberOfBuckets);
+	bucketsSizeArray = initBucketsSizeDKX(maxBucketIdx);
+	bucketsRangeArray = initBucketsRangeDKX(maxBucketIdx,bucketsSizeArray);
+	bucketsArray = createBucketsDKX(maxBucketIdx,sourceNode);
+	nodeBucketIDMap = initNodeBucketMapDKX(graph->nodeArray,numberOfNodes,maxBucketIdx);
 
 	if (isTraceLogEnabled()) {
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_reinitGraph,numberOfNodes,sourceNode->nodeID);
-		for ( newIdx = 0; newIdx < numberOfBuckets; newIdx += 1 ) {	//unused var
-			trace(MODULE_NAME,trace_TMHAlgorithmHelper_createBucketWithRange,newIdx+1,numberOfBuckets,newIdx,bucketsRangeArray[newIdx]->begin, bucketsRangeArray[newIdx]->end);
+		for ( newIdx = 0; newIdx < maxBucketIdx; newIdx += 1 ) {	//unused var
+			trace(MODULE_NAME,trace_TMHAlgorithmHelper_createBucketWithRange,newIdx+1,maxBucketIdx,newIdx,bucketsRangeArray[newIdx]->begin, bucketsRangeArray[newIdx]->end);
 		}
 		trace(MODULE_NAME,trace_DKX_createOverflowBucket,newIdx,bucketsRangeArray[newIdx-1]->end+1);
 		trace(MODULE_NAME,trace_TMHAlgorithmHelper_initBucketWithSource,sourceNode->nodeID,sourceNode->distanceLabel);
 	}
 
-	while ( i <= numberOfBuckets ) {
+	while ( i <= maxBucketIdx ) {
 		currentBucket = bucketsArray[i];
 		currentBucketTail = currentBucket->tail;
 		if ( currentBucket->head->next == currentBucketTail ) {	// is empty
@@ -166,14 +166,14 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 		} else {
 
 			if (isTraceLogEnabled()) {
-				if ( i == numberOfBuckets ) {
-					trace(MODULE_NAME,trace_DKX_scanningOverflowBucket,i,i+1,numberOfBuckets,bucketsRangeArray[i-1]->end+1);
+				if ( i == maxBucketIdx ) {
+					trace(MODULE_NAME,trace_DKX_scanningOverflowBucket,i,i+1,maxBucketIdx,bucketsRangeArray[i-1]->end+1);
 				} else {
-					trace(MODULE_NAME,trace_TMHAlgorithmHelper_scanningBucketWithRange,i,i+1,numberOfBuckets,bucketsRangeArray[i]->begin, bucketsRangeArray[i]->end);
+					trace(MODULE_NAME,trace_TMHAlgorithmHelper_scanningBucketWithRange,i,i+1,maxBucketIdx,bucketsRangeArray[i]->begin, bucketsRangeArray[i]->end);
 				}
 			}
 
-			if ( i < numberOfBuckets && (i < 2 || bucketsRangeArray[i]->end - bucketsRangeArray[i]->begin == 0 || currentBucket->head->next->next == currentBucketTail) ) {	// jesli byl tylko jedne element lub range = [k;k] + z overflow bucketu nigdy nie będziemy brać bezpośrednio
+			if ( i < maxBucketIdx && (i < 2 || bucketsRangeArray[i]->end - bucketsRangeArray[i]->begin == 0 || currentBucket->head->next->next == currentBucketTail) ) {	// jesli byl tylko jedne element lub range = [k;k] + z overflow bucketu nigdy nie będziemy brać bezpośrednio
 				if ( isTraceLogEnabled() && currentBucket->head->next != currentBucketTail ) {
 					if ( currentBucket->head->next->next == currentBucketTail ) {
 						trace(MODULE_NAME,trace_DKX_singleNodeInBucket,i);
@@ -224,13 +224,13 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 						//	if ( newIdx == numberOfBuckets ) { //overflow
 							if ( toNode->toUpperStruct == NULL ) {
 								newIdx += 1;
-								bucketsRangeArray[numberOfBuckets]->end = newDistance;	// do sprawdzania w forze - jeśli ma trafić do overflowu, a i tak na ->end nic nie jest oparte poza tym forem i do realokacji z overflow, gdzie inaczej sprawdzamy czy node ma zostać w overflow
+								bucketsRangeArray[maxBucketIdx]->end = newDistance;	// do sprawdzania w forze - jeśli ma trafić do overflowu, a i tak na ->end nic nie jest oparte poza tym forem i do realokacji z overflow, gdzie inaczej sprawdzamy czy node ma zostać w overflow
 								update = true;
 							} else if ( newDistance < bucketsRangeArray[newIdx]->begin ) {	// jeśli nie jest w overflow
 								update = true;
 							} else {
 								if (isTraceLogEnabled()) {
-									if ( newIdx == numberOfBuckets ) {
+									if ( newIdx == maxBucketIdx ) {
 										trace(MODULE_NAME,trace_DKX_uselessOverflowRepin,toNode->nodeID,toNode->distanceLabel,newDistance,nodeBucketIDMap[newIdx]+1);
 									} else {
 										trace(MODULE_NAME,trace_DKX_uselessRepinBetweenBuckets,toNode->nodeID,toNode->distanceLabel,newDistance,nodeBucketIDMap[toNode->nodeID],bucketsRangeArray[nodeBucketIDMap[toNode->nodeID]]->begin,bucketsRangeArray[nodeBucketIDMap[toNode->nodeID]]->end);
@@ -297,7 +297,7 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 				currentNode = popMinTMHNodeDLList(currentBucket);	// wyciagamy, bo i tak sie to przyda
 
 				if (isTraceLogEnabled()) {
-					if ( i == numberOfBuckets ) {
+					if ( i == maxBucketIdx ) {
 						trace(MODULE_NAME,trace_DKX_multiplyNodesInOverflow,i,i-1);
 					} else {
 						trace(MODULE_NAME,trace_DKX_multiplyNodesInBucket,i,i-1);
@@ -313,7 +313,7 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 				bucketsRangeArray[0]->begin = bucketLowerRange;
 				bucketsRangeArray[0]->end = bucketLowerRange;
 
-				if ( i == numberOfBuckets ) {	// if overflow
+				if ( i == maxBucketIdx ) {	// if overflow
 					for ( j = 1; j < i; j += 1 ) {
 						if (isTraceLogEnabled()) {
 							trace(MODULE_NAME,trace_DKX_newBucketRange,j,bucketsRangeArray[j]->begin,bucketsRangeArray[j]->end,(bucketsRangeArray[j-1]->end + 1),(bucketsRangeArray[j-1]->end + 1 + bucketsSizeArray[j] -1));
@@ -323,10 +323,10 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 					}
 
 					if (isTraceLogEnabled()) {
-						trace(MODULE_NAME,trace_DKX_newOverflowRange,j,bucketsRangeArray[j]->begin,bucketsRangeArray[numberOfBuckets-1]->end + 1);
+						trace(MODULE_NAME,trace_DKX_newOverflowRange,j,bucketsRangeArray[j]->begin,bucketsRangeArray[maxBucketIdx-1]->end + 1);
 					}
 
-					bucketsRangeArray[numberOfBuckets]->begin = bucketsRangeArray[numberOfBuckets-1]->end + 1;
+					bucketsRangeArray[maxBucketIdx]->begin = bucketsRangeArray[maxBucketIdx-1]->end + 1;
 
 				} else {	//przed overflowem
 
@@ -341,8 +341,8 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 					}
 
 					if (isTraceLogEnabled()) {
-						if ( j == numberOfBuckets ) {
-							trace(MODULE_NAME,trace_DKX_newOverflowRange,j,bucketsRangeArray[j]->begin,bucketsRangeArray[numberOfBuckets-1]->end + 1);
+						if ( j == maxBucketIdx ) {
+							trace(MODULE_NAME,trace_DKX_newOverflowRange,j,bucketsRangeArray[j]->begin,bucketsRangeArray[maxBucketIdx-1]->end + 1);
 						} else {
 							trace(MODULE_NAME,trace_DKX_newBucketRange,j,bucketsRangeArray[j]->begin,bucketsRangeArray[j]->end,bucketMaxRange + 1,bucketMaxRange + 1);
 						}
@@ -351,11 +351,11 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 					bucketsRangeArray[j]->begin = bucketMaxRange; // +1
 					bucketsRangeArray[j++]->end = bucketMaxRange; // +1;
 
-					if ( j == numberOfBuckets ) {
+					if ( j == maxBucketIdx ) {
 						if (isTraceLogEnabled()) {
-							trace(MODULE_NAME,trace_DKX_newOverflowRange,j,bucketsRangeArray[j]->begin,bucketsRangeArray[numberOfBuckets-1]->end + 1);
+							trace(MODULE_NAME,trace_DKX_newOverflowRange,j,bucketsRangeArray[j]->begin,bucketsRangeArray[maxBucketIdx-1]->end + 1);
 						}
-						bucketsRangeArray[numberOfBuckets]->begin = bucketsRangeArray[numberOfBuckets-1]->end + 1;
+						bucketsRangeArray[maxBucketIdx]->begin = bucketsRangeArray[maxBucketIdx-1]->end + 1;
 					}
 				}
 
@@ -391,7 +391,7 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 					} else {
 						currentBucketIt = currentBucketIt->next;
 						if (isTraceLogEnabled()) {
-							if ( i == numberOfBuckets ) {
+							if ( i == maxBucketIdx ) {
 								trace(MODULE_NAME,trace_DKX_uselessOverflowRepinRedistribution,currentNode->nodeID,currentNode->distanceLabel,nodeBucketIDMap[currentNode->nodeID],bucketsRangeArray[nodeBucketIDMap[currentNode->nodeID]]->begin);
 							} else {
 								trace(MODULE_NAME,trace_DKX_uselessBucketRepinRedistribution,currentNode->nodeID,currentNode->distanceLabel,nodeBucketIDMap[currentNode->nodeID],bucketsRangeArray[nodeBucketIDMap[currentNode->nodeID]]->begin,bucketsRangeArray[nodeBucketIDMap[currentNode->nodeID]]->end);
@@ -401,7 +401,7 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 				}
 
 				if (isTraceLogEnabled() ) {
-					trace(MODULE_NAME,trace_DKX_setRescan,numberOfBuckets);
+					trace(MODULE_NAME,trace_DKX_setRescan,maxBucketIdx);
 				}
 				i = 0;
 				continue;
@@ -411,10 +411,10 @@ void runDKX_SingleSource ( TMHGraph* const graph, TMHNode* const sourceNode ) {
 	}	// next while loop
 
 	if (isInfoLogEnabled()) {
-		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyBucket,numberOfBuckets);
+		info(MODULE_NAME,info_TMHAlgorithmHelper_destroyBucket,maxBucketIdx);
 	}
-	cleanUpBuckets(bucketsArray,numberOfBuckets+1);
-	cleanDKX(bucketsRangeArray,bucketsSizeArray,nodeBucketIDMap,numberOfBuckets);
+	cleanUpBuckets(bucketsArray,maxBucketIdx+1);
+	cleanDKX(bucketsRangeArray,bucketsSizeArray,nodeBucketIDMap,maxBucketIdx);
 
 }
 

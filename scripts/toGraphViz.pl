@@ -2,6 +2,11 @@ print "Changing 9th DIMACS Implementation Challenge to GraphViz format...\n\nSou
 open(INPUT, "<".$ARGV[1]) or die $!;
 open(OUTPUT, ">".$ARGV[2]) or die $!;
 print OUTPUT "digraph G {\n";
+
+#Additional DOT options
+print OUTPUT "\trankdir=LR;\n";
+print OUTPUT "\tnode [shape = circle];\n";
+
 while($line = <INPUT>) {
 	if ($line =~ /^(a (\d+) (\d+) (\d+))$/) {
 		$out = $2." -> ".$3." [ label = \"".$4."\"];";

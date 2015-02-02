@@ -1,0 +1,80 @@
+Reprezentacje struktury grafu:
+
+http://webpages.iust.ac.ir/yaghini/Courses/Network_891/01_3_Representations.pdf
+
+Integer queue: 
+http://perso.ens-lyon.fr/eric.thierry/Graphes2009/thorup.pdf
+
+Dijkstra Heap:
+http://algorithms.soc.srcf.net/notes/dijkstra_with_heaps.pdf
+
+Heaps:
+http://www.cs.princeton.edu/courses/archive/spring13/cos423/lectures/BinomialHeaps.pdf
+
+Dijkstra fibonacci:
+http://www.cse.sc.edu/~mgv/csce580f08/gradPres/boccanfusoMcKenzie080910.ppt
+http://people.cs.kuleuven.be/~jon.sneyers/presentations/dijkstra_chr.pdf
+http://www.cs.princeton.edu/~wayne/cs423/lectures/fibonacci-4up.pdf
+
+Overflow:
+
+https://github.com/owen-griffiths/Experiments/wiki/Overflow-Bucket-Queue
+
+Dijkstra fibonacci, heap, binary:
+http://www3.cs.stonybrook.edu/~rezaul/Fall-2012/CSE548/CSE548-lectures-14-15.pdf
+
+Coś zaawansowanego:
+http://people.mpi-inf.mpg.de/~umeyer/dfg/jalg2003.pdf
+http://logic.pdmi.ras.ru/midas/sites/default/files/midas-werneck.pdf
+
+Coś, trochę historii:
+http://www.diku.dk/PATH05/GoldbergSlides.pdf
+
+Przeszukiwanie wszerz:
+http://www.eecs.yorku.ca/course_archive/2006-07/W/2011/Notes/BFS_part2.pdf
+
+Kolejki priorytetowe:
+http://wazniak.mimuw.edu.pl/index.php?title=Algorytmy_i_struktury_danych/Kolejki_priorytetowe
+
+Belman-Ford przyśpieszenie przez randomizację:
+http://siam.omnibooksonline.com/2012ANALCO/data/papers/005.pdf
+
+Dial, Radix, generyczne LCA, LSA:
+http://www.acsu.buffalo.edu/~nagi/courses/684/4.shortestpath.pdf
+
+Kubełki aproksymacyjne:
+http://www.ae.cs.uni-frankfurt.de/pdf/diss_uli.pdf
+
+Radix:
+http://www.cosc.canterbury.ac.nz/tad.takaoka/alg/spalgs/radixheap.txt
+
+Jakiś treshold:
+http://www.castlelab.princeton.edu/Papers/Chen%20Powell%20Generalized%20threshold%20alg%20for%20shortest%20path%20with%20time%20windows.pdf - ta hurystyka
+http://books.google.pl/books?id=PRgLAAAAQBAJ&pg=PA725&lpg=PA725&dq=data+structure+and+algorithm+in+C%2B%2B+threshold&source=bl&ots=zZFkO0iZrL&sig=1Mfx3GrVrG0LK-7STNn8GtmnHmA&hl=pl&sa=X&ei=j92EVJSkCIHsUrK9gdgP&ved=0CCgQ6AEwAQ#v=onepage&q=data%20structure%20and%20algorithm%20in%20C%2B%2B%20threshold&f=false
+
+Jakiś label corecting + treashold + pape:
+http://www.mit.edu/~dimitrib/SLF.pdf
+
+Od Zielińskiego:
+http://rspublication.com/ijeted/may-12/92.pdf
+
+Dijkstra:
+http://ijaer.com/webmaster/upload/Sep_2011_Nishtha_Kesswani.pdf
+
+http://iit.qau.edu.pk/books/Data%20Structure%20And%20Algorithms%20In%20C++%202nd%20ed%20-%20Adam%20Drozdek.pdf
+
+Dijkstra multi-level bucket:
+http://cc-238.tripod.com/downloads/isaac01.pdf
+https://books.google.pl/books?id=uNqZuiB-VNUC&pg=PA294&lpg=PA294&dq=multi+level+bucket&source=bl&ots=xe6ly3ZlfK&sig=CbpSV4wPrBnW55BjtfMI4Gyr_5s&hl=pl&sa=X&ei=_hKOVJPvJYqAywPqn4GQBQ&ved=0CGYQ6AEwDA#v=onepage&q=multi%20level%20bucket&f=false
+
+Topological:
+http://www.cis.temple.edu/~pwang/9615-AA/Lecture/10-Graph-2.htm
+https://www.ics.uci.edu/~eppstein/161/960208.html
+
+Amortyzcyjne:
+http://www.cs.princeton.edu/~fiebrink/423/AmortizedAnalysisExplained_Fiebrink.pdf
+
+http://www.cse.psu.edu/~madduri/software/GTgraph/
+
+K drzewa:
+http://ro.uow.edu.au/cgi/viewcontent.cgi?article=1002&context=compsciwp

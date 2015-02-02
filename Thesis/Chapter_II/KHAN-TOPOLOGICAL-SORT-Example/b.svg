@@ -8,7 +8,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="211"
-   height="222"
+   height="216.84"
    version="1.1"
    id="svg3187"
    inkscape:version="0.48.4 r9939"
@@ -37,7 +37,7 @@
      inkscape:window-height="744"
      id="namedview3403"
      showgrid="false"
-     inkscape:zoom="2.4403037"
+     inkscape:zoom="1.6885866"
      inkscape:cx="27.492749"
      inkscape:cy="120.15404"
      inkscape:window-x="65"
@@ -51,7 +51,7 @@
   <defs
      id="defs3189" />
   <g
-     transform="translate(-0.5,12.5)"
+     transform="translate(-0.5,7.34)"
      id="g3191">
     <ellipse
        cx="31"
@@ -66,7 +66,7 @@
        sodipodi:rx="10"
        sodipodi:ry="10"
        style="fill:#999999;stroke:#000000"
-       transform="translate(0,-13)" />
+       transform="translate(0,-7.84)" />
     <ellipse
        cx="81"
        cy="31"
@@ -80,16 +80,16 @@
        sodipodi:cy="31"
        sodipodi:rx="10"
        sodipodi:ry="10"
-       transform="translate(0,-13)" />
+       transform="translate(0,-7.84)" />
     <path
-       d="M 38,61 69.5,29.5"
+       d="M 38,66.16 69.5,34.66"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3213"
        inkscape:connector-curvature="0"
        style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 73.21,25.79 70.73,33.22 69.5,29.5 65.78,28.27 z"
+       d="M 73.21,30.95 70.73,38.38 69.5,34.66 65.78,33.43 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3215"
@@ -99,7 +99,7 @@
        font-size="11px"
        id="g3217"
        style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica"
-       transform="translate(0,-13)">
+       transform="translate(0,-7.84)">
       <rect
          x="53"
          y="50"
@@ -125,16 +125,16 @@
        sodipodi:cy="131"
        sodipodi:rx="10"
        sodipodi:ry="10"
-       transform="translate(0,-13)" />
+       transform="translate(0,-7.84)" />
     <path
-       d="m 81,28 0,73.63"
+       d="m 81,33.16 0,73.63"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3233"
        inkscape:connector-curvature="0"
        style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="m 81,106.88 -3.5,-7 3.5,1.75 3.5,-1.75 z"
+       d="m 81,112.04 -3.5,-7 3.5,1.75 3.5,-1.75 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3235"
@@ -144,7 +144,7 @@
        font-size="11px"
        id="g3237"
        style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica"
-       transform="translate(0,-13)">
+       transform="translate(0,-7.84)">
       <rect
          x="78"
          y="75"
@@ -158,14 +158,14 @@
          id="text3241">3</text>
     </g>
     <path
-       d="m 38,75 31.5,31.5"
+       d="m 38,80.16 31.5,31.5"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3243"
        inkscape:connector-curvature="0"
        style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="m 73.21,110.21 -7.43,-2.48 3.72,-1.23 1.23,-3.72 z"
+       d="m 73.21,115.37 -7.43,-2.48 3.72,-1.23 1.23,-3.72 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3245"
@@ -175,7 +175,7 @@
        font-size="11px"
        id="g3247"
        style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica"
-       transform="translate(0,-13)">
+       transform="translate(0,-7.84)">
       <rect
          x="53"
          y="100"
@@ -201,16 +201,16 @@
        sodipodi:cy="31"
        sodipodi:rx="10"
        sodipodi:ry="10"
-       transform="translate(0,-13)" />
+       transform="translate(0,-7.84)" />
     <path
-       d="m 91,18 83.63,0"
+       d="m 91,23.16 83.63,0"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3263"
        inkscape:connector-curvature="0"
        style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="m 179.88,18 -7,3.5 1.75,-3.5 -1.75,-3.5 z"
+       d="m 179.88,23.16 -7,3.5 1.75,-3.5 -1.75,-3.5 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3265"
@@ -220,7 +220,7 @@
        font-size="11px"
        id="g3267"
        style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica"
-       transform="translate(0,-13)">
+       transform="translate(0,-7.84)">
       <rect
          x="133"
          y="25"
@@ -246,16 +246,16 @@
        sodipodi:cy="131"
        sodipodi:rx="10"
        sodipodi:ry="10"
-       transform="translate(0,-13)" />
+       transform="translate(0,-7.84)" />
     <path
-       d="M 191,34.37 191,108"
+       d="m 191,39.53 0,73.63"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3283"
        inkscape:connector-curvature="0"
        style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="m 191,29.12 3.5,7 -3.5,-1.75 -3.5,1.75 z"
+       d="m 191,34.28 3.5,7 -3.5,-1.75 -3.5,1.75 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3285"
@@ -265,7 +265,7 @@
        font-size="11px"
        id="g3287"
        style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica"
-       transform="translate(0,-13)">
+       transform="translate(0,-7.84)">
       <rect
          x="188"
          y="75"
@@ -279,14 +279,14 @@
          id="text3291">2</text>
     </g>
     <path
-       d="m 91,118 83.63,0"
+       d="m 91,123.16 83.63,0"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3293"
        inkscape:connector-curvature="0"
        style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="m 179.88,118 -7,3.5 1.75,-3.5 -1.75,-3.5 z"
+       d="m 179.88,123.16 -7,3.5 1.75,-3.5 -1.75,-3.5 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3295"
@@ -296,7 +296,7 @@
        font-size="11px"
        id="g3297"
        style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica"
-       transform="translate(0,-13)">
+       transform="translate(0,-7.84)">
       <rect
          x="133"
          y="125"
@@ -310,14 +310,14 @@
          id="text3301">1</text>
     </g>
     <path
-       d="m 88,25 91.26,81.75"
+       d="m 88,30.16 91.26,81.75"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3303"
        inkscape:connector-curvature="0"
        style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="m 183.17,110.25 -7.55,-2.06 3.64,-1.44 1.03,-3.77 z"
+       d="m 183.17,115.41 -7.55,-2.06 3.64,-1.44 1.03,-3.77 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3305"
@@ -327,7 +327,7 @@
        font-size="11px"
        id="g3307"
        style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica"
-       transform="translate(0,-13)">
+       transform="translate(0,-7.84)">
       <rect
          x="133"
          y="75"
@@ -342,7 +342,7 @@
     </g>
     <rect
        x="1"
-       y="38"
+       y="43.16"
        width="20"
        height="20"
        pointer-events="none"
@@ -350,7 +350,7 @@
        style="fill:none;stroke:#000000" />
     <rect
        x="51"
-       y="-12"
+       y="-6.8400002"
        width="20"
        height="20"
        pointer-events="none"
@@ -358,7 +358,7 @@
        style="fill:none;stroke:#000000" />
     <rect
        x="161"
-       y="-12"
+       y="-6.8400002"
        width="20"
        height="20"
        pointer-events="none"
@@ -366,7 +366,7 @@
        style="fill:none;stroke:#000000" />
     <rect
        x="161"
-       y="128"
+       y="133.16"
        width="20"
        height="20"
        pointer-events="none"
@@ -374,7 +374,7 @@
        style="fill:none;stroke:#000000" />
     <rect
        x="51"
-       y="128"
+       y="133.16"
        width="20"
        height="20"
        pointer-events="none"
@@ -393,7 +393,7 @@
        sodipodi:rx="10"
        sodipodi:ry="10"
        style="fill:#cccccc;stroke:#000000"
-       transform="translate(0,-13)" />
+       transform="translate(0,-7.84)" />
     <ellipse
        cx="41"
        cy="199"
@@ -407,10 +407,10 @@
        sodipodi:cy="199"
        sodipodi:rx="10"
        sodipodi:ry="10"
-       transform="translate(0,-13)" />
+       transform="translate(0,-7.84)" />
     <g
        id="g7029"
-       transform="translate(-54.02075,30.86055)">
+       transform="translate(-54.02075,36.02055)">
       <g
          id="content"
          transform="matrix(0.29,0,0,-0.29,-50.75,159.75)"
@@ -430,7 +430,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7144"
-       transform="translate(-73.9555,10.7025)">
+       transform="translate(-73.9555,15.8625)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -450,7 +450,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7266"
-       transform="translate(-3.95405,-19.139449)">
+       transform="translate(-3.95405,-13.979449)">
       <g
          id="g7268"
          transform="matrix(0.29,0,0,-0.29,-50.75,159.75)"
@@ -470,7 +470,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7394"
-       transform="translate(-3.9555,80.7025)">
+       transform="translate(-3.9555,85.8625)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -490,7 +490,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7528"
-       transform="translate(106.0445,-19.061149)">
+       transform="translate(106.0445,-13.901149)">
       <g
          id="g7530"
          transform="matrix(0.29,0,0,-0.29,-50.75,159.75)"
@@ -510,7 +510,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7668"
-       transform="translate(106.04595,80.7025)">
+       transform="translate(106.04595,85.8625)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -530,7 +530,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7029-4"
-       transform="translate(-24.02075,100.86055)">
+       transform="translate(-24.02075,106.02055)">
       <g
          id="content-9"
          transform="matrix(0.29,0,0,-0.29,-50.75,159.75)"
@@ -550,7 +550,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7266-5"
-       transform="translate(86.04595,-39.139449)">
+       transform="translate(86.04595,-33.979449)">
       <g
          id="g7268-7"
          transform="matrix(0.29,0,0,-0.29,-50.75,159.75)"
@@ -570,7 +570,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7266-5-0"
-       transform="translate(86.04595,100.86055)">
+       transform="translate(86.04595,106.02055)">
       <g
          id="g7268-7-3"
          transform="matrix(0.29,0,0,-0.29,-50.75,159.75)"
@@ -590,7 +590,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7936"
-       transform="translate(-75.98702,123.98235)">
+       transform="translate(-75.98702,129.14235)">
       <g
          id="g7938"
          transform="matrix(0.29,0,0,-0.29,-50.75,159.75)"
@@ -618,7 +618,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g8126"
-       transform="translate(-77.72702,148.98235)">
+       transform="translate(-77.72702,154.14235)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -646,7 +646,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7144-9"
-       transform="translate(-23.9555,-39.2975)">
+       transform="translate(-23.9555,-34.1375)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -666,7 +666,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7029-4-8"
-       transform="translate(-44.02075,148.86055)">
+       transform="translate(-44.02075,154.02055)">
       <g
          id="content-9-6"
          transform="matrix(0.29,0,0,-0.29,-50.75,159.75)"
@@ -686,7 +686,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g7266-4"
-       transform="translate(-43.95405,123.86055)">
+       transform="translate(-43.95405,129.02055)">
       <g
          id="g7268-6"
          transform="matrix(0.29,0,0,-0.29,-50.75,159.75)"

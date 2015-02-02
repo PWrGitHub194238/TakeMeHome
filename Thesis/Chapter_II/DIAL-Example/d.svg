@@ -7,8 +7,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="204px"
-   height="204px"
+   width="202.17999"
+   height="202.14999"
    version="1.1"
    id="svg2"
    inkscape:version="0.48.4 r9939"
@@ -26,13 +26,17 @@
      inkscape:window-height="744"
      id="namedview340"
      showgrid="false"
-     inkscape:zoom="3.2282942"
-     inkscape:cx="97.312638"
-     inkscape:cy="109.34154"
+     inkscape:zoom="3.09"
+     inkscape:cx="42.901488"
+     inkscape:cy="107.82205"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g6" />
+     inkscape:current-layer="g6"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata342">
     <rdf:RDF>
@@ -47,319 +51,311 @@
   <defs
      id="defs4" />
   <g
-     transform="translate(0.5,0.5)"
+     transform="translate(-0.5,0.1500061)"
      id="g6">
     <ellipse
        cx="101"
        cy="101"
        rx="100"
        ry="100"
-       fill="#ffffff"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse8"
        d="M 201,101 C 201,156.22847 156.22847,201 101,201 45.771525,201 1,156.22847 1,101 1,45.771525 45.771525,1 101,1 156.22847,1 201,45.771525 201,101 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="101"
+       sodipodi:cy="101"
+       sodipodi:rx="100"
+       sodipodi:ry="100"
+       transform="translate(0.58999453,-0.32500915)" />
     <ellipse
        cx="101"
        cy="101"
        rx="79.5"
        ry="80"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse10"
        d="m 180.5,101 c 0,44.18278 -35.59336,80 -79.5,80 -43.906638,0 -79.5,-35.81722 -79.5,-80 0,-44.18278 35.593362,-80 79.5,-80 43.90664,0 79.5,35.81722 79.5,80 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="101"
+       sodipodi:cy="101"
+       sodipodi:rx="79.5"
+       sodipodi:ry="80"
+       transform="translate(0.58999453,-0.32500915)" />
     <path
-       d="M 37 79 L 44 89 L 37 99 L 29 89 Z"
-       fill="none"
-       stroke="#000000"
+       d="m 37.589994,78.674991 7,10 -7,10 -8,-10 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path22"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 30 30 L 44 44"
-       fill="none"
-       stroke="#000000"
+       d="m 30.589994,29.674991 14,14"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path32" />
+       id="path32"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 172 30 L 157 44"
-       fill="none"
-       stroke="#000000"
+       d="m 172.59,29.674991 -15,14"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path34" />
+       id="path34"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 30 172 L 44 158"
-       fill="none"
-       stroke="#000000"
+       d="m 30.589994,171.67499 14,-14"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path36" />
+       id="path36"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 172 172 L 157 158"
-       fill="none"
-       stroke="#000000"
+       d="m 172.59,171.67499 -15,-14"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path38" />
+       id="path38"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 58 94 L 75 79"
-       fill="none"
-       stroke="#000000"
+       d="m 58.589994,93.674991 17,-15"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path50" />
+       id="path50"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 79 76 L 76 83 L 75 79 L 71 78 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 79.589994,75.674991 -3,7 -1,-4 -4,-1 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path52" />
+       id="path52"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 78 70 L 78 70"
-       fill="none"
-       stroke="#000000"
+       d="m 78.589994,69.674991 0,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path62" />
+       id="path62"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 85 77 L 85 118"
-       fill="none"
-       stroke="#000000"
+       d="m 85.589994,76.674991 0,40.999999"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path74" />
+       id="path74"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 85 123 L 82 116 L 85 118 L 89 116 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 85.589994,122.67499 -3,-7 3,2 4,-2 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path76" />
+       id="path76"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 58 105 L 75 122"
-       fill="none"
-       stroke="#000000"
+       d="m 58.589994,104.67499 17,17"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path86" />
+       id="path86"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 79 126 L 71 123 L 75 122 L 76 118 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 79.589994,125.67499 -8,-3 4,-1 1,-4 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path88" />
+       id="path88"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 93 132 L 121 132"
-       fill="none"
-       stroke="#000000"
+       d="m 93.589994,131.67499 28.000006,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path108" />
+       id="path108"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 126 132 L 119 135 L 121 132 L 119 128 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 126.59,131.67499 -7,3 2,-3 -2,-4 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path110" />
+       id="path110"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 90 75 L 126 122"
-       fill="none"
-       stroke="#000000"
+       d="M 90.589994,74.674991 126.59,121.67499"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path120" />
+       id="path120"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 129 126 L 122 122 L 126 122 L 128 118 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 129.59,125.67499 -7,-4 4,0 2,-4 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path122" />
+       id="path122"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 71 50 L 78 60 L 71 70 L 63 60 Z"
-       fill="none"
-       stroke="#000000"
+       d="m 71.589994,49.674991 7,10 -7,10 -8,-10 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path132"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 71 132 L 78 142 L 71 152 L 63 142 Z"
-       fill="none"
-       stroke="#000000"
+       d="m 71.589994,131.67499 7,10 -7,10 -8,-10 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path142"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 151 132 L 158 142 L 151 152 L 143 142 Z"
-       fill="none"
-       stroke="#000000"
+       d="m 151.59,131.67499 7,10 -7,10 -8,-10 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path152"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 93 70 L 121 70"
-       fill="none"
-       stroke="#000000"
+       d="m 93.589994,69.674991 28.000006,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path172" />
+       id="path172"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 126 70 L 119 73 L 121 70 L 119 66 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 126.59,69.674991 -7,3 2,-3 -2,-4 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path174" />
+       id="path174"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 135 124 L 135 84"
-       fill="none"
-       stroke="#000000"
+       d="m 135.59,123.67499 0,-39.999999"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path184" />
+       id="path184"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 135 79 L 139 86 L 135 84 L 132 86 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 135.59,78.674991 4,7 -4,-2 -3,2 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path186" />
+       id="path186"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 151 50 L 158 60 L 151 70 L 143 60 Z"
-       fill="none"
-       stroke="#000000"
+       d="m 151.59,49.674991 7,10 -7,10 -8,-10 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path196"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 101 1 L 101 21"
-       fill="none"
-       stroke="#000000"
+       d="m 101.59,0.67499085 0,20.00000015"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path206" />
+       id="path206"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 201 101 L 180 101"
-       fill="none"
-       stroke="#000000"
+       d="m 201.59,100.67499 -21,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path208" />
+       id="path208"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 101 201 L 101 181"
-       fill="none"
-       stroke="#000000"
+       d="m 101.59,200.67499 0,-20"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path210" />
+       id="path210"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 1 101 L 21 101"
-       fill="none"
-       stroke="#000000"
+       d="m 1.5899945,100.67499 19.9999995,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path212" />
+       id="path212"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <rect
-       x="100"
-       y="1"
+       x="100.59"
+       y="0.67499083"
        width="15"
        height="19"
-       fill="none"
-       stroke="none"
        pointer-events="none"
-       id="rect214" />
+       id="rect214"
+       style="fill:none;stroke:none" />
     <rect
-       x="162"
-       y="33"
+       x="142.80113"
+       y="-100.44957"
        width="15"
        height="19"
-       fill="none"
-       stroke="none"
-       transform="rotate(45,170,43)"
+       transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)"
        pointer-events="none"
-       id="rect224" />
+       id="rect224"
+       style="fill:none;stroke:none" />
     <rect
-       x="183"
-       y="99"
+       x="100.675"
+       y="-201.59"
        width="15"
        height="19"
-       fill="none"
-       stroke="none"
-       transform="rotate(90,191,109)"
+       transform="matrix(0,1,-1,0,0,0)"
        pointer-events="none"
-       id="rect234" />
+       id="rect234"
+       style="fill:none;stroke:none" />
     <rect
-       x="151"
-       y="161"
+       x="-0.16172671"
+       y="-243.53262"
        width="15"
        height="19"
-       fill="none"
-       stroke="none"
-       transform="rotate(135,159,171)"
+       transform="matrix(-0.70710678,0.70710678,-0.70710678,-0.70710678,0,0)"
        pointer-events="none"
-       id="rect244" />
+       id="rect244"
+       style="fill:none;stroke:none" />
     <rect
-       x="85"
-       y="182"
+       x="-101.59"
+       y="-201.67499"
        width="15"
        height="19"
-       fill="none"
-       stroke="none"
-       transform="rotate(180,93,192)"
+       transform="scale(-1,-1)"
        pointer-events="none"
-       id="rect254" />
+       id="rect254"
+       style="fill:none;stroke:none" />
     <rect
-       x="23"
-       y="149"
+       x="-142.53767"
+       y="-99.862648"
        width="15"
        height="19"
-       fill="none"
-       stroke="none"
-       transform="rotate(-135,31,159)"
+       transform="matrix(-0.70710678,-0.70710678,0.70710678,-0.70710678,0,0)"
        pointer-events="none"
-       id="rect264" />
+       id="rect264"
+       style="fill:none;stroke:none" />
     <rect
-       x="3"
-       y="84"
+       x="-101.675"
+       y="1.5899945"
        width="15"
        height="19"
-       fill="none"
-       stroke="none"
-       transform="rotate(-90,11,94)"
+       transform="matrix(0,-1,1,0,0,0)"
        pointer-events="none"
-       id="rect274" />
+       id="rect274"
+       style="fill:none;stroke:none" />
     <rect
-       x="35"
-       y="22"
+       x="0.42517927"
+       y="43.220383"
        width="15"
        height="19"
-       fill="none"
-       stroke="none"
-       transform="rotate(-45,43,32)"
+       transform="matrix(0.70710678,-0.70710678,0.70710678,0.70710678,0,0)"
        pointer-events="none"
-       id="rect284" />
+       id="rect284"
+       style="fill:none;stroke:none" />
     <rect
-       x="70"
-       y="26"
+       x="70.589996"
+       y="25.674992"
        width="60"
        height="30"
-       fill="none"
-       stroke="none"
        pointer-events="none"
-       id="rect294" />
+       id="rect294"
+       style="fill:none;stroke:none" />
     <ellipse
        cx="13"
        cy="79"
@@ -373,7 +369,7 @@
        sodipodi:cy="79"
        sodipodi:rx="5"
        sodipodi:ry="5"
-       transform="translate(4.2378367,-7.0119591)" />
+       transform="translate(4.8278312,-7.3369683)" />
     <ellipse
        cx="177"
        cy="53"
@@ -382,132 +378,147 @@
        pointer-events="none"
        id="ellipse314"
        d="m 182,53 c 0,2.761424 -2.23858,5 -5,5 -2.76142,0 -5,-2.238576 -5,-5 0,-2.761424 2.23858,-5 5,-5 2.76142,0 5,2.238576 5,5 z"
-       style="fill:none"
-       stroke="#000000"
-       fill="transparent" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="177"
+       sodipodi:cy="53"
+       sodipodi:rx="5"
+       sodipodi:ry="5"
+       transform="translate(0.58999453,-0.32500915)" />
     <path
-       d="M 78 70 L 57 88"
-       fill="none"
-       stroke="#cccccc"
-       stroke-miterlimit="10"
-       stroke-dasharray="3 3"
-       pointer-events="none"
-       id="path324" />
-    <path
-       d="M 53 91 L 56 84 L 57 88 L 61 89 Z"
-       fill="none"
-       stroke="#cccccc"
+       d="m 78.589994,69.674991 -21,18"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path326" />
+       id="path324"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
     <path
-       d="M 90 127 L 90 82"
-       fill="none"
-       stroke="#cccccc"
-       stroke-miterlimit="10"
-       stroke-dasharray="3 3"
-       pointer-events="none"
-       id="path328" />
-    <path
-       d="M 90 76 L 94 83 L 90 82 L 87 83 Z"
-       fill="none"
-       stroke="#cccccc"
+       d="m 53.589994,90.674991 3,-7 1,4 4,1 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path330" />
+       id="path326"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
     <path
-       d="M 130 65 L 97 65"
-       fill="none"
-       stroke="#cccccc"
-       stroke-miterlimit="10"
-       stroke-dasharray="3 3"
-       pointer-events="none"
-       id="path332" />
-    <path
-       d="M 91 65 L 98 61 L 97 65 L 98 68 Z"
-       fill="none"
-       stroke="#cccccc"
+       d="m 90.589994,126.67499 0,-44.999999"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path334" />
+       id="path328"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
     <path
-       d="M 130 137 L 97 137"
-       fill="none"
-       stroke="#cccccc"
-       stroke-miterlimit="10"
-       stroke-dasharray="3 3"
-       pointer-events="none"
-       id="path336" />
-    <path
-       d="M 91 137 L 98 134 L 97 137 L 98 141 Z"
-       fill="none"
-       stroke="#cccccc"
+       d="m 90.589994,75.674991 4,7 -4,-1 -3,1 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path338" />
+       id="path330"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
+    <path
+       d="m 130.59,64.674991 -33.000006,0"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path332"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
+    <path
+       d="m 91.589994,64.674991 7,-4 -1,4 1,3 z"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path334"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
+    <path
+       d="m 130.59,136.67499 -33.000006,0"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path336"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
+    <path
+       d="m 91.589994,136.67499 7,-3 -1,3 1,4 z"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path338"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
     <ellipse
        cx="53"
        cy="99"
        rx="7.5"
        ry="7.5"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse12"
        d="m 60.5,99 c 0,4.14214 -3.357864,7.5 -7.5,7.5 -4.142136,0 -7.5,-3.35786 -7.5,-7.5 0,-4.142136 3.357864,-7.5 7.5,-7.5 4.142136,0 7.5,3.357864 7.5,7.5 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="53"
+       sodipodi:cy="99"
+       sodipodi:rx="7.5"
+       sodipodi:ry="7.5"
+       transform="translate(0.58999453,-0.32500915)" />
     <ellipse
        cx="85"
        cy="70"
        rx="7.5"
        ry="7.5"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse40"
        d="m 92.5,70 c 0,4.142136 -3.357864,7.5 -7.5,7.5 -4.142136,0 -7.5,-3.357864 -7.5,-7.5 0,-4.142136 3.357864,-7.5 7.5,-7.5 4.142136,0 7.5,3.357864 7.5,7.5 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="85"
+       sodipodi:cy="70"
+       sodipodi:rx="7.5"
+       sodipodi:ry="7.5"
+       transform="translate(0.58999453,-0.32500915)" />
     <ellipse
        cx="85"
        cy="132"
        rx="7.5"
        ry="7.5"
-       fill="#999999"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse64"
-       d="m 92.5,132 c 0,4.14214 -3.357864,7.5 -7.5,7.5 -4.142136,0 -7.5,-3.35786 -7.5,-7.5 0,-4.14214 3.357864,-7.5 7.5,-7.5 4.142136,0 7.5,3.35786 7.5,7.5 z" />
+       d="m 92.5,132 c 0,4.14214 -3.357864,7.5 -7.5,7.5 -4.142136,0 -7.5,-3.35786 -7.5,-7.5 0,-4.14214 3.357864,-7.5 7.5,-7.5 4.142136,0 7.5,3.35786 7.5,7.5 z"
+       sodipodi:cx="85"
+       sodipodi:cy="132"
+       sodipodi:rx="7.5"
+       sodipodi:ry="7.5"
+       style="fill:#999999;stroke:#000000"
+       transform="translate(0.58999453,-0.32500915)" />
     <ellipse
        cx="135"
        cy="132"
        rx="7.5"
        ry="7.5"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse98"
        d="m 142.5,132 c 0,4.14214 -3.35786,7.5 -7.5,7.5 -4.14214,0 -7.5,-3.35786 -7.5,-7.5 0,-4.14214 3.35786,-7.5 7.5,-7.5 4.14214,0 7.5,3.35786 7.5,7.5 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="135"
+       sodipodi:cy="132"
+       sodipodi:rx="7.5"
+       sodipodi:ry="7.5"
+       transform="translate(0.58999453,-0.32500915)" />
     <ellipse
        cx="135"
        cy="70"
        rx="7.5"
        ry="7.5"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse162"
        d="m 142.5,70 c 0,4.142136 -3.35786,7.5 -7.5,7.5 -4.14214,0 -7.5,-3.357864 -7.5,-7.5 0,-4.142136 3.35786,-7.5 7.5,-7.5 4.14214,0 7.5,3.357864 7.5,7.5 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="135"
+       sodipodi:cy="70"
+       sodipodi:rx="7.5"
+       sodipodi:ry="7.5"
+       transform="translate(0.58999453,-0.32500915)" />
     <path
        style="fill:#000000;stroke:#000000;stroke-miterlimit:10"
        inkscape:connector-curvature="0"
-       d="m 9.7873194,145.8044 -4.5046732,6.14068 -0.069932,-4.12251 -3.6704201,-1.8783 z"
+       d="m 10.377314,145.47939 -4.5046733,6.14068 -0.069932,-4.12251 -3.6704201,-1.8783 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path52-6" />
     <g
-       transform="matrix(0.90088545,0,0,0.90088545,28.878716,-15.053536)"
+       transform="matrix(0.90088545,0,0,0.90088545,29.46871,-15.378545)"
        id="g3202">
       <g
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:normal;word-spacing:normal;text-anchor:start;fill:none;stroke:#000000;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10.43299961;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
@@ -536,7 +547,7 @@
            id="path3210" /></g>    </g>
     <g
        id="g3329"
-       transform="matrix(0.58546297,0.72319468,-0.72319468,0.58546297,140.53996,-37.148072)">
+       transform="matrix(0.58546297,0.72319468,-0.72319468,0.58546297,141.12996,-37.473081)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -564,7 +575,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g3460"
-       transform="matrix(0.02203053,0.82679243,-0.82679243,0.02203053,213.0796,34.39155)">
+       transform="matrix(0.02203053,0.82679243,-0.82679243,0.02203053,213.6696,34.066541)">
       <g
          id="g3462"
          transform="matrix(0.29142857,0,0,-0.29142857,-51,153)"
@@ -592,7 +603,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g3602"
-       transform="matrix(-0.61528564,0.65804116,-0.65804116,-0.61528564,232.19464,131.40157)"
+       transform="matrix(-0.61528564,0.65804116,-0.65804116,-0.61528564,232.78464,131.07656)"
        inkscape:transform-center-x="2.5585624">
       <g
          word-spacing="normal"
@@ -621,7 +632,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g3754"
-       transform="matrix(-0.91550585,-0.01127264,0.01127264,-0.91550585,173.49517,218.52335)">
+       transform="matrix(-0.91550585,-0.01127264,0.01127264,-0.91550585,174.08517,218.19834)">
       <g
          id="g3756"
          transform="matrix(0.29142857,0,0,-0.29142857,-51,153)"
@@ -649,7 +660,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g3916"
-       transform="matrix(-0.61063322,-0.66236067,0.66236067,-0.61063322,64.059584,234.71752)"
+       transform="matrix(-0.61063322,-0.66236067,0.66236067,-0.61063322,64.649578,234.39251)"
        inkscape:transform-center-x="2.1930535"
        inkscape:transform-center-y="-5.6232779">
       <g
@@ -679,7 +690,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g4088"
-       transform="matrix(0.90088545,0,0,0.90088545,-66.59203,66.617607)">
+       transform="matrix(0.90088545,0,0,0.90088545,-66.002036,66.292598)">
       <g
          id="g4090"
          transform="matrix(5.3137453e-4,-0.29142808,-0.29142808,-5.3137453e-4,209.48115,169.46964)"
@@ -707,7 +718,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g4270"
-       transform="matrix(0.66665412,-0.58728788,0.58728788,0.66665412,-32.46084,63.30809)">
+       transform="matrix(0.66665412,-0.58728788,0.58728788,0.66665412,-31.870846,62.983081)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -735,7 +746,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g4462"
-       transform="translate(-0.01933978,10.843738)">
+       transform="translate(0.57065475,10.518729)">
       <g
          id="g4464"
          transform="matrix(0.29142857,0,0,-0.29142857,-51,153)"
@@ -767,7 +778,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g4668"
-       transform="translate(-32.439571,69.214542)">
+       transform="translate(-31.849577,68.889533)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -787,7 +798,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g4874"
-       transform="translate(-0.37253978,40.214539)">
+       transform="translate(0.21745475,39.88953)">
       <g
          id="g4876"
          transform="matrix(0.29142857,0,0,-0.29142857,-51,153)"
@@ -807,7 +818,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g5086"
-       transform="translate(-0.37399978,102.05571)">
+       transform="translate(0.21599475,101.7307)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -827,7 +838,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g5304"
-       transform="translate(49.625998,40.293225)">
+       transform="translate(50.215992,39.968216)">
       <g
          id="g5306"
          transform="matrix(0.29142857,0,0,-0.29142857,-51,153)"
@@ -847,7 +858,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g5528"
-       transform="translate(49.627455,102.05571)">
+       transform="translate(50.217449,101.7307)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -867,7 +878,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g5758"
-       transform="matrix(0.8177723,0,0,0.8177723,-33.316492,64.512392)">
+       transform="matrix(0.8177723,0,0,0.8177723,-32.726498,64.187383)">
       <g
          id="g5760"
          transform="matrix(0.29142857,0,0,-0.29142857,-51,153)"
@@ -887,7 +898,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g3141-84"
-       transform="matrix(0.71428571,0,0,0.71428571,14.070675,42.725405)">
+       transform="matrix(0.71428571,0,0,0.71428571,14.660669,42.400396)">
       <g
          transform="translate(12.401055,-7.9155673)"
          id="g3131-8">
@@ -906,7 +917,7 @@
     </g>
     <g
        id="g3141-9"
-       transform="matrix(0.71428571,0,0,0.71428571,57.570675,31.725405)">
+       transform="matrix(0.71428571,0,0,0.71428571,58.160669,31.400396)">
       <g
          transform="translate(12.401055,-7.9155673)"
          id="g3131-1">
@@ -925,7 +936,7 @@
     </g>
     <g
        id="g3141-7"
-       transform="matrix(0.71428571,0,0,0.71428571,82.570675,33.225405)">
+       transform="matrix(0.71428571,0,0,0.71428571,83.160669,32.900396)">
       <g
          transform="translate(12.401055,-7.9155673)"
          id="g3131-3">
@@ -944,7 +955,7 @@
     </g>
     <g
        id="g3141-0"
-       transform="matrix(0.71428571,0,0,0.71428571,54.570675,-0.77459361)">
+       transform="matrix(0.71428571,0,0,0.71428571,55.160669,-1.0996028)">
       <g
          transform="translate(12.401055,-7.9155673)"
          id="g3131-5">
@@ -963,7 +974,7 @@
     </g>
     <g
        id="g3141-8"
-       transform="matrix(0.71428571,0,0,0.71428571,14.070675,15.725405)">
+       transform="matrix(0.71428571,0,0,0.71428571,14.660669,15.400396)">
       <g
          transform="translate(12.401055,-7.9155673)"
          id="g3131-2">
@@ -982,7 +993,7 @@
     </g>
     <g
        id="g3141-9-8"
-       transform="matrix(0.71428571,0,0,0.71428571,54.570675,61.225405)">
+       transform="matrix(0.71428571,0,0,0.71428571,55.160669,60.900396)">
       <g
          transform="translate(12.401055,-7.9155673)"
          id="g3131-1-6">
@@ -1001,7 +1012,7 @@
     </g>
     <g
        id="g3141-7-6"
-       transform="matrix(0.71428571,0,0,0.71428571,32.570675,30.725405)">
+       transform="matrix(0.71428571,0,0,0.71428571,33.160669,30.400396)">
       <g
          transform="translate(12.401055,-7.9155673)"
          id="g3131-3-7">
@@ -1020,7 +1031,7 @@
     </g>
     <g
        id="g3335"
-       transform="matrix(0.82963553,0,0,0.82963553,79.670697,35.157156)">
+       transform="matrix(0.82963553,0,0,0.82963553,80.260691,34.832147)">
       <g
          id="g3337"
          transform="matrix(0.29142857,0,0,-0.29142857,-51,153)"
@@ -1040,7 +1051,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g3655"
-       transform="matrix(0.82963553,0,0,0.82963553,79.670697,117.15716)">
+       transform="matrix(0.82963553,0,0,0.82963553,80.260691,116.83215)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -1060,7 +1071,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g4874-0"
-       transform="matrix(0.86258737,0,0,0.86258737,-3.1412766,34.30744)">
+       transform="matrix(0.86258737,0,0,0.86258737,-2.5512821,33.982431)">
       <g
          id="g4876-1"
          transform="matrix(0.29142857,0,0,-0.29142857,-51,153)"
@@ -1080,7 +1091,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g5528-4"
-       transform="matrix(0.86258737,0,0,0.86258737,-3.1412766,116.17044)">
+       transform="matrix(0.86258737,0,0,0.86258737,-2.5512821,115.84543)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -1100,7 +1111,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g5528-1"
-       transform="matrix(0.6005903,0,0,0.6005903,-34.036084,54.003793)">
+       transform="matrix(0.6005903,0,0,0.6005903,-33.44609,53.678784)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -1120,7 +1131,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g5304-6"
-       transform="matrix(0.6103835,0,0,0.6103835,124.88912,34.867477)">
+       transform="matrix(0.6103835,0,0,0.6103835,125.47912,34.542468)">
       <g
          id="g5306-6"
          transform="matrix(0.29142857,0,0,-0.29142857,-51,153)"

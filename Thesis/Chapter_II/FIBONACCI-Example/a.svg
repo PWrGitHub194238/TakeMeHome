@@ -7,8 +7,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="300px"
-   height="153px"
+   width="310.67001"
+   height="151"
    version="1.1"
    id="svg2"
    inkscape:version="0.48.4 r9939"
@@ -26,13 +26,17 @@
      inkscape:window-height="744"
      id="namedview262"
      showgrid="false"
-     inkscape:zoom="2.8841536"
-     inkscape:cx="138.90489"
-     inkscape:cy="76.5"
+     inkscape:zoom="1.9495729"
+     inkscape:cx="190.73697"
+     inkscape:cy="54.982686"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g6" />
+     inkscape:current-layer="g6"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata264">
     <rdf:RDF>
@@ -41,69 +45,69 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs
      id="defs4" />
   <g
-     transform="translate(0.5,0.5)"
+     transform="translate(-0.5,-0.5)"
      id="g6">
     <ellipse
        cx="31"
        cy="71"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse8"
        d="m 41,71 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522847 4.477153,-10 10,-10 5.522847,0 10,4.477153 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="31"
+       sodipodi:cy="71"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <ellipse
        cx="71"
        cy="31"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse18"
        d="m 81,31 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522847 4.477153,-10 10,-10 5.522847,0 10,4.477153 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="71"
+       sodipodi:cy="31"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <path
-       d="M 38 64 L 59.43 42.57"
-       fill="none"
-       stroke="#000000"
+       d="M 38,64 59.43,42.57"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path28" />
+       id="path28"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 63.14 38.86 L 60.66 46.29 L 59.43 42.57 L 55.71 41.34 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 63.14,38.86 -2.48,7.43 -1.23,-3.72 -3.72,-1.23 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path30" />
+       id="path30"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g32">
+       id="g32"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="47"
          y="45"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect34" />
+         id="rect34"
+         style="fill:#ffffff;stroke:none" />
       <text
-         x="50.96"
-         y="54.54"
+         x="50.959999"
+         y="54.540001"
          id="text36">2</text>
     </g>
     <ellipse
@@ -111,75 +115,69 @@
        cy="111"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse38"
        d="m 80,111 c 0,5.52285 -4.477153,10 -10,10 -5.522847,0 -10,-4.47715 -10,-10 0,-5.52285 4.477153,-10 10,-10 5.522847,0 10,4.47715 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="70"
+       sodipodi:cy="111"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <path
-       d="M 71 41 L 70.23 94.63"
-       fill="none"
-       stroke="#000000"
+       d="M 71,41 70.23,94.63"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path48" />
+       id="path48"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 70.16 99.88 L 66.76 92.83 L 70.23 94.63 L 73.76 92.93 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 70.16,99.88 -3.4,-7.05 3.47,1.8 3.53,-1.7 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path50" />
+       id="path50"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g52">
+       id="g52"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="67"
          y="65"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect54" />
+         id="rect54"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="70.57"
          y="74.5"
          id="text56">3</text>
     </g>
     <path
-       d="M 38 78 L 58.59 99.41"
-       fill="none"
-       stroke="#000000"
+       d="M 38,78 58.59,99.41"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path58" />
+       id="path58"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 62.23 103.19 L 54.85 100.57 L 58.59 99.41 L 59.9 95.72 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 62.23,103.19 -7.38,-2.62 3.74,-1.16 1.31,-3.69 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path60" />
+       id="path60"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g62">
+       id="g62"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="47"
          y="85"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect64" />
+         id="rect64"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="50.5"
          y="94.5"
@@ -190,41 +188,39 @@
        cy="31"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse68"
        d="m 150,31 c 0,5.522847 -4.47715,10 -10,10 -5.52285,0 -10,-4.477153 -10,-10 0,-5.522847 4.47715,-10 10,-10 5.52285,0 10,4.477153 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="140"
+       sodipodi:cy="31"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <path
-       d="M 81 31 L 123.63 31"
-       fill="none"
-       stroke="#000000"
+       d="m 81,31 42.63,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path78" />
+       id="path78"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 128.88 31 L 121.88 34.5 L 123.63 31 L 121.88 27.5 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 128.88,31 -7,3.5 1.75,-3.5 -1.75,-3.5 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path80" />
+       id="path80"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g82">
+       id="g82"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="102"
          y="25"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect84" />
+         id="rect84"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="105.5"
          y="34.5"
@@ -235,280 +231,253 @@
        cy="111"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse88"
        d="m 150,111 c 0,5.52285 -4.47715,10 -10,10 -5.52285,0 -10,-4.47715 -10,-10 0,-5.52285 4.47715,-10 10,-10 5.52285,0 10,4.47715 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="140"
+       sodipodi:cy="111"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <path
-       d="M 140 47.37 L 140 101"
-       fill="none"
-       stroke="#000000"
+       d="M 140,47.37 140,101"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path98" />
+       id="path98"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 140 42.12 L 143.5 49.12 L 140 47.37 L 136.5 49.12 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 140,42.12 3.5,7 -3.5,-1.75 -3.5,1.75 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path100" />
+       id="path100"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g102">
+       id="g102"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="137"
          y="65"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect104" />
+         id="rect104"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="140"
          y="74.5"
          id="text106">2</text>
     </g>
     <path
-       d="M 80 111 L 123.63 111"
-       fill="none"
-       stroke="#000000"
+       d="m 80,111 43.63,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path108" />
+       id="path108"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 128.88 111 L 121.88 114.5 L 123.63 111 L 121.88 107.5 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 128.88,111 -7,3.5 1.75,-3.5 -1.75,-3.5 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path110" />
+       id="path110"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g112">
+       id="g112"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="102"
          y="105"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect114" />
+         id="rect114"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="105"
          y="114.5"
          id="text116">1</text>
     </g>
     <path
-       d="M 78 38 L 128.92 99.11"
-       fill="none"
-       stroke="#000000"
+       d="m 78,38 50.92,61.11"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path118" />
+       id="path118"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 132.28 103.14 L 125.11 100 L 128.92 99.11 L 130.49 95.52 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 132.28,103.14 -7.17,-3.14 3.81,-0.89 1.57,-3.59 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path120" />
+       id="path120"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g122">
+       id="g122"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="102"
          y="65"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect124" />
+         id="rect124"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="105.5"
          y="74.5"
          id="text126">5</text>
     </g>
     <path
-       d="M 51 1 L 61 16 L 51 31 L 41 16 Z"
-       fill="none"
-       stroke="#000000"
+       d="M 51,1 61,16 51,31 41,16 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path128"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 11 31 L 21 46 L 11 61 L 1 46 Z"
-       fill="none"
-       stroke="#000000"
+       d="M 11,31 21,46 11,61 1,46 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path138"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 53 121 L 63 136 L 53 151 L 43 136 Z"
-       fill="none"
-       stroke="#000000"
+       d="M 53,121 63,136 53,151 43,136 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path148"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 159 121 L 169 136 L 159 151 L 149 136 Z"
-       fill="none"
-       stroke="#000000"
+       d="m 159,121 10,15 -10,15 -10,-15 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path158"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 160 1 L 170 16 L 160 31 L 150 16 Z"
-       fill="none"
-       stroke="#000000"
+       d="M 160,1 170,16 160,31 150,16 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path168"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 219 1 L 229 11 L 219 21 L 209 11 Z"
-       fill="none"
-       stroke="#000000"
+       d="M 219,1 229,11 219,21 209,11 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path188"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 246 38 Q 290 31 252.29 25"
-       fill="none"
-       stroke="#999999"
-       stroke-miterlimit="10"
-       stroke-dasharray="3 3"
-       pointer-events="none"
-       id="path198" />
-    <path
-       d="M 247.1 24.18 L 254.57 21.82 L 252.29 25 L 253.47 28.73 Z"
-       fill="none"
-       stroke="#999999"
+       d="m 246,38 q 44,-7 6.29,-13"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path200" />
+       id="path198"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#999999;stroke-miterlimit:10;stroke-dasharray:3, 3" />
     <path
-       d="M 232 24 Q 190 31 225.72 36.95"
-       fill="none"
-       stroke="#999999"
-       stroke-miterlimit="10"
-       stroke-dasharray="3 3"
-       pointer-events="none"
-       id="path202" />
-    <path
-       d="M 230.9 37.82 L 223.42 40.12 L 225.72 36.95 L 224.57 33.21 Z"
-       fill="none"
-       stroke="#999999"
+       d="m 247.1,24.18 7.47,-2.36 -2.28,3.18 1.18,3.73 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path204" />
+       id="path200"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#999999;stroke-miterlimit:10" />
     <path
-       d="M 259 1 L 269 11 L 259 21 L 249 11 Z"
-       fill="none"
-       stroke="#000000"
+       d="m 232,24 q -42,7 -6.28,12.95"
        stroke-miterlimit="10"
-       stroke-dasharray="3 3"
+       pointer-events="none"
+       id="path202"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#999999;stroke-miterlimit:10;stroke-dasharray:3, 3" />
+    <path
+       d="m 230.9,37.82 -7.48,2.3 2.3,-3.17 -1.15,-3.74 z"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path204"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#999999;stroke-miterlimit:10" />
+    <path
+       d="M 259,1 269,11 259,21 249,11 z"
+       stroke-miterlimit="10"
        pointer-events="none"
        id="path206"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10;stroke-dasharray:3, 3"
+       inkscape:connector-curvature="0" />
     <rect
        x="169"
        y="106"
        width="21"
        height="30"
-       fill="none"
-       stroke="none"
        pointer-events="none"
-       id="rect216" />
+       id="rect216"
+       style="fill:none;stroke:none" />
     <rect
        x="200"
        y="111"
        width="20"
        height="20"
-       fill="#ffffff"
-       stroke="#000000"
        pointer-events="none"
        id="rect226"
-       style="fill:none" />
+       style="fill:none;stroke:#000000" />
     <rect
        x="230"
        y="111"
        width="20"
        height="20"
-       fill="#ffffff"
-       stroke="#000000"
        pointer-events="none"
        id="rect228"
-       style="fill:none" />
+       style="fill:none;stroke:#000000" />
     <rect
        x="260"
        y="111"
        width="20"
        height="20"
-       fill="#ffffff"
-       stroke="#000000"
        pointer-events="none"
        id="rect230"
-       style="fill:none" />
+       style="fill:none;stroke:#000000" />
     <rect
        x="204"
        y="131"
        width="12"
        height="20"
-       fill="none"
-       stroke="none"
        pointer-events="none"
-       id="rect232" />
+       id="rect232"
+       style="fill:none;stroke:none" />
     <rect
        x="234"
        y="131"
        width="12"
        height="20"
-       fill="none"
-       stroke="none"
        pointer-events="none"
-       id="rect242" />
+       id="rect242"
+       style="fill:none;stroke:none" />
     <g
-       transform="translate(236,134)"
+       transform="translate(251.33501,134)"
        id="g244" />
     <rect
        x="264"
        y="131"
        width="12"
        height="20"
-       fill="none"
-       stroke="none"
        pointer-events="none"
-       id="rect252" />
+       id="rect252"
+       style="fill:none;stroke:none" />
     <ellipse
        cx="239"
        cy="31"
        rx="10"
        ry="10"
-       fill="#cccccc"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse178"
-       d="m 249,31 c 0,5.522847 -4.47715,10 -10,10 -5.52285,0 -10,-4.477153 -10,-10 0,-5.522847 4.47715,-10 10,-10 5.52285,0 10,4.477153 10,10 z" />
+       d="m 249,31 c 0,5.522847 -4.47715,10 -10,10 -5.52285,0 -10,-4.477153 -10,-10 0,-5.522847 4.47715,-10 10,-10 5.52285,0 10,4.477153 10,10 z"
+       sodipodi:cx="239"
+       sodipodi:cy="31"
+       sodipodi:rx="10"
+       sodipodi:ry="10"
+       style="fill:#cccccc;stroke:#000000" />
     <g
        id="g4074"
        transform="translate(-53.030501,-86.708214)">
@@ -551,7 +520,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g4359"
-       transform="translate(6.9705922,-101.58909)">
+       transform="translate(6.970592,-101.58909)">
       <g
          id="g4361"
          transform="matrix(0.21857143,0,0,-0.21857143,-38.25,225)"
@@ -571,7 +540,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g4511"
-       transform="translate(5.9694993,-21.708214)">
+       transform="translate(5.969499,-21.708214)">
       <g
          word-spacing="normal"
          letter-spacing="normal"
@@ -631,7 +600,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g5003"
-       transform="translate(92.248285,2.1289863)">
+       transform="translate(92.248283,2.1289863)">
       <g
          id="g5005"
          transform="matrix(0.21857143,0,0,-0.21857143,-38.25,225)"
@@ -719,7 +688,7 @@
            style="fill:#000000;stroke-width:0" /></g>    </g>
     <g
        id="g5003-3"
-       transform="translate(93.248285,-117.87101)">
+       transform="translate(93.248283,-117.87101)">
       <g
          id="g5005-03"
          transform="matrix(0.21857143,0,0,-0.21857143,-38.25,225)"

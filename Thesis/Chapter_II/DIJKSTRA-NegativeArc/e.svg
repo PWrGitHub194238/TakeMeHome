@@ -7,8 +7,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="183px"
-   height="130px"
+   width="181"
+   height="123.79"
    version="1.1"
    id="svg3613"
    inkscape:version="0.48.4 r9939"
@@ -26,13 +26,17 @@
      inkscape:window-height="744"
      id="namedview3771"
      showgrid="false"
-     inkscape:zoom="2.4068873"
-     inkscape:cx="8.9281522"
-     inkscape:cy="81.618975"
+     inkscape:zoom="2.9017326"
+     inkscape:cx="33.497888"
+     inkscape:cy="64.834107"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g3617" />
+     inkscape:current-layer="g3617"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata3773">
     <rdf:RDF>
@@ -48,154 +52,147 @@
      id="defs3615" />
   <g
      id="g3617"
-     transform="translate(0.5,0.5)">
+     transform="translate(-0.5,-4.7100014)">
     <path
        id="path3639"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 78 55 L 101.11 84.96"
-       stroke="#000000"
-       fill="none" />
+       d="m 78,55 23.11,29.96"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
        id="path3641"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 104.32 89.11 L 97.27 85.71 L 101.11 84.96 L 102.81 81.43 Z"
-       stroke="#000000"
-       fill="#000000" />
+       d="m 104.32,89.11 -7.05,-3.4 3.84,-0.75 1.7,-3.53 z"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
        id="path3661"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 38 91 L 60.27 60.16"
-       stroke="#000000"
-       fill="none" />
+       d="M 38,91 60.27,60.16"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
        id="path3663"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 63.35 55.91 L 62.08 63.63 L 60.27 60.16 L 56.41 59.53 Z"
-       stroke="#000000"
-       fill="#000000" />
+       d="m 63.35,55.91 -1.27,7.72 -1.81,-3.47 -3.86,-0.63 z"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       style="fill:none"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
        id="path3673"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 11 98 L 21 113 L 11 128 L 1 113 Z"
-       stroke="#000000"
-       fill="none" />
+       d="M 11,98 21,113 11,128 1,113 z"
+       inkscape:connector-curvature="0" />
     <path
-       style="fill:none"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
        id="path3683"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 91 18 L 101 33 L 91 48 L 81 33 Z"
-       stroke="#000000"
-       fill="none" />
+       d="M 91,18 101,33 91,48 81,33 z"
+       inkscape:connector-curvature="0" />
     <path
-       style="fill:none"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
        id="path3693"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 131 98 L 141 113 L 131 128 L 121 113 Z"
-       stroke="#000000"
-       fill="none" />
+       d="m 131,98 10,15 -10,15 -10,-15 z"
+       inkscape:connector-curvature="0" />
     <path
        id="path3713"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 118 91 L 141.11 61.04"
-       stroke="#000000"
-       fill="none" />
+       d="M 118,91 141.11,61.04"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
        id="path3715"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 144.32 56.89 L 142.81 64.57 L 141.11 61.04 L 137.27 60.29 Z"
-       stroke="#000000"
-       fill="#000000" />
+       d="m 144.32,56.89 -1.51,7.68 -1.7,-3.53 -3.84,-0.75 z"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
        id="path3725"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 41 98 L 94.63 98"
-       stroke="#000000"
-       fill="none" />
+       d="m 41,98 53.63,0"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
        id="path3727"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 99.88 98 L 92.88 101.5 L 94.63 98 L 92.88 94.5 Z"
-       stroke="#000000"
-       fill="#000000" />
+       d="m 99.88,98 -7,3.5 1.75,-3.5 -1.75,-3.5 z"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       style="fill:none"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
        id="path3737"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 171 48 L 181 63 L 171 78 L 161 63 Z"
-       stroke="#000000"
-       fill="none" />
+       d="M 171,48 181,63 171,78 161,63 z"
+       inkscape:connector-curvature="0" />
     <path
        id="path3747"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 24 91 Q 24 8 87.5 8 Q 151 8 151 31.63"
-       stroke="#000000"
-       fill="none" />
+       d="M 24,91 Q 24,8 87.5,8 151,8 151,31.63"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
        id="path3749"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 151 36.88 L 147.5 29.88 L 151 31.63 L 154.5 29.88 Z"
-       stroke="#000000"
-       fill="#000000" />
+       d="m 151,36.88 -3.5,-7 3.5,1.75 3.5,-1.75 z"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
        id="path3759"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 144 41 Q 144 9 87.5 9 Q 31 9 31 81.63"
-       stroke-dasharray="3 3"
-       stroke="#cccccc"
-       fill="none" />
+       d="M 144,41 Q 144,9 87.5,9 31,9 31,81.63"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
     <path
        id="path3761"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 31 86.88 L 27.5 79.88 L 31 81.63 L 34.5 79.88 Z"
-       stroke="#cccccc"
-       fill="none" />
+       d="m 31,86.88 -3.5,-7 3.5,1.75 3.5,-1.75 z"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
     <path
        id="path3763"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 71 58 L 44.82 92.91"
-       stroke-dasharray="3 3"
-       stroke="#cccccc"
-       fill="none" />
+       d="M 71,58 44.82,92.91"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
     <path
        id="path3765"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 41.67 97.11 L 43.07 89.41 L 44.82 92.91 L 48.67 93.61 Z"
-       stroke="#cccccc"
-       fill="none" />
+       d="m 41.67,97.11 1.4,-7.7 1.75,3.5 3.85,0.7 z"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
     <path
        id="path3767"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 111 88 L 84.82 53.09"
-       stroke-dasharray="3 3"
-       stroke="#cccccc"
-       fill="none" />
+       d="M 111,88 84.82,53.09"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
     <path
        id="path3769"
        pointer-events="none"
        stroke-miterlimit="10"
-       d="M 81.67 48.89 L 88.67 52.39 L 84.82 53.09 L 83.07 56.59 Z"
-       stroke="#cccccc"
-       fill="none" />
+       d="m 81.67,48.89 7,3.5 -3.85,0.7 -1.75,3.5 z"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
     <ellipse
        d="m 81,48 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522847 4.477153,-10 10,-10 5.522847,0 10,4.477153 10,10 z"
        id="ellipse3619"
@@ -204,10 +201,13 @@
        rx="10"
        cy="48"
        cx="71"
-       stroke="#000000"
-       fill="#999999" />
+       sodipodi:cx="71"
+       sodipodi:cy="48"
+       sodipodi:rx="10"
+       sodipodi:ry="10"
+       style="fill:#999999;stroke:#000000" />
     <ellipse
-       style="fill:none"
+       style="fill:none;stroke:#000000"
        d="m 121,98 c 0,5.52285 -4.47715,10 -10,10 -5.52285,0 -10,-4.47715 -10,-10 0,-5.522847 4.47715,-10 10,-10 5.52285,0 10,4.477153 10,10 z"
        id="ellipse3629"
        pointer-events="none"
@@ -215,10 +215,12 @@
        rx="10"
        cy="98"
        cx="111"
-       stroke="#000000"
-       fill="transparent" />
+       sodipodi:cx="111"
+       sodipodi:cy="98"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <ellipse
-       style="fill:none"
+       style="fill:none;stroke:#000000"
        d="m 41,98 c 0,5.52285 -4.477153,10 -10,10 -5.522847,0 -10,-4.47715 -10,-10 0,-5.522847 4.477153,-10 10,-10 5.522847,0 10,4.477153 10,10 z"
        id="ellipse3651"
        pointer-events="none"
@@ -226,10 +228,12 @@
        rx="10"
        cy="98"
        cx="31"
-       stroke="#000000"
-       fill="transparent" />
+       sodipodi:cx="31"
+       sodipodi:cy="98"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <ellipse
-       style="fill:none"
+       style="fill:none;stroke:#000000"
        d="m 161,48 c 0,5.522847 -4.47715,10 -10,10 -5.52285,0 -10,-4.477153 -10,-10 0,-5.522847 4.47715,-10 10,-10 5.52285,0 10,4.477153 10,10 z"
        id="ellipse3703"
        pointer-events="none"
@@ -237,8 +241,10 @@
        rx="10"
        cy="48"
        cx="151"
-       stroke="#000000"
-       fill="transparent" />
+       sodipodi:cx="151"
+       sodipodi:cy="48"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <rect
        y="64.729225"
        x="79.825645"

@@ -1,16 +1,34 @@
 \chapter{Biblioteka: Take Me Home}
+\label{app:takeMeHome}
+\thispagestyle{appendixStyle}
 
-Wszystkie algorytmy, które wcześniej opisywaliśmy, zostały zaimplementowane w języku $C$ (standard $C99$) i umieszczone w bibliotece, o przewrotnie nazwanej \textit{Take Me Home} (jako, że wszystkie algorytmy miały za zadanie wyszukiwanie najkrótszych ścieżek). W niniejszym rozdziale omówimy strukturę wykorzystanej biblioteki, skupiając się na jej kluczowych własnościach, operacjach, które za jej pomocą wykonamy, udostępnionemu użytkownikowi interfejsowi oraz prześledzimy przykładową sesję działania prostego programu, wykorzystującego tą bibliotekę.
 
-\section{Wymagania i instalacja}
 
-Biblioteka w całości została napisana w języku programowania \textsc{C}, zgodnie z jego wszystkimi standardami, ustalonymi przez \textit{\textsc{ISO 9899:1999}}, na komputerze pracującym pod kontrolą systemu \textsc{Ubuntu 14.04.1 LTS} dla architektury \textsc{64}-bitowej. W związku z tym wszystkie skrypty, które będą opisywane w poniższych podrozdziałach, oraz przykłady programów, będą specyficzne dla tego systemu operacyjnego. Co za tym idzie, aby wykorzystać bibliotekę na komputerze pod kontrolą innego systemu operacyjnego, niezbędne może okazać się przystosowanie biblioteki pod dany system, dlatego też wraz ze skompilowaną wersją biblioteki są też udostępnione jej wszystkie kody źródłowe wraz z przykładowym programem, mającym na celu zweryfikować poprawność jej działania. W związku z tym poniżej został przedstawiony cały proces kompilacji biblioteki aż do momentu uruchomienia testowego programu, który ją wykorzystuje.
+
+
+Wszystkie algorytmy, które wcześniej opisywaliśmy, zostały zaimplementowane w języku $C$ (standard $C99$) i~umieszczone w bibliotece o~przewrotnie nazwanej \textit{Take Me Home} (jako, że wszystkie algorytmy miały za zadanie wyszukiwanie najkrótszych ścieżek).
+W~niniejszym rozdziale omówimy strukturę wykorzystanej biblioteki, skupiając się na jej kluczowych własnościach i~operacjach które za jej pomocą wykonamy.
+Przyjrzymy się udostępnionemu użytkownikowi interfejsie oraz prześledzimy przykładową sesję działania prostego programu wykorzystującego tą bibliotekę.
+
+
+
+
+\section{Wymagania i~instalacja}
+
+
+
+
+Biblioteka w całości została napisana w języku programowania \textsc{C} (zgodnie z~jego wszystkimi standardami ustalonymi przez \textit{\textsc{ISO 9899:1999}}) na komputerze pracującym pod kontrolą systemu \textsc{Ubuntu 14.04.1 LTS} dla architektury \textsc{64}-bitowej.
+W~związku z~tym wszystkie skrypty, które będą opisywane w poniższych podrozdziałach, oraz przykłady wywołań owych programów będą specyficzne dla tego systemu operacyjnego.
+Co za tym idzie, aby wykorzystać bibliotekę na komputerze pod kontrolą innego systemu operacyjnego, niezbędne może okazać się przystosowanie biblioteki pod dany system, dlatego też wraz ze skompilowaną wersją biblioteki są też udostępnione jej wszystkie kody źródłowe wraz z~przykładowym programem mającym na celu zweryfikować poprawność jej działania.
+W~związku z~tym, poniżej został przedstawiony cały proces kompilacji biblioteki aż do momentu uruchomienia testowego programu, który ją wykorzystuje.
 
 Struktura katalogów wszystkich plików, wchodzących w skład biblioteki wygląda następująco:
 
 \dirtree{%
 .1 /.
 .2 \textsc{\textcolor{lgray}{Presentations}}.
+.2 \textsc{\textcolor{lgray}{References}}.
 .2 \textsc{Scripts}.
 .2 \textsc{\textcolor{lgray}{Thesis}}.
 .2 \textsc{TMH\_Examples}.
@@ -20,7 +38,9 @@ Struktura katalogów wszystkich plików, wchodzących w skład biblioteki wyglą
 .2 README.md. 
 }
 
-Katalogi, które zostały wyszarzone nie interesują nas z punktu widzenia implementacji biblioteki. W pozostałych katalogach znajdują się odpowiednio kody źródłowe, odpowiadające za dane części funkcjonalności, które oddają ich nazwy. Aby skompilować oba projektu naraz należy wykorzystać do tego skrypt, znajdujący się w odpowiednim katalogu: \textsf{/Scripts/compileProject.bash}, uruchamiając go poleceniem, wpisanym w terminalu (\texttt{CRTL + ALT + T}):
+Katalogi, które zostały wyszarzone nie interesują nas z~punktu widzenia implementacji biblioteki.
+W~pozostałych katalogach znajdują się odpowiednio kody źródłowe odpowiadające za dane części funkcjonalności, które oddają ich nazwy.
+Aby skompilować oba projekty naraz, należy wykorzystać skrypt znajdujący się w odpowiednim katalogu: \textsf{/Scripts/compileProject.bash}, uruchamiając go poleceniem wpisanym w terminalu (\texttt{CRTL + ALT + T}):
 
 \begin{lstlisting}[language=bash]
 pcname@user:/Scripts$ bash compileProject.bash
@@ -37,16 +57,18 @@ Enter name for generated program or leave empty (run):
 \end{lstlisting}
 \normalsize
 
-Nim proces kompilacji się rozpocznie, zostaniemy poproszeniu o podanie dodatkowych informacji. W przypadku pozostawienia pustych linii zostaną ustawione domyślne wartości, podane w nawiasach (zgodne z oryginalną strukturą katalogów). Parametrami tymi kolejną są:
+Nim proces kompilacji się rozpocznie, zostaniemy poproszeniu o~podanie dodatkowych informacji.
+W~przypadku pozostawienia pustych linii zostaną ustawione domyślne wartości podane w~nawiasach (zgodne z~oryginalną strukturą katalogów).
+Parametrami tymi kolejną są:
 
 \begin{itemize}
-\item pełna ścieżka katalogu, zawierającego projekt biblioteki (domyślnie \textsf{TMH\_Library/}),
-\item pełna ścieżka katalogu, zawierającego projekt przykładowego programu testowego, wykorzystującego bibliotekę (domyślnie \textsf{TMH\_Examples/}),
-\item pełna ścieżka katalogu, do którego zostanie skopiowany kod w postaci wygenerowanej biblioteki \textsf{libTMH\_Library.so} (domyślnie dla systemów \textsc{Linux} jest to ścieżka, gdzie przechowywane są wszystkie biblioteki użytkowników \textsf{usr/lib}),
-\item nazwa programu, będącego efektem końcowym kompilacji projektu \textsf{TMH\_Examples}.
+	\item pełna ścieżka katalogu zawierającego projekt biblioteki (domyślnie \textsf{TMH\_Library/}),
+	\item pełna ścieżka katalogu zawierającego projekt przykładowego programu testowego wykorzystującego bibliotekę (domyślnie \textsf{TMH\_Examples/}),
+	\item pełna ścieżka katalogu, do którego zostanie skopiowany kod w~postaci wygenerowanej biblioteki \textsf{libTMH\_Library.so} (domyślnie dla systemów \textsc{Linux} jest to ścieżka, gdzie przechowywane są wszystkie biblioteki użytkowników \textsf{usr/lib}),
+	\item nazwa programu będącego efektem końcowym kompilacji projektu \textsf{TMH\_Examples}.
 \end{itemize}
 
-W wyniku poprawnej kompilacji powinniśmy ujrzeć:
+W~wyniku poprawnej kompilacji powinniśmy ujrzeć:
 
 \small
 \begin{lstlisting}[language=bash]
@@ -59,7 +81,9 @@ Finished building target: TMH_Examples
 \end{lstlisting}
 \normalsize
 
-Następnie program będzie próbował automatycznie przenieść wygenerowany plik \textsf{libTMH\_Library.so} do podanej wcześniej lokacji oraz poinformować system o pojawieniu się takiej biblioteki (poprzez wywołanie polecenia \textsf{ldconfig}). Te kroki są zależne od systemu operacyjnego, więc nie zostaną one tutaj szczegółowo opisane. Na samym końcu skrypt poinformuje nas o wyniku jego działań oraz zasugeruje przeprowadzenie testu, mającego wykazać poprawność funkcjonowania programu testowego (a, co za tym idzie, wszystkich algorytmów w bibliotece) pod kątem pamięciowym.
+Następnie program będzie próbował automatycznie przenieść wygenerowany plik \textsf{libTMH\_Library.so} do podanej wcześniej lokacji oraz poinformować system o~pojawieniu się takiej biblioteki (poprzez wywołanie polecenia \textsf{ldconfig}).
+Te kroki są zależne od systemu operacyjnego, więc nie zostaną one tutaj szczegółowo opisane.
+Na samym końcu skrypt poinformuje nas o~wyniku jego działań oraz zasugeruje przeprowadzenie testu mającego wykazać poprawność funkcjonowania programu testowego (a, co za tym idzie, wszystkich algorytmów w~bibliotece) pod kątem pamięciowym.
 
 \small
 \begin{lstlisting}[language=bash]
@@ -70,12 +94,20 @@ to scan for mamory leaks.
 \end{lstlisting}
 \normalsize
 
+
+
 \subsection{9th DIMACS Implementation Challenge - Shortest Paths}
 
-Aby zapewnić poprawność działania aplikacji, należy bezwzględnie stosować się do pewnych założeń, dotyczących formatu plików wejściowych dla algorytmów, zaimplementowanych w bibliotece \textsc{TMH}. Jednocześnie, aby nie wprowadzać nowego standardu kodowania plików posłużono się jednym z już istniejących standardów, narzuconych podczas dziewiątej edycji programu \textsc{DIMACS Implementation Challenge}, która skupiała się na problemie wyszukiwania najkrótszych ścieżek. Oto przykłady plików wejściowych dla algorytmów:
+
+
+Aby zapewnić poprawność działania aplikacji, należy bezwzględnie stosować się do pewnych założeń dotyczących formatu plików wejściowych dla algorytmów zaimplementowanych w~bibliotece \textsc{TMH}.
+Jednocześnie, aby nie wprowadzać nowego standardu kodowania plików, posłużono się jednym z~już istniejących standardów narzuconych podczas dziewiątej edycji programu \textsc{DIMACS Implementation Challenge}, która skupiała się na problemie wyszukiwania najkrótszych ścieżek.
+Oto przykłady plików wejściowych dla algorytmów:
+
 
 \subsubsection{Lista źródeł}
 \label{sub:fileWithSourceList}
+
 
 \small
 \begin{lstlisting}[language=bash]
@@ -93,11 +125,20 @@ s 5
 \end{lstlisting}
 \normalsize
 
-Powyższy, przykładowy, pomocniczy (ang. \textit{auxiliary}) plik definiuje problem najkrótszych ścieżek (ang. \textit{sp- Shortest Paths}) z trzema, pojedynczymi źródłami (ang. \textit{ss - Single Source}). Definicje takiego problemu w przyjętym formatowaniu rozpoczynamy w osobnej linii, na której początku znajduje się litera ,,p''. Podanej w tej linijce liczbie musi odpowiadać liczba linii, rozpoczętych symbolem ,,s'', definiujących numer węzła, który ma być źródłem. Dla każdej z tych linii wywołany zostanie osobna procedura, wyliczająca najkrótsze ścieżki od podanego źródła do wszystkich pozostałych. W liniach, które rozpoczynają się od znaku ,,c'' znajdują się komentarze.
+Powyższy, przykładowy, pomocniczy (ang. \textit{auxiliary}) plik definiuje problem najkrótszych ścieżek (ang. \textit{sp- Shortest Paths}) z~trzema pojedynczymi źródłami (ang. \textit{ss~--- Single Source}).
+Definicje takiego problemu w~przyjętym formatowaniu rozpoczynamy w~osobnej linii, na początku której znajduje się litera ,,p''.
+Podanej w~tej linijce liczbie musi odpowiadać liczba linii rozpoczętych symbolem ,,s'' definiujących numer węzła, który ma być źródłem.
+Dla każdej z~tych linii wywołana zostanie osobna procedura, wyliczająca najkrótsze ścieżki od podanego źródła do wszystkich pozostałych.
+W~liniach, które rozpoczynają się od znaku ,,c'', znajdują się komentarze.
 
+\vspace{1em} %Błąd przetwarzania. Brak odstępu dla sekcji. Wymuszenie odstępu.
 \subsubsection{Definicja grafu}
 
-Na poniżej przedstawionym przykładzie znajdują się definicje wszystkich węzłów, oraz krawędzi, należących do grafu, który opisuje poniższy plik. Analogicznie do poprzedniego przypadku, linie, które rozpoczynają się od litery ,,c'', są liniami komentarza, zaś ta, na której początku jest znak ,,p'', opisuje problem. W tym przypadku dwie liczby, które znajdują się na jej końcu, oznaczają liczbę węzłów $\left| V \right|$ oraz krawędzi $\left| E \right|$ w grafie $G = \left( V, E \right)$. Wiersze, zaczynające się literą ,,a'' zawierają pojedynczą definicję krawędzi, na którą składają się trzy liczby, oznaczające kolejno: identyfikator węzła, z którego wychodzi krawędź, numer wierzchołka na drugim końcu krawędzi oraz jej koszt.
+
+Na poniżej przedstawionym przykładzie znajdują się definicje wszystkich węzłów oraz krawędzi należących do grafu opisującego poniższy plik.
+Analogicznie do poprzedniego przypadku, linie które rozpoczynają się od litery ,,c'', są liniami komentarza, zaś ta, na której początku jest znak ,,p'', opisuje problem.
+W~tym przypadku dwie liczby, które znajdują się na jej końcu, oznaczają liczbę węzłóW~$\left| V \right|$ oraz krawędzi $\left| E \right|$ w~grafie $G = \left( V, E \right)$.
+Wiersze zaczynające się literą ,,a'', zawierają pojedynczą definicję krawędzi, na którą składają się trzy liczby, oznaczające kolejno: identyfikator węzła z~którego wychodzi krawędź, numer wierzchołka na drugim końcu krawędzi oraz jej koszt.
 
 \small
 \begin{lstlisting}[language=bash]
@@ -123,9 +164,14 @@ a 5 6 20
 \end{lstlisting}
 \normalsize
 
+
+
 \subsection{Pomocnicze skrypty}
 
-Do biblioteki \textsc{TMH} dołączony został szereg skryptów, które mają za zadanie ułatwienie korzystania z niej, przygotowanie danych wejściowych oraz interpretację otrzymanych wyników. Są to między innymi skrypty:
+
+
+Do biblioteki \textsc{TMH} dołączony został szereg skryptów, które mają za zadanie ułatwienie korzystania z~niej, przygotowanie danych wejściowych oraz interpretację otrzymanych wyników.
+Są to między innymi skrypty:
 
 \dirtree{%
 .1 /.
@@ -135,7 +181,7 @@ Do biblioteki \textsc{TMH} dołączony został szereg skryptów, które mają za
 .2 \textsc{Scripts}.
 .3 compileProject.bash \ldots{} 
 	\begin{minipage}[t]{5cm}
-	Jak omawialiśmy wcześniej - służy do kompilacji całego projektu{.}
+	Jak omawialiśmy wcześniej~--- służy do kompilacji całego projektu{.}
 	\end{minipage}.
 .3 generatePlot.bash \ldots{} 
 	\begin{minipage}[t]{5cm}
@@ -143,7 +189,7 @@ Do biblioteki \textsc{TMH} dołączony został szereg skryptów, które mają za
 	\end{minipage}.
 .3 makeGraphViz.bash \ldots{} 
 	\begin{minipage}[t]{5cm}
-	Generuje wizualizację grafu, zdefiniowanego w pliku zgodnym z opisanym standardem{.}
+	Generuje wizualizację grafu zdefiniowanego w~pliku zgodnym z~opisanym standardem{.}
 	\end{minipage}.
 }
 \newpage
@@ -153,19 +199,20 @@ Do biblioteki \textsc{TMH} dołączony został szereg skryptów, które mają za
 .2 \textsc{Scripts}.
 .3 randDistance.pl \ldots{} 
 	\begin{minipage}[t]{5cm}
-	Pozwala na szybką modyfikację wszystkich kosztów ścieżek w pliku, definiującym graf{.}
+	Pozwala na szybką modyfikację wszystkich kosztów ścieżek w~pliku, definiującym graf{.}
 	\end{minipage}.	
 .2 \textsc{TMH\_GraphHelper}\ldots{} 
 	\begin{minipage}[t]{5cm}
-	Pomocniczy projekt, napisany w języku \textsc{Java}, do generowania danych wejściowych{.}
+	Pomocniczy projekt do generowania danych wejściowych (napisany w~języku \textsc{Java}){.}
 	\end{minipage}.	
 }
 
-Przykładowe użycie każdego z nich zaprezentowano poniżej (jeśli nie skrypt do działania nie wymaga parametrów to nie został on przedstawiony):
+Przykładowe użycie każdego z~nich zaprezentowano poniżej (jeśli do działania skrypt nie wymaga parametrów, to nie zostało ono przedstawione).
 
 \subsubsection{generatePlot.bash}
 
-Skrypt, jak zostało to już wcześniej powiedziane, służy do generowania wykresów funkcji na podstawie danych, otrzymanych w wyniku działania programu \textsc{TMH\_Examples}. na wejście skrypt przyjmuje szereg parametrów, które są następnie przekazywane do programu, odpowiedzialnego za właściwe rysowanie wykresów podanych funkcji (\textsc{Octave}.
+Skrypt, jak zostało to już wcześniej powiedziane, służy do generowania wykresów funkcji na podstawie danych otrzymanych w~wyniku działania programu \textsc{TMH\_Examples}.
+Na wejście skrypt przyjmuje szereg parametrów, które są następnie przekazywane do programu, odpowiedzialnego za właściwe rysowanie wykresów podanych funkcji (\textsc{Octave}).
 
 \begin{lstlisting}[language=bash]
 pcname@user:/Scripts$ bash generatePlot.bash 
@@ -175,7 +222,10 @@ pcname@user:/Scripts$ bash generatePlot.bash
 	...
 \end{lstlisting}
 
-Skrypt może przyjąć dowolną liczbę parametrów pod warunkiem, że będzie to wielokrotność liczby $3$. Każdy trójelementowy zbiór parametrów zostanie odzwierciedlony na końcowym wykresie. Dodatkowo, po wywołaniu skryptu, poprosi on o podanie dodatkowych parametrów, opisujących generowany wykres oraz o miejsce, w którym znajdują się podane pliki z danymi. Tak samo jak dla skryptu \textsc{compileProject.bash}, w przypadku nie podania któregoś z żądanych, zostanie przyjęta jego wartość domyślna, podana w nawiasie dla każdego z nich osobno:
+Skrypt może przyjąć dowolną liczbę parametrów pod warunkiem, że będzie to wielokrotność liczby $3$.
+Każdy trójelementowy zbiór parametrów zostanie odzwierciedlony na końcowym wykresie.
+Dodatkowo, po wywołaniu skryptu, poprosi on o~podanie dodatkowych parametrów opisujących generowany wykres oraz o~miejsce, w~którym znajdują się podane pliki z~danymi.
+Tak samo jak dla skryptu \textsc{compileProject.bash}, w~przypadku nie podania któregoś z~żądanych parametrów, zostanie przyjęta jego wartość domyślna podana w~nawiasie dla każdego z~nich osobno.
 
 \small
 \begin{lstlisting}[language=bash]
@@ -200,14 +250,14 @@ Do you want to create this plot? (y/n):
 \end{lstlisting}
 \normalsize
 
-Skrypt odpowiednio prosi o wskazanie:
+Skrypt odpowiednio prosi o~wskazanie:
 
 \begin{itemize}
-\item miejsca, gdzie znajduje się, wywołana w trakcie działania skryptu, funkcja programu \textsc{Octave},
-\item katalogu, w którym znajdują się, podane w charakterze parametrów wejściowych skryptu, pliki z danymi,
-\item ścieżki do katalogu, do którego zostanie zapisany wygenerowany wykres,
-\item charakterystycznych dla wykresu wartości takich jak: tytuły osi X i Y oraz samego wykresu,
-\item nazwy oraz rozszerzenia pliku wyjściowego
+	\item miejsca, gdzie znajduje się wywołana w~trakcie działania skryptu funkcja programu \textsc{Octave},
+	\item katalogu w~którym znajdują się podane w~charakterze parametrów wejściowych skryptu pliki z~danymi,
+	\item ścieżki katalogu, do którego zostanie zapisany wygenerowany wykres,
+	\item charakterystycznych dla wykresu wartości takich jak: tytuły osi \textsc{X} i~\textsc{Y} oraz samego wykresu,
+	\item nazwy oraz rozszerzenia pliku wyjściowego.
 \end{itemize}
 
 Przykładowe wywołanie skryptu:
@@ -217,32 +267,82 @@ pcname@user:/Scripts$ bash generatePlot.bash
 	R_USATest_DKX b- DKX 
 	R_USATest_DKA r-- DKA
 \end{lstlisting}
-
-wygeneruje wykres, na którym znajdą się dwie funkcje, dla których dane zostaną odpowiednio pobrane z plików \textsc{R\_USATest\_DKX} oraz \textsc{R\_USATest\_DKA} (ze wskazanego wcześniej katalogu). Funkcje te będą narysowane zgodnie ze zdefiniowanym stylem linii dla każdej z nich (argumenty ,,\textsc{b-}'' oraz ,,\textsc{r--}''\footnote{Więcej o dopuszczalnych formatach można przeczytać w dokumentacji programu \textsc{Octave} w części poświęconej rysowaniu wykresów funkcji.} oraz posiadały odpowiednio przypisane etykiety (kolejno ,,\textsc{DKX}'' i ,,\textsc{DKA}''). Format plików z danymi wymaga, by były to proste pliki tekstowe, zawierające pary wartości, wypisane w osobnych kolumnach.
+wygeneruje wykres, na którym znajdą się dwie funkcje, dla których dane zostaną odpowiednio pobrane z~plików \textsc{R\_USATest\_DKX} oraz \textsc{R\_USATest\_DKA} (ze wskazanego wcześniej katalogu).
+Funkcje te będą narysowane zgodnie ze zdefiniowanym stylem linii dla każdej z~nich (argumenty ,,\textsc{b-}'' oraz ,,\textsc{r--}''\footnote{
+	Więcej o~dopuszczalnych formatach można przeczytać w~dokumentacji programu \textsc{Octave} w~części poświęconej rysowaniu wykresów funkcji.
+} oraz będą posiadały odpowiednio przypisane etykiety (kolejno ,,\textsc{DKX}'' i~,,\textsc{DKA}'').
+Format plików z~danymi wymaga, by były to proste pliki tekstowe zawierające pary wartości wypisane w~osobnych kolumnach.
 
 \begin{figure}[!htbp]
-	\centering
-	\includegraphics[width=0.9\textwidth]{Appendix_I/GENERATE-PLOT-bash/a_psfrag.pdf}
-	\caption{Wygenerowany wykres dwóch funkcji dla przykładowego wywołania skryptu \textsc{generatePlot.bash}.}
+	\null\hfill
+	\includegraphics[width=0.8\textwidth]{Appendix_I/GENERATE-PLOT-bash/a_psfrag.pdf}
+	\hfill\null
+	\caption{
+		Wygenerowany wykres dwóch funkcji dla przykładowego wywołania skryptu \textsc{generatePlot.bash}.
+	}
 \end{figure}
+
 
 \subsubsection{makeGraphViz.bash}
 
-Skrypt generuje wizualizacje grafu podanego mu na wejściu, wykorzystując do tego podprogram \textsc{GraphViz}, przekształcając dane w przyjętym formacie na te, odpowiadające wizualnej reprezentacji grafu, po czym przekazując je do wspomnianej aplikacji. Przykładowe wywołanie:
+
+Skrypt generuje wizualizacje grafu podanego mu na wejściu, wykorzystując do tego podprogram \textsc{GraphViz}.
+Po podaniu mu jako argumentu pliku z~danymi, program przekształca dane w~przyjętym formacie na te odpowiadające wizualnej reprezentacji grafu, po czym przekazuje je do wspomnianej aplikacji.
+Ta zaś w~odpowiedzi generuje plik graficzny o~zadanym formacie.
+Przykładowe wywołanie:
 
 \begin{lstlisting}[language=bash]
 pcname@user:/Scripts$ bash makeGraphViz.bash testTMH.gr testTMH eps
 \end{lstlisting}
+wygeneruje kod pośredni oraz rysunek w interesującym nas formacie o zadanej nazwie (zob. Rysunek~\ref{fig:graphViz}).
+
+\begin{figure}[!htbp]
+	\null\hfill
+	\begin{subfigure}[b]{0.49\textwidth}
+		\footnotesize
+		\begin{lstlisting}[language=bash]
+digraph G {
+	rankdir=LR;
+	node [shape = circle];
+	1 -> 2 [ label = "2"];
+	1 -> 3 [ label = "6"];
+	2 -> 3 [ label = "3"];
+	2 -> 4 [ label = "4"];
+	2 -> 5 [ label = "5"];
+	3 -> 5 [ label = "1"];
+	5 -> 4 [ label = "2"];
+}
+		\end{lstlisting}
+		\caption{}
+		\label{fig:graphViz:a}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.49\textwidth}
+		\includegraphics[width=\textwidth]{Appendix_I/GRAPH-VIZ-Example/a.pdf}
+		\vspace{1em}
+		\caption{}
+		\label{fig:graphViz:b}
+	\end{subfigure}
+	\hfill\null
+	\caption{
+		Wygenerowana ilustracja grafu przez skrypt \textsc{makeGraphViz.bash}.
+		\textbf{(a)}~Kod pośredni pomiędzy danymi wejściowymi w standardowym formacie \textsc{DIMACS Implementation Challenge} a finalnym rysunkiem. Kod pośredni jest zapisany w języku \textsc{DOT}.
+		\textbf{(b)}~Rysunek grafu wygenerowany przez program \textsc{GraphViz}.
+	}
+	\label{fig:graphViz}
+\end{figure}
 
 \subsubsection{randDistance.pl}
 
-Przy pomocy tego skryptu jest możliwa szybka zmiana długości ścieżek w grafie bez ingerowania w jego strukturę. Program na wejściu oczekuje $4$ parametrów, gdzie kolejno nimi są:
+
+Przy pomocy tego skryptu jest możliwa szybka zmiana długości ścieżek w~grafie bez ingerowania w~jego strukturę.
+Program na wejściu oczekuje $4$ parametrów, gdzie kolejno nimi są:
 
 \begin{itemize}
-\item minimalna waga, jaką po wykonaniu skryptu będą miały wszystkie krawędzie w zadanym grafie,
-\item największa możliwa waga dla krawędzi (obie wartości muszą być liczbami naturalnymi),
-\item plik wejściowy, definiujący graf (w przyjętym na początku formacie),
-\item nazwa pliku wyjściowego.
+	\item minimalna waga, jaką po wykonaniu skryptu mogą mieć krawędzie w~zadanym grafie,
+	\item największa możliwa waga dla krawędzi (obie wartości muszą być liczbami naturalnymi),
+	\item plik wejściowy, definiujący graf (w przyjętym na początku formacie),
+	\item nazwa pliku wyjściowego.
 \end{itemize}
 
 Przykładowe wywołanie skryptu:
@@ -251,9 +351,17 @@ Przykładowe wywołanie skryptu:
 pcname@user:/Scripts$ perl randDistance.pl 1 2 testTMH.gr out.gr
 \end{lstlisting}
 
+
 \subsubsection{TMH\_GraphHelper}
 
-Jest to, poza \textsc{TMH\_Examples} i \textsc{TMH\_Library}, trzeci projekt w obrębie całej biblioteki, mający na celu generowanie poprawnych plików wejściowych dla wszystkich, wcześniej wymienionych, skryptów oraz samej biblioteki. Program został napisany w języku \textsc{Java} i oferuje możliwość wygenerowania prostych, skierowanych grafów bez cykli - tak zwanych $DAG$'ów (ang. \textit{Directed acyclic graph}) - z określoną liczbą wierzchołków oraz krawędzi. Program umożliwia także wygenerowanie grafu na podstawie liczby węzłów oraz prawdopodobieństwa, z jaką wszystkie wierzchołki w grafie będą mieć krawędzie (im większe, tym graf będzie gęstszy). Program korzysta z bibliotek: \textsc{stdlib.jar} i \textsc{algs4.jar}, napisanych przez Roberta Sedgewick'a i Kevina Wayne'a i udostępnionych na licencji \textsc{GNU GPLv3}. Procesem budowania aplikacji zarządza \textsc{Apache Maven}.
+
+Jest to, poza \textsc{TMH\_Examples} i~\textsc{TMH\_Library}, trzeci projekt w~obrębie całej biblioteki, mający na celu generowanie poprawnych plików wejściowych dla wszystkich wcześniej wymienionych skryptów oraz samej biblioteki.
+Program został napisany w~języku \textsc{Java} i~oferuje możliwość wygenerowania prostych, skierowanych grafów bez cykli~--- tak zwanych $DAG$'ów (ang. \textit{Directed acyclic graph})~--- z~określoną liczbą wierzchołków oraz krawędzi.
+Program umożliwia także wygenerowanie grafu na podstawie liczby węzłów oraz prawdopodobieństwa, z~jakim wszystkie wierzchołki w~grafie będą mieć krawędzie (im większe, tym graf będzie gęstszy).
+Program korzysta z~bibliotek: \textsc{stdlib.jar} i~\textsc{algs4.jar}, napisanych przez Roberta Sedgewick'a i~Kevina Wayne'a\footnote{
+	Wspomniane biblioteki są zbiorem rozwiązań prezentowanych w~książce~\cite{books/daglib/0029345}, dostępnych do pobrania na stronie internetowej: \url{http://algs4.cs.princeton.edu/home/} na licencji \textsc{GNU GPLv3}.
+}.
+Procesem budowania aplikacji zarządza \textsc{Apache Maven}.
 
 Program oczekuje następujących parametrów:
 
@@ -266,26 +374,42 @@ pcname@user:/TMH_GraphHelper$ java -jar GraphHelper.jar
 	<nazwa pliku wyjściowego>
 \end{lstlisting}
 
-W przypadku podania liczby zmiennoprzecinkowej jako drugi parametr, program założy, że podane zostało prawdopodobieństwo.
+W~przypadku podania drugiego parametru jako liczby zmiennoprzecinkowej, program założy, że podane zostało prawdopodobieństwo.
+
+
+
 
 \section{API biblioteki}
 
-Główną częścią składową wyżej omawianych aspektów biblioteki \textsc{TMH} jest projekt \textsc{TMH\_Library}, który stanowi całość omawianej biblioteki - reszta programów ma za zadanie ułatwiać z nią pracę. Głównej struktury projektu nie będziemy tutaj przedstawiać, gdyż biblioteka udostępnia cały jej kod źródłowy. Skupimy się za to na omówieniu kluczowej części każdej biblioteki - interfejsu, który udostępnia ona użytkownikowi.
+
+
+
+Główną częścią składową wyżej omawianych aspektów biblioteki \textsc{TMH} jest projekt \textsc{TMH\_Library}, który stanowi całość omawianej biblioteki~--- reszta programów ma za zadanie ułatwiać z~nią pracę.
+Głównej struktury projektu nie będziemy tutaj przedstawiać, gdyż biblioteka udostępnia cały jej kod źródłowy.
+Skupimy się za to na omówieniu kluczowej części każdej biblioteki tzn. interfejsu, który udostępnia ona użytkownikowi.
+
+
 
 \subsection{Konfiguracja środowiska}
 
-Przy licznych algorytmach, których implementacje znalazły się w bibliotece, udostępnia ona maksymalnie uproszczone API, by było przede wszystkim intuicyjne i proste w użyciu. Aby omówić wszystkie możliwości konfiguracyjne, jakie udostępnia nam biblioteka, prześledzimy krok po kroku schemat wykorzystania jednego z algorytmów wyszukiwania najkrótszych ścieżek.
 
-Przy tak szerokim wachlarzu algorytmów, jakie udostępnia biblioteka nie sposób jest zapewnić jednakowy dostęp do wszystkich z nich - niektóre do poprawnego działania wymagają ręcznego podania parametrów, inne działają na podstawie tylko pliku z definicją grafu. Aby ujednolicić sposób wywołania każdej z funkcji przyjęto założenie, że dla każdego algorytm niezbędne są następujące elementy:
+
+Przy licznych algorytmach, których implementacje znalazły się w~bibliotece, udostępnia ona maksymalnie uproszczone \textbf{API} (ang. \textit{Application Programming Interface}) by było ono przede wszystkim intuicyjne i~proste w~użyciu.
+Aby omówić wszystkie możliwości konfiguracyjne, jakie udostępnia nam biblioteka, prześledzimy krok po kroku schemat wykorzystania jednego z~algorytmów wyszukiwania najkrótszych ścieżek.
+
+Przy tak szerokim wachlarzu algorytmów, jakie udostępnia biblioteka, nie sposób jest zapewnić jednakowy dostęp do wszystkich z~nich.
+Niektóre do poprawnego działania wymagają ręcznego podania parametrów, inne działają tylko na podstawie pliku z~definicją grafu.
+Aby ujednolicić sposób wywołania każdej z~funkcji przyjęto założenie, że dla każdego algorytm niezbędne są następujące elementy:
 
 \begin{itemize}
-	\item Konfiguracja algorytmu - jest to zbiór uniwersalnych wartości, jakie mogą charakteryzować problem najkrótszych ścieżek. Jedynym, wymaganym parametrem do utworzenia takiej konfiguracji jest plik wejściowy, zawierający informację o węzłach źródłowych, dla których chcemy wyliczyć najkrótsze ścieżki do wszystkich pozostałych wierzchołków (prawidłowy format takiego pliku omówiliśmy w rozdziale \ref{sub:fileWithSourceList}):
+	\item Konfiguracja algorytmu~--- jest to zbiór uniwersalnych wartości, jakie mogą charakteryzować problem najkrótszych ścieżek.
+	Jedynym wymaganym parametrem do utworzenia takiej konfiguracji jest plik wejściowy zawierający informację o~węzłach źródłowych, dla których chcemy wyliczyć najkrótsze ścieżki do wszystkich pozostałych wierzchołków (prawidłowy format takiego pliku omówiliśmy w~rozdziale \ref{sub:fileWithSourceList}):
 	\begin{lstlisting}[style=customc]
 TMHConfig* config = createTMHConfig("file.ss");
 	\end{lstlisting}
-	Interfejs biblioteki udostępnia szereg metod, umożliwiających zmianę tak załadowanej konfiguracji:
+	Interfejs biblioteki udostępnia szereg metod umożliwiających zmianę tak załadowanej konfiguracji:
 	\begin{itemize}
-		\item W przypadku, gdy algorytm wymaga podania parametru przez użytkownika, możemy go w takiej sytuacji albo:
+		\item W~przypadku, gdy algorytm wymaga podania parametru przez użytkownika, możemy go w~takiej sytuacji albo:
 		\begin{itemize}
 			\item zdefiniować przed wywołaniem algorytmu:
 			\begin{lstlisting}[style=customc]
@@ -298,19 +422,19 @@ setAllowInterrupt(config,false,param);
 TMHNodeData* param = NULL;
 setAllowInterrupt(config,false,param);
 			\end{lstlisting}
-			\item lub podać żądany parametr w chwili, gdy algorytm sam poprosi o jego podanie (poprzez ustawienie drugiego parametru funkcji na \KwTrue):
+			\item lub podać żądany parametr w~chwili, gdy algorytm sam poprosi o~jego podanie (poprzez ustawienie drugiego parametru funkcji na \KwTrue):
 			\begin{lstlisting}[style=customc]
 TMHNodeData* param = NULL;
 setAllowInterrupt(config,true,param);
 			\end{lstlisting}
 		\end{itemize}
-	\item jeśli algorytm nie wymaga podawania parametrów to ten zapis jest ignorowany. 
+	\item jeśli algorytm nie wymaga podawania parametrów, to ten zapis jest ignorowany. 
 	\end{itemize}
-	\item Możemy dodatkowo wymusić walidację konfiguracji (zostanie sprawdzona poprawność wczytanych danych z pliku, który został podany na wejście):
+	\item Możemy dodatkowo wymusić walidację konfiguracji (zostanie sprawdzona poprawność wczytanych danych z~pliku, który został podany na wejście):
 	\begin{lstlisting}[style=customc]
 setCheckConfig(config,true);
 	\end{lstlisting}
-	\item zmienić sposób organizacji grafu (np. spróbować posortować go topologicznie, niezależnie od wywoływanego później algorytmu):
+	\item zmienić sposób organizacji grafu (np. spróbować posortować go topologicznie):
 	\begin{lstlisting}[style=customc]
 setGraphOrder(config,NONE);
 	\end{lstlisting}
@@ -322,10 +446,12 @@ setGraphStruct(config,ADJACENCY\_LIST);
 	\begin{lstlisting}[style=customc]
 setAlgorithm(config,alg);
 	\end{lstlisting}
-	\item Ścieżka do pliku z definicją grafu (\textsc{path}) - format pliku musi być zgodny z przyjętym (\textit{DIMACS Implementation Challenge})
+	\item Ścieżka do pliku z~definicją grafu (\textsc{path})~--- format pliku musi być zgodny z~przyjętym (\textsc{DIMACS Implementation Challenge})
 \end{itemize}
 
-Szczegóły, dotyczące możliwych wartości parametrów, przyjmowanych dla każdej z wymienionych funkcji, można znaleźć w dokumentacji technicznej biblioteki i tutaj nie będą omawiane. Wywołania wszystkich algorytmów, które zostały zaimplementowane, można dodatkowo znaleźć w projekcie \textsc{TMH\_Examples}. Po spełnieniu powyższych wymagań, algorytm tworzy instancję problemu:
+Szczegóły, dotyczące możliwych wartości parametrów przyjmowanych dla każdej z~wymienionych funkcji można znaleźć w~dokumentacji technicznej biblioteki i~tutaj nie będą omawiane.
+Wywołania wszystkich algorytmów które zostały zaimplementowane, można dodatkowo znaleźć w~projekcie \textsc{TMH\_Examples}.
+Po spełnieniu powyższych wymagań, algorytm tworzy instancję problemu:
 
 \begin{lstlisting}[style=customc]
 ins = createTMHAlgorithmInstance(config,path);
@@ -334,35 +460,52 @@ ins = createTMHAlgorithmInstance(config,path);
 Mając tę strukturę, możemy wykonać na niej następujące operacje:
 
 \begin{itemize}
-\item Rozpocząć wykonywanie właściwego algorytmu, który w wyniku zwróci graf, którego wierzchołki będą miały ustalone najkrótsze ścieżki do zdefiniowanego źródła:
+\item Rozpocząć wykonywanie właściwego algorytmu, który w~wyniku zwróci graf o~wierzchołkach mających ustalone najkrótsze ścieżki do zdefiniowanego źródła.
 \begin{lstlisting}[style=customc]
 runTMHAlgorithm(algorithm,ins);
 \end{lstlisting}
-interpretacja wyników zależy już od użytkownika końcowego - biblioteka zapewnia możliwość odtworzenia najkrótszej ścieżki do źródła z dowolnego węzła w grafie, zaś reszta leży w rękach programisty, który będzie wykorzystywał omawianą bibliotekę.
+Interpretacja wyników zależy już od użytkownika końcowego.
+Biblioteka zapewnia możliwość odtworzenia najkrótszej ścieżki do źródła z~dowolnego węzła w~grafie, zaś reszta leży w~rękach programisty, który będzie wykorzystywał omawianą bibliotekę.
 \item Zniszczyć instancję problemu poleceniem:
 \begin{lstlisting}[style=customc]
 destroyTMHAlgorithmInstancje(config->algorithm,ins,false);
 \end{lstlisting}
-gdzie wartość ostatniego parametru decyduje także, czy wraz z nią ma zostać usunięta informacja o przechowywanej konfiguracji (w przypadku ustawienia parametru na \KwFalse będziemy mogli wykorzystać ją do uruchomienia następnych algorytmów, dla tej samej konfiguracji).
+gdzie wartość ostatniego parametru decyduje także, czy wraz z~nią ma zostać usunięta informacja o~przechowywanej konfiguracji (w przypadku ustawienia parametru na \KwFalse~będziemy mogli wykorzystać ją do uruchomienia następnych algorytmów dla tej samej konfiguracji).
 \item Zniszczyć konfigurację:
 \begin{lstlisting}[style=customc]
 destroyTMHConfigInstance(config);
 \end{lstlisting}
 \end{itemize}
 
+
+
 \subsection{Dziennik zdarzeń}
 
-Dziennik zdarzeń jest to mechanizm, pozwalający użytkownikowi na śledzenie działań każdego z algorytmów i dostosowanie liczby wyświetlanych informacji o takim działaniu. Do obsługi dziennika zdarzeń interfejs biblioteki udostępnia trzy metody:
+
+
+Dziennik zdarzeń jest to mechanizm pozwalający użytkownikowi na śledzenie działań każdego z~algorytmów i~dostosowanie liczby wyświetlanych informacji o~takim działaniu.
+Do obsługi dziennika zdarzeń interfejs biblioteki udostępnia trzy metody:
 \begin{lstlisting}[style=customc]
 enableLog(TRACE,false);
 disableLog();
 enableSaveLog("logFile",true);
-\end{lstlisting},
-
-gdzie pierwsza z nich uruchamia zapisywanie zdarzeń, które mają miejsce podczas działania algorytmu, umożliwiając dostosowanie poziomu ich szczegółowości oraz zdecydowania, czy wybrany poziom ma być jedynym, który będzie wyświetlany (wtedy drugi parametr powinien być ustawiony na wartość \KwTrue). W przeciwnym przypadku będą wyświetlane wszystkie wydarzenia, których priorytet jest wyższy bądź równy aktualnie wybranemu. Ostatnia metoda przekierowuje wszystkie tak powstałe zapisy do, wskazanego przez użytkownika, pliku, umożliwiając mu jednocześnie, czy ma w nich być również zamieszczana informacja o czasie zajścia danego zdarzenia. Jeżeli zapisywanie takich zdarzeń pozostanie włączone, a nie zdecydujemy się na przekierowanie ich do pliku - będą one wyświetlane na standardowe wyjście terminala, razem z innymi informacjami, które zdefiniuje użytkownik (z poziomu $API$ nie ma możliwości samodzielnego definiowania zdarzeń). W następnym rozdziale został przedstawiony pełen zapis wydarzeń, jakie miały miejsce podczas pracy jednego z podstawowych algorytmów wyszukujących najkrótsze ścieżki).
+\end{lstlisting}
+Pierwsza z~nich uruchamia zapisywanie zdarzeń, które mają miejsce podczas działania algorytmu.
+Umożliwia ona także dostosowanie poziomu ich szczegółowości (np. \textsc{TRACE}, \textsc{DEBUG}, \textsc{INFO}, itd.) oraz zdecydowania, czy wybrany poziom ma być jedynym, który będzie wyświetlany (wtedy drugi parametr powinien być ustawiony na wartość \KwTrue).
+W~przeciwnym przypadku będą wyświetlane wszystkie wydarzenia, których priorytet jest wyższy bądź równy aktualnie wybranemu.
+Ostatnia metoda przekierowuje wszystkie tak powstałe zapisy do wskazanego przez użytkownika pliku.
+Jednocześnie umożliwia wybór, czy ma w~nich być również zamieszczana informacja o~czasie zajścia danego zdarzenia.
+Jeżeli zapisywanie takich zdarzeń pozostanie włączone, a~nie zdecydujemy się na przekierowanie ich do pliku, to będą one wyświetlane na standardowe wyjście terminala razem z~innymi informacjami, które zdefiniuje użytkownik (z poziomu $API$ nie ma możliwości samodzielnego definiowania zdarzeń).
+W~następnym rozdziale został przedstawiony pełen zapis wydarzeń, jakie miały miejsce podczas pracy jednego z~podstawowych algorytmów wyszukujących najkrótsze ścieżki).
 
 \newpage
+
+
+
 \section{Przykładowa sesja}
+
+
+
 
 \tiny
 \begin{lstlisting}[mathescape,language=bash]

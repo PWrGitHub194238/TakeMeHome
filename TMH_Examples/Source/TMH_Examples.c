@@ -83,9 +83,9 @@ const char* TESTPATHS1[30] = {
 const char* SAVEPATH = "/home/s194238/TMH/TMH_Tests/out/USATest2";
 
 int main(void) {
-	//enableLog(TRACE,false);
-	disableLog();
-	//enableSaveLog("templog",true);
+	enableLog(ALL,false);
+	//disableLog();
+	enableSaveLog("templog",true);
 	//loopTest(1,1);
 
 	//loadTest("/home/tomasz/workspace/TMH_Tests/gr/USA-road-d/USA-road-d.NY.gr",DKD);
@@ -103,15 +103,15 @@ int main(void) {
 	//finalTest(TESTPATHS,TESTSNO,"USATest",PAP,NULL,"PAP");
 	//finalTest(TESTPATHS,TESTSNO,"USATest",DKXb,NULL,"DKXb");
 
-	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKA,NULL,"DKA");
-	//finalTest(TESTPATHS1,TESTSNO1,"Test1",TQQ,NULL,"TQQ");
-	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DDL,NULL,"DDL");
-	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKD,NULL,"DKD");
-	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKM,NULL,"DKM");
-	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKX,NULL,"DKX");
-	finalTest(TESTPATHS1,TESTSNO1,"Test1",DKFb,NULL,"DKFb");
-	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKR,NULL,"DKR");
-	//finalTest(TESTPATHS1,TESTSNO1,"Test1",DKR,NULL,"THR");
+	finalTest(TESTPATHS,TESTSNO,"Test1",DKA,NULL,"DKA");
+	finalTest(TESTPATHS,TESTSNO,"Test1",TQQ,NULL,"TQQ");
+	finalTest(TESTPATHS,TESTSNO,"Test1",DDL,NULL,"DDL");
+	finalTest(TESTPATHS,TESTSNO,"Test1",DKD,NULL,"DKD");
+	finalTest(TESTPATHS,TESTSNO,"Test1",DKM,NULL,"DKM");
+	finalTest(TESTPATHS,TESTSNO,"Test1",DKX,NULL,"DKX");
+	finalTest(TESTPATHS,TESTSNO,"Test1",DKFb,NULL,"DKFb");
+	finalTest(TESTPATHS,TESTSNO,"Test1",DKR,NULL,"DKR");
+	finalTest(TESTPATHS,TESTSNO,"Test1",DKR,NULL,"THR");
 
 	return EXIT_SUCCESS;
 }

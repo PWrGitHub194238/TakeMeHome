@@ -1,0 +1,670 @@
+\documentclass[12pt]{beamer}
+\usepackage[T1]{polski}
+\usepackage[cp1250]{inputenc}
+\usepackage{lipsum}
+\usepackage{multimedia}
+
+\usepackage{epstopdf}
+
+\usepackage{multirow}
+\usepackage{xcolor}
+\definecolor{lgray}{HTML}{CCCCCC}
+
+\usepackage[ruled,vlined,linesnumbered,longend]{algorithm2e}
+
+\newenvironment{pseudokod}[1][htb]{
+	\renewcommand{\algorithmcfname}{Pseudokod}% Update algorithm name
+	\begin{algorithm}[#1]%
+	}{\end{algorithm}}
+
+\def\Put(#1,#2)#3{\leavevmode\makebox(0,0){\put(#1,#2){#3}}}
+%
+\author{Autor: Tomasz Strza³ka \\ Promotor: dr hab. Pawe³ Zieliñski, prof. PWr}
+\title{Algorytmy \\ wyznaczania najkrótszych œcie¿ek}
+\subtitle{w rzeczywistych sieciach drogowych}
+\date{\today}
+\institute{Wydzia³ Podstawowych Problemów Techniki}
+\subject{Logotyp Politechniki Wroc³awskiej}
+\keywords{logotyp, Politechnika Wroc³awska, LaTeX}
+
+\setbeamersize{text margin left=0mm,text margin right=2.5mm}
+%\setbeamersize{sidebar width left=0mm,sidebar width right=0cm}
+\usetheme[lang=pl,pasek=pasek1]{pwr}
+
+\setbeamercovered{transparent=25}
+
+\newtheorem{pwrblock}{Definicja}
+\newenvironment<>{pwrblock}[1][]{%
+	\setbeamertemplate{blocks}[rounded][shadow=true]
+	\setbeamercolor{block title}{fg=white,bg=red!75!black}%
+	\begin{block}#2{#1}}{\end{block}}
+
+
+\transdissolve[duration=0.2]
+\logo{\includegraphics[height=7mm]{poziom-pl-pantone}}
+\logo{\includegraphics[height=7.05mm]{logopwrpl}}
+
+\begin{document}
+	\begin{frame}[plain,t]
+		\maketitle
+	\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 1
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Problem}
+	\begin{pwrblock}[Definicja problemu cz.1]
+		\begin{gather*}
+			G = \left( V, E \right) \: ; \: \left| V \right| = n \: ; \: \left| E \right| = m \\
+			E = \left\{ e_{ij} : v_{i} \overset{1}\leadsto v_{j} \wedge v_{i},v_{j} \in V \right\} \: ; \: i,j \in \left\{ 1, 2, \cdots, n \right\} \\
+			\left( \forall e_{ij} \right) \left( \exists c_{ij} \right) \: \: 0 < c_{ij} \leqslant C \: ; \: C = \max_{e_{ij} \in E } \left( c_{ij} \right) \\
+			\left( \forall v_{i} \in V \right) \: \: \exists A \left( i \right) : A \left( i \right) \in \left\{ v_{j} : \exists v_{i} \overset{1}\leadsto v_{j} \right\}
+		\end{gather*}
+	\end{pwrblock}
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 2
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Problem}
+		\framesubtitle{Cel}
+	\begin{pwrblock}[Definicja problemu cz.2]
+		\begin{center}
+			Cel dla zadanego $i$:
+		\end{center}
+		
+		\begin{gather*}
+			\left( \forall v_{j} \in V : i \neq j \right) \exists v_{i} \overset{*}\leadsto v_{j} : \min \left( \sum_{e_{kl} \in P_{E}} c_{kl} \right) \\
+			v_{i} \overset{*}\leadsto v_{j} \equiv v_{i} \overset{1}\leadsto v_{a} \overset{1}\leadsto v_{b} \cdots \overset{1}\leadsto v_{j} \\
+			P_{E} \in \left\{ e_{kl} : v_{k}, v_{l} \in P \right\} \\
+			P \in \left\{ v_{i}, v_{a}, v_{b}, \cdots, v_{j} \right\}
+		\end{gather*}
+	\end{pwrblock}
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 3
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Rozwi¹zanie}
+	
+	\begin{pwrblock}
+		Przejœæ wszystkimi drogami, wybraæ najkrótsze z nich.
+	\end{pwrblock}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 4
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Wa¿ne w³asnoœci}
+	
+	\begin{pwrblock}[W³asnoœæ górnego ograniczenia]
+		Dla ka¿dego wierzcho³ka $v_{i} \in V$ zachodzi $ v_{i}.d \geqslant \delta \left( s , v_{i} \right)$, gdzie wartoœæ $v_{i}.d$ monotonicznie maleje i,~w~momencie osi¹gniêcia swojego dolnego ograniczenia, przestaje ulegaæ zmianie.
+	\end{pwrblock}
+	\begin{pwrblock}[W³asnoœæ zbie¿noœci]	
+		Jeœli w~grafie wa¿onym $G = \left( V, E \right)$ istnieje najkrótsza œcie¿ka $P = \left \langle v_{p}, v_{p+1}, \ldots, v_{k-1}, v_{k} \right \rangle $ i~w dowolnym momencie przed relaksacj¹ krawêdzi $e_{k-1k}$ zachodzi $ v_{k-1}.d = \delta \left( v_{p}, v_{k-1} \right)$, to po tej relaksacji $ v_{k}.d = \delta \left( v_{p}, v_{k} \right)$.
+	\end{pwrblock}
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 5
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Lepsze rozwi¹zanie}
+	
+	\begin{pwrblock}
+		Zawsze chodziæ najkrótszymi drogami.
+	\end{pwrblock}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 6
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{LSA} vs \textsc{LCA}}
+	
+	\begin{pseudokod}[H]
+		\DontPrintSemicolon
+		\Begin{
+			$S \longleftarrow \emptyset $ \;
+			$\overline{S} \longleftarrow \left\{ v : v \in V \right\} $ \;
+			\While{$\overline{S}$ nie jest pusty} {
+				$v \longleftarrow  v_{i} : v_{i}.d = \min \left\{ v_{j}.d : v_{j} \in \overline{S} \right\}$ \;
+				$S \longleftarrow S \cup \left\{ v \right\}$ \;
+				$\overline{S} \longleftarrow \overline{S} - \left\{ v \right\}$ \;
+				\ForEach{$e_{ij} : v_{i} \overset{1} \leadsto v_{j}$}{
+					$RELAX \left( v_{i}, v_{j} \right)$ \;
+				}
+			}
+		}
+		\caption{ GENERIC-DIJKSTRA $\left( G, s \right)$\label{alg:GenericDijksta}}
+	\end{pseudokod}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 7
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{LSA} vs \textsc{LCA}}
+	
+	\begin{pseudokod}[H]
+		\DontPrintSemicolon
+		\Begin{
+			$ \textrm{\textsc{INIT-GRAPH}} \left( G, s \right)$ \;
+			\While{$ \exists e_{ij} : v_{i} \overset{1} \leadsto v_{j} \; \wedge \; v_{j}.d > v_{i}.d + c_{ij} $} {
+				$RELAX \left( v_{i}, v_{j} \right)$ \;
+			}
+		}
+		\caption{ GENERIC-LABEL-CORRECTING-ALG $\left( G, s \right)$\label{alg:GenericLabelCorrectingAlgorithm}}
+	\end{pseudokod}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 8
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKA} - kube³ki aproksymacyjne}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.5\textwidth]{APROXIMATE-BUCKETS-Example/a}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 9
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKA} - kube³ki aproksymacyjne}
+	\framesubtitle{,,Poprawianie'' krawêdzi}
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.5\textwidth]{APROXIMATE-BUCKETS-Example/d}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 10
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKA} - kube³ki aproksymacyjne}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.5\textwidth]{APROXIMATE-BUCKETS-Example/e}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 11
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Z³o¿onoœci}
+	
+	\small
+	\begin{table}[ht]
+		\centering
+		\begin{tabular}{cccc}
+			\hline
+			\multirow{2}{*}{Skrót} & \multicolumn{2}{|c|}{Charakterystyka} & \multirow{2}{*}{Z³o¿onoœæ} \\ \cline{2-3}
+			& \multicolumn{1}{|c|}{Struktura} & \multicolumn{1}{c|}{Typ} &  \\
+			\hline
+			\textcolor{lgray}{\textbf{BFP}} & --- & \textsc{LCA} & $ O \left( n^{2} \right)$ \\
+			\textbf{DDL} & Kube³ki & \textsc{LSA} & $ O \left( m + n \cdot C \right)$ \\
+			\textbf{DKA} & Kube³ki & \textsc{LCA} & $ O \left( m \cdot b + n \cdot \left( b + \frac{C}{b}\right) \right)$  \\
+			\textbf{DKD} & Kube³ki & \textsc{LSA} & $ O \left( m + n \cdot \sqrt{C} \right)$  \\
+			\textbf{DKM} & Kube³ki & \textsc{LSA} & $ O \left( n^{2} \right)$ \\
+			\textbf{DKX} & Kube³ki & \textsc{LSA} & $ O \left( m + n \cdot \log \left( C \right) \right)$  \\
+			\textbf{DKF} & Kopce & \textsc{LSA} & $ O \left(  m + n \cdot \log \left( n \right) \right)$ \\
+			\textbf{DKR} & Kopce & \textsc{LSA} & $ O \left( m \cdot \log_{d} \left( n\right) \right)$  \\
+			\textbf{TQQ} & Kolejki & \textsc{LSA} & $ O \left( m + n^{2} \right)$ \\
+			\textbf{THR} & $DL$-Listy & \textsc{LCA} & $ O \left( m \cdot t + \frac{n^{2} \cdot C}{t}\right)$ \\
+			\hline
+		\end{tabular}
+	\end{table}
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 12
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Dane --- czêœæ 1}
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{lccc}
+			\hline
+			\multicolumn{2}{c|}{Nazwa Testu} & \multicolumn{2}{c}{Liczba elementów}  \\ \cline{1-4}
+			\multicolumn{1}{l|}{Skrót} & \multicolumn{1}{c|}{Opis} & \multicolumn{1}{c|}{Wierzcho³ków} & \multicolumn{1}{c}{Krawêdzi}  \\
+			\hline
+			\textbf{NY} & New York City &  $264~346$ &  $733~846$ \\
+			\textbf{BAY} & Zatoka San Francisco &  $321~270$ &  $800~172$ \\
+			\textbf{COL} & Kolorado &  $435~666$ &  $1~057~066$ \\
+			\textbf{FLA} & Floryda &  $1~070~376$ & $2~712~798$ \\
+			\textbf{NW} & USA (p³n.-zach.) & $1~207~945$ & $2~840~208$ \\
+			\textbf{NE} & USA (p³n.-wsch.) & $1~524~453$ & $3~897~636$ \\
+			\hline
+		\end{tabular}
+	\end{table}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 13
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Dane --- czêœæ 2}
+	
+	\begin{table}[h]
+		\centering
+		\begin{tabular}{lcccccccc}
+			\hline
+			\multicolumn{2}{c|}{Nazwa Testu} & \multicolumn{2}{c}{Liczba elementów}  \\ \cline{1-4}
+			\multicolumn{1}{l|}{Skrót} & \multicolumn{1}{c|}{Opis} & \multicolumn{1}{c|}{Wierzcho³ków} & \multicolumn{1}{c}{Krawêdzi}  \\
+			\hline
+			\textbf{CAL} & Kalifornia i Nevada & $1~890~815$ & $4~657~742$ \\
+			\textbf{LKS} & Wielkie Jeziora & $2~758~119$ & $6~885~658$ \\
+			\textbf{E} & Wschodnie USA & $3~598~623$ & $8~778~114$ \\
+			\textbf{W} & Zachodnie USA & $6~262~104$ & $15~248~146$ \\
+			\textbf{CTR} & Centralne USA & $14~081~816$ & $34~292~496$ \\
+			\textbf{USA} & Stany Zjednoczone & $23~947~347$ & $58~333~344$ \\
+			\hline
+		\end{tabular}
+	\end{table}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 14
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Wyniki}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.75\textwidth]{Charts/USA-road-d_psfrag.pdf}
+	\end{figure}
+		
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 15
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKA} - przypomnienie}
+
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.5\textwidth]{APROXIMATE-BUCKETS-Example/f}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 16
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKD} - kube³ki wielopoziomowe}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=\textwidth]{DOUBLE-LEVEL-BUCKET-Example/a}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 17
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKD} - kube³ki wielopoziomowe}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=\textwidth]{DOUBLE-LEVEL-BUCKET-Example/c}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 18
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKD} - kube³ki wielopoziomowe}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=\textwidth]{DOUBLE-LEVEL-BUCKET-Example/f}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 19
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Wiêcej poziomów (uogólnienie \textsc{DKD})}
+	
+	\begin{pwrblock}[$k$-poziomów]
+		\begin{itemize}
+			\item Z³o¿onoœæ obliczeniowa: $ O \left( m + n \cdot \left( k + \sqrt[k]{C} \right) \right)$
+			\item Z³o¿onoœæ pamiêciowa: $ \Theta \left( k \cdot \sqrt[k]{C} \right)$
+		\end{itemize}
+	\end{pwrblock}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 20
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Wspó³czynnik $n \cdot k + n \cdot \sqrt[k]{C}$)}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.75\textwidth]{K-LEVEL-BUCKETS-Other/kLevel3DPlot_psfrag.pdf}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 21
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Wp³yw sta³ych na efektywnoœæ}
+	
+	\begin{table}[!htbp]
+		\centering
+		\begin{tabular}{ccc}
+			Algorytm & Analiza \textsc{WCA} \\
+			\hline \\
+			\textbf{DKA} & $ O \left( m \cdot b + n \cdot \left( b + \frac{C}{b}\right)\right)$ \\
+			\textbf{DKF} & $ O \left( m + n \cdot \log \left( n \right) \right)$ \\
+			\textbf{DKX} & $O \left( m + n \cdot \log \left( C \right) \right)$ \\
+			\textbf{DDL} & $O \left( m + n \cdot C  \right)$ \\
+			\textbf{DKD} & $O \left( m + n \cdot \sqrt{C} \right)$ \\
+			\hline
+		\end{tabular}
+	\end{table}
+	
+	\begin{pwrblock}[Pytanie]
+		Co siê stanie, gdy zwiêkszymy $C$ ?
+	\end{pwrblock}
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 22
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Wyniki - zwiêkszone koszty œcie¿ek}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.75\textwidth]{Charts/graphx1Cost_psfrag}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 23
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Jeszcze bardziej \ldots }
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.75\textwidth]{Charts/graphx10Cost_psfrag}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 24
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\ldots i jeszcze. }
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.75\textwidth]{Charts/graphx50Cost_psfrag}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 25
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKX} - kube³ki pozycyjne}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.5\textwidth]{RADIX-HEAP-C-Example/a}
+	\end{figure}
+		
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 26
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKX} - kube³ki pozycyjne}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.5\textwidth]{RADIX-HEAP-C-Example/d}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 27
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKX} - kube³ki pozycyjne}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.5\textwidth]{RADIX-HEAP-C-Example/e}
+	\end{figure}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 28
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{\textsc{DKX} - kube³ki pozycyjne}
+	
+	\begin{figure}[!htbp]
+		\centering
+		\includegraphics[width=0.5\textwidth]{RADIX-HEAP-C-Example/f}
+	\end{figure}
+	
+\end{frame}
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 29
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Wnioski}
+	
+	\begin{figure}
+		\includegraphics[width=0.475\textwidth]{Charts/USA-road-d_psfrag}
+		\hfill
+		\includegraphics[width=0.475\textwidth]{Charts/graphx10Cost_psfrag}
+	\end{figure}
+	
+\end{frame}
+
+
+
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% Frame 30
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % %
+
+
+
+\begin{frame}
+	\frametitle{Koniec}
+	
+	\begin{pwrblock}
+		\begin{center}
+			Dziêkujê
+		\end{center}
+	\end{pwrblock}
+\end{frame}
+
+\end{document}

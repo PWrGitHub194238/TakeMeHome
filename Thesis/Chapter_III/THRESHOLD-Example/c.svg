@@ -7,8 +7,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="251px"
-   height="146px"
+   width="248.5"
+   height="144"
    version="1.1"
    id="svg3415"
    inkscape:version="0.48.4 r9939"
@@ -26,13 +26,17 @@
      inkscape:window-height="744"
      id="namedview3657"
      showgrid="false"
-     inkscape:zoom="3.4471956"
-     inkscape:cx="81.406186"
-     inkscape:cy="73"
+     inkscape:zoom="3.8744439"
+     inkscape:cx="80.406186"
+     inkscape:cy="72"
      inkscape:window-x="65"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g3419" />
+     inkscape:current-layer="g3419"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata3659">
     <rdf:RDF>
@@ -41,487 +45,463 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <defs
      id="defs3417" />
   <g
-     transform="translate(0.5,0.5)"
+     transform="translate(-0.5,-0.5)"
      id="g3419">
     <path
-       d="M 38 67 L 59.5 45.5"
-       fill="none"
-       stroke="#000000"
+       d="M 38,67 59.5,45.5"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3441" />
+       id="path3441"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 63.21 41.79 L 60.73 49.22 L 59.5 45.5 L 55.78 44.27 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="M 63.21,41.79 60.73,49.22 59.5,45.5 55.78,44.27 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3443" />
+       id="path3443"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g3445">
+       id="g3445"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="48"
          y="48"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect3447" />
+         id="rect3447"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="51"
          y="57.5"
          id="text3449">2</text>
     </g>
     <path
-       d="M 71 44 L 71 97.63"
-       fill="none"
-       stroke="#000000"
+       d="m 71,44 0,53.63"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3461" />
+       id="path3461"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 71 102.88 L 67.5 95.88 L 71 97.63 L 74.5 95.88 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 71,102.88 -3.5,-7 3.5,1.75 3.5,-1.75 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3463" />
+       id="path3463"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g3465">
+       id="g3465"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="68"
          y="68"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect3467" />
+         id="rect3467"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="71"
          y="77.5"
          id="text3469">3</text>
     </g>
     <path
-       d="M 38 81 L 59.5 102.5"
-       fill="none"
-       stroke="#000000"
+       d="m 38,81 21.5,21.5"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3471" />
+       id="path3471"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 63.21 106.21 L 55.78 103.73 L 59.5 102.5 L 60.73 98.78 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 63.21,106.21 -7.43,-2.48 3.72,-1.23 1.23,-3.72 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3473" />
+       id="path3473"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g3475">
+       id="g3475"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="48"
          y="88"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect3477" />
+         id="rect3477"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="51"
          y="97.5"
          id="text3479">6</text>
     </g>
     <path
-       d="M 81 34 L 134.63 34"
-       fill="none"
-       stroke="#000000"
+       d="m 81,34 53.63,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3491" />
+       id="path3491"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 139.88 34 L 132.88 37.5 L 134.63 34 L 132.88 30.5 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 139.88,34 -7,3.5 1.75,-3.5 -1.75,-3.5 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3493" />
+       id="path3493"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g3495">
+       id="g3495"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="108"
          y="28"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect3497" />
+         id="rect3497"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="111"
          y="37.5"
          id="text3499">4</text>
     </g>
     <path
-       d="M 151 50.37 L 151 104"
-       fill="none"
-       stroke="#000000"
+       d="M 151,50.37 151,104"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3511" />
+       id="path3511"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 151 45.12 L 154.5 52.12 L 151 50.37 L 147.5 52.12 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 151,45.12 3.5,7 -3.5,-1.75 -3.5,1.75 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3513" />
+       id="path3513"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g3515">
+       id="g3515"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="148"
          y="68"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect3517" />
+         id="rect3517"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="151"
          y="77.5"
          id="text3519">2</text>
     </g>
     <path
-       d="M 81 114 L 134.63 114"
-       fill="none"
-       stroke="#000000"
+       d="m 81,114 53.63,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3521" />
+       id="path3521"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 139.88 114 L 132.88 117.5 L 134.63 114 L 132.88 110.5 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 139.88,114 -7,3.5 1.75,-3.5 -1.75,-3.5 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3523" />
+       id="path3523"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g3525">
+       id="g3525"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="108"
          y="108"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect3527" />
+         id="rect3527"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="111"
          y="117.5"
          id="text3529">1</text>
     </g>
     <path
-       d="M 78 41 L 139.5 102.5"
-       fill="none"
-       stroke="#000000"
+       d="m 78,41 61.5,61.5"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3531" />
+       id="path3531"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 143.21 106.21 L 135.78 103.73 L 139.5 102.5 L 140.73 98.78 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 143.21,106.21 -7.43,-2.48 3.72,-1.23 1.23,-3.72 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3533" />
+       id="path3533"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <g
-       fill="#000000"
-       font-family="Helvetica"
-       text-anchor="middle"
        font-size="11px"
-       id="g3535">
+       id="g3535"
+       style="font-size:11px;text-anchor:middle;fill:#000000;font-family:Helvetica">
       <rect
-         fill="#ffffff"
-         stroke="none"
          x="108"
          y="68"
          width="8"
          height="14"
-         stroke-width="0"
-         id="rect3537" />
+         id="rect3537"
+         style="fill:#ffffff;stroke:none" />
       <text
          x="111"
          y="77.5"
          id="text3539">5</text>
     </g>
     <path
-       d="M 51 4 L 61 19 L 51 34 L 41 19 Z"
-       fill="none"
-       stroke="#000000"
+       d="M 51,4 61,19 51,34 41,19 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3541"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 11 44 L 21 59 L 11 74 L 1 59 Z"
-       fill="none"
-       stroke="#000000"
+       d="M 11,44 21,59 11,74 1,59 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3551"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 51 114 L 61 129 L 51 144 L 41 129 Z"
-       fill="none"
-       stroke="#000000"
+       d="M 51,114 61,129 51,144 41,129 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3561"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 171 114 L 181 129 L 171 144 L 161 129 Z"
-       fill="none"
-       stroke="#000000"
+       d="m 171,114 10,15 -10,15 -10,-15 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3571"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 171 4 L 181 19 L 171 34 L 161 19 Z"
-       fill="none"
-       stroke="#000000"
+       d="M 171,4 181,19 171,34 161,19 z"
        stroke-miterlimit="10"
        pointer-events="none"
        id="path3581"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-miterlimit:10"
+       inkscape:connector-curvature="0" />
     <path
-       d="M 78 121 L 78 121"
-       fill="none"
-       stroke="#000000"
+       d="m 78,121 0,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3591" />
+       id="path3591"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 78 121 L 78 121 L 78 121 L 78 121 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 78,121 0,0 0,0 0,0 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3593" />
+       id="path3593"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 181 74 L 209 74"
-       fill="none"
-       stroke="#000000"
-       stroke-width="4"
+       d="m 181,74 28,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3595" />
+       id="path3595"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-width:4;stroke-miterlimit:10" />
     <rect
        x="209"
        y="58"
        width="40"
        height="30"
-       fill="none"
-       stroke="none"
        pointer-events="none"
-       id="rect3597" />
+       id="rect3597"
+       style="fill:none;stroke:none" />
     <path
-       d="M 202 74 L 202 74"
-       fill="none"
-       stroke="#000000"
+       d="m 202,74 0,0"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3607" />
+       id="path3607"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 202 74 L 202 74 L 202 74 L 202 74 Z"
-       fill="#000000"
-       stroke="#000000"
+       d="m 202,74 0,0 0,0 0,0 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3609" />
+       id="path3609"
+       inkscape:connector-curvature="0"
+       style="fill:#000000;stroke:#000000;stroke-miterlimit:10" />
     <path
-       d="M 61 34 L 35.5 59.5"
-       fill="none"
-       stroke="#cccccc"
-       stroke-miterlimit="10"
-       stroke-dasharray="3 3"
-       pointer-events="none"
-       id="path3611" />
-    <path
-       d="M 31.79 63.21 L 34.27 55.78 L 35.5 59.5 L 39.22 60.73 Z"
-       fill="none"
-       stroke="#cccccc"
+       d="M 61,34 35.5,59.5"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3613" />
+       id="path3611"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
+    <path
+       d="m 31.79,63.21 2.48,-7.43 1.23,3.72 3.72,1.23 z"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path3613"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
     <ellipse
        cx="195"
        cy="58"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
-       stroke-dasharray="3 3"
        pointer-events="none"
        id="ellipse3615"
        d="m 205,58 c 0,5.522847 -4.47715,10 -10,10 -5.52285,0 -10,-4.477153 -10,-10 0,-5.522847 4.47715,-10 10,-10 5.52285,0 10,4.477153 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-dasharray:3, 3"
+       sodipodi:cx="195"
+       sodipodi:cy="58"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <path
-       d="M 78 107 L 78 47.37"
-       fill="none"
-       stroke="#cccccc"
-       stroke-miterlimit="10"
-       stroke-dasharray="3 3"
-       pointer-events="none"
-       id="path3625" />
-    <path
-       d="M 78 42.12 L 81.5 49.12 L 78 47.37 L 74.5 49.12 Z"
-       fill="none"
-       stroke="#cccccc"
+       d="M 78,107 78,47.37"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3627" />
+       id="path3625"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
     <path
-       d="M 144 27 L 84.37 27"
-       fill="none"
-       stroke="#cccccc"
-       stroke-miterlimit="10"
-       stroke-dasharray="3 3"
-       pointer-events="none"
-       id="path3629" />
-    <path
-       d="M 79.12 27 L 86.12 23.5 L 84.37 27 L 86.12 30.5 Z"
-       fill="none"
-       stroke="#cccccc"
+       d="m 78,42.12 3.5,7 -3.5,-1.75 -3.5,1.75 z"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3631" />
+       id="path3627"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
     <path
-       d="M 151 104 L 85.5 38.5"
-       fill="none"
-       stroke="#cccccc"
-       stroke-miterlimit="10"
-       stroke-dasharray="3 3"
-       pointer-events="none"
-       id="path3633" />
-    <path
-       d="M 81.79 34.79 L 89.22 37.27 L 85.5 38.5 L 84.27 42.22 Z"
-       fill="none"
-       stroke="#cccccc"
+       d="M 144,27 84.37,27"
        stroke-miterlimit="10"
        pointer-events="none"
-       id="path3635" />
+       id="path3629"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
+    <path
+       d="m 79.12,27 7,-3.5 -1.75,3.5 1.75,3.5 z"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path3631"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
+    <path
+       d="M 151,104 85.5,38.5"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path3633"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10;stroke-dasharray:3, 3" />
+    <path
+       d="m 81.79,34.79 7.43,2.48 -3.72,1.23 -1.23,3.72 z"
+       stroke-miterlimit="10"
+       pointer-events="none"
+       id="path3635"
+       inkscape:connector-curvature="0"
+       style="fill:none;stroke:#cccccc;stroke-miterlimit:10" />
     <ellipse
        cx="195"
        cy="34"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
-       stroke-dasharray="3 3"
        pointer-events="none"
        id="ellipse3637"
        d="m 205,34 c 0,5.522847 -4.47715,10 -10,10 -5.52285,0 -10,-4.477153 -10,-10 0,-5.522847 4.47715,-10 10,-10 5.52285,0 10,4.477153 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-dasharray:3, 3"
+       sodipodi:cx="195"
+       sodipodi:cy="34"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <ellipse
        cx="195"
        cy="11"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
-       stroke-dasharray="3 3"
        pointer-events="none"
        id="ellipse3647"
        d="m 205,11 c 0,5.522847 -4.47715,10 -10,10 -5.52285,0 -10,-4.477153 -10,-10 0,-5.5228475 4.47715,-10 10,-10 5.52285,0 10,4.4771525 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000;stroke-dasharray:3, 3"
+       sodipodi:cx="195"
+       sodipodi:cy="11"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <ellipse
        cx="31"
        cy="74"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse3421"
        d="m 41,74 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522847 4.477153,-10 10,-10 5.522847,0 10,4.477153 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="31"
+       sodipodi:cy="74"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <ellipse
        cx="71"
        cy="34"
        rx="10"
        ry="10"
-       fill="#999999"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse3431"
-       d="m 81,34 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522847 4.477153,-10 10,-10 5.522847,0 10,4.477153 10,10 z" />
+       d="m 81,34 c 0,5.522847 -4.477153,10 -10,10 -5.522847,0 -10,-4.477153 -10,-10 0,-5.522847 4.477153,-10 10,-10 5.522847,0 10,4.477153 10,10 z"
+       sodipodi:cx="71"
+       sodipodi:cy="34"
+       sodipodi:rx="10"
+       sodipodi:ry="10"
+       style="fill:#999999;stroke:#000000" />
     <ellipse
        cx="71"
        cy="114"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse3451"
        d="m 81,114 c 0,5.52285 -4.477153,10 -10,10 -5.522847,0 -10,-4.47715 -10,-10 0,-5.52285 4.477153,-10 10,-10 5.522847,0 10,4.47715 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="71"
+       sodipodi:cy="114"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <ellipse
        cx="151"
        cy="34"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse3481"
        d="m 161,34 c 0,5.522847 -4.47715,10 -10,10 -5.52285,0 -10,-4.477153 -10,-10 0,-5.522847 4.47715,-10 10,-10 5.52285,0 10,4.477153 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="151"
+       sodipodi:cy="34"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <ellipse
        cx="151"
        cy="114"
        rx="10"
        ry="10"
-       fill="transparent"
-       stroke="#000000"
        pointer-events="none"
        id="ellipse3501"
        d="m 161,114 c 0,5.52285 -4.47715,10 -10,10 -5.52285,0 -10,-4.47715 -10,-10 0,-5.52285 4.47715,-10 10,-10 5.52285,0 10,4.47715 10,10 z"
-       style="fill:none" />
+       style="fill:none;stroke:#000000"
+       sodipodi:cx="151"
+       sodipodi:cy="114"
+       sodipodi:rx="10"
+       sodipodi:ry="10" />
     <g
        id="g7742"
        transform="translate(-48.845505,-42.990358)">
