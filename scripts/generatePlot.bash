@@ -2,6 +2,9 @@
 
 function useage() {
 	echo -e "bash generatePlot.bash <file name> <octave line style> <function label> [...]\n\n"
+	echo -e "\t<file name> - name of the file with data in given format i.e.\n\t\t1\t1\n\t\t2\t4\n\t\t3\t9\n\t\t...\t...\n\tis an example of function f(x)=x^2\n"
+	echo -e "\t<octave line style> - style of octave drawing in FMT format. To learn more see Octave's 'plot' documentation.\n"
+	echo -e "\t<function label> - how given function will be named on a plot.\n"
 }
 
 echo '----------------------------------------------------'
@@ -99,6 +102,11 @@ then
 	read -p 'Do you want to create this plot? (y/n): ' createPlot
 	if [ $createPlot == "y" ] 
 	then
+
+		# Replace colons
+
+		sed -i 's/,/./g' $DATAPATH/*
+
 		#generateOctaveString
 			
 		octaveString="addpath(\"$OCTAVEPATH\")"

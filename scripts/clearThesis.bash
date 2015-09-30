@@ -13,7 +13,7 @@ function execute {
 	echo -e "List of files to be deleted in $(pwd) and subdirs:\n"
 	find . -regex "$TODELETEREGEXP"
 	read -p 'Do you realy want to DELETE this files? (y/n): ' deleteFiles
-	if [ $deleteFiles == "y" ] 
+	if [ "$deleteFiles" == "y" ] 
 	then
 		find . -regex "$TODELETEREGEXP" -exec rm {} \;
 	fi
@@ -21,9 +21,9 @@ function execute {
 
 echo '----------------------------------------------------'
 if [ -d "$DIRECTORY$SUBDIR" ]; then
-	invalidFileStruct $SUBDIR
+	invalidFileStruct "$SUBDIR"
 else
-	cd $DIRECTORY"/../"$SUBDIR
+	cd "$DIRECTORY""/../""$SUBDIR"
 	execute
 fi
 

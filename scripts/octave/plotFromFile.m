@@ -17,6 +17,6 @@ if nargin < 2
 	help plotFromFile 
 end
 
-[X,Y] = textread (dateFileName,'%d %d','headerlines',1)
+[X,Y] = textread (dateFileName,'%f %f','headerlines',1)
 plot(X,Y,lineStyle);
 endfunction;
